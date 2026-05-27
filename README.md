@@ -1,233 +1,238 @@
-# Economic Indicator Analysis
+# Macro Regime & ISA Allocation Lab
 
-This repo stores reproducible economic indicator datasets and analysis code.
+미국, 한국, 글로벌 원자재/유동성 데이터를 모아 매크로 레짐을 판정하고, 매월 신규 투자금 150만원을 어떻게 나눌지 계산하는 개인용 리서치 저장소입니다.
 
-## One-command refresh
+이 저장소는 다음 흐름을 자동화합니다.
 
-Fetch all wired macro datasets and generate the regime report:
+- 매크로 지표 수집: 물가, 금리, 유동성, 신용, 환율, 고용, 원자재, 기후/공급 충격
+- 6개 Risk Score 계산: Inflation, Liquidity, Credit, FX, Climate, Growth
+- 현재 레짐 판정 및 월간 리포트 생성
+- 월별 과거 리포트와 장기 대시보드 생성
+- ISA에서 매수 가능한 국내 상장 ETF 조합으로 월 적립식 백테스트
 
-```powershell
+투자 권유가 아니라 규칙 기반 점검 도구입니다. 실제 매수 전에는 세금, 수수료, 상품 구조, 환헤지 여부, 개인 자산 비중을 따로 확인해야 합니다.
+
+## 빠른 실행
+
+Bash 기준입니다.
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+# Git Bash에서 Windows Python으로 만든 venv라면: source .venv/Scripts/activate
+python -m pip install --upgrade pip
+python -m pip install matplotlib
 python scripts/update_macro.py
 ```
 
-Outputs:
+기본 실행은 데이터를 새로 받고, 오늘 날짜의 매크로 레짐 리포트와 차트까지 만듭니다.
 
-- `data/processed/macro/requested_indicators_latest.csv`
-- `data/processed/macro/latest_snapshot.csv`
-- `data/processed/macro/observations_long.csv`
-- `data/processed/macro/fetch_status.csv`
-- `data/processed/macro/risk_score_history.csv`
+주요 결과:
+
 - `reports/macro_regime_YYYY-MM-DD.md`
 - `reports/archive/YYYY-MM/macro_regime_YYYY-MM-DD.md`
 - `reports/assets/macro_regime_YYYY-MM-DD/*.png`
+- `data/processed/macro/latest_snapshot.csv`
+- `data/processed/macro/requested_indicators_latest.csv`
+- `data/processed/macro/observations_long.csv`
+- `data/processed/macro/fetch_status.csv`
+- `data/processed/macro/risk_score_history.csv`
 
-Fetch data only:
+## 환경 변수
 
-```powershell
+Bank of Korea ECOS API 키가 있으면 더 안정적으로 한국 데이터를 받을 수 있습니다.
+
+```bash
+export BOK_API_KEY="YOUR_ECOS_KEY"
+python scripts/update_macro.py --bok-key "$BOK_API_KEY"
+```
+
+키가 없으면 가능한 범위에서 샘플 키, Bank of Korea 기준금리 페이지, FRED fallback 데이터를 사용합니다.
+
+## 자주 쓰는 명령
+
+전체 갱신:
+
+```bash
+python scripts/update_macro.py
+```
+
+데이터만 갱신:
+
+```bash
 python scripts/update_macro.py --no-report
 ```
 
-Generate the report without chart images:
+차트 없이 리포트만 생성:
 
-```powershell
+```bash
 python scripts/update_macro.py --no-charts
 ```
 
-## Interest-rate data
+특정 날짜 리포트 생성:
 
-Fetch only Bank of Korea and Federal Reserve rate datasets:
+```bash
+python scripts/update_macro.py --report-date 2026-05-27
+```
 
-```powershell
+금리 데이터만 갱신:
+
+```bash
 python scripts/fetch_interest_rates.py
 ```
 
-Outputs:
+매크로 지표 파이프라인만 실행:
 
-- `data/raw/rates/bok_base_rate_events_homepage.html`
-- `data/raw/rates/fed_funds_effective_daily_h15.csv`
-- `data/raw/rates/fed_funds_target_events_openmarket.json`
-- `data/processed/rates/bok_base_rate_events.csv`
-- `data/processed/rates/bok_base_rate_daily.csv`
-- `data/processed/rates/fed_funds_effective_daily.csv`
-- `data/processed/rates/fed_funds_target_events.csv`
-- `data/processed/rates/fed_funds_target_daily.csv`
-- `data/processed/rates/central_bank_policy_rates_daily.csv`
-- `data/processed/rates/all_interest_rates_daily.csv`
-
-Sources:
-
-- Bank of Korea official base-rate history page: base-rate change events
-- Federal Reserve H.15 DDP `H15/H15/RIFSPFF_N.D`: federal funds effective rate
-- Federal Reserve Open Market Operations: FOMC target federal funds rate/range changes
-
-The script uses `BOK_API_KEY` with ECOS when available. Without a real ECOS key,
-it uses the official Bank of Korea base-rate history page and expands the event
-history to a daily policy-rate series. To force ECOS, run:
-
-```powershell
-python scripts/fetch_interest_rates.py --bok-source ecos
-```
-
-## Macro indicator pipeline
-
-Fetch only the broader macro checklist used by the regime-analysis agent:
-
-```powershell
+```bash
 python scripts/fetch_macro_pipeline.py
 ```
 
-Main outputs:
+이미 처리된 최신 스냅샷으로 리포트만 재생성:
 
-- `data/processed/macro/indicator_catalog.csv`: source catalog for each indicator
-- `data/processed/macro/observations_long.csv`: normalized long-format observations
-- `data/processed/macro/latest_snapshot.csv`: latest value plus 1M/3M/6M/12M changes
-- `data/processed/macro/requested_indicators_latest.csv`: dashboard-shaped file matching the user checklist
-- `data/processed/macro/fetch_status.csv`: source-by-source fetch status
-- `data/processed/macro/climate_events_gdacs.csv`: current GDACS natural-hazard events
-- `data/manual/manual_indicators.csv`: optional manual inputs for items that need paid/proprietary or local-market feeds
-
-The dashboard file marks stale observations with `status=stale`, so lagged
-fallback feeds do not silently look current.
-
-Sources currently wired:
-
-- Bank of Korea ECOS: Korea CPI, Korea M2, key Korean macro statistics
-- Bank of Korea ECOS: customs exports/imports, derived trade balance, and balance-of-payments portfolio investment liabilities
-- Bank of Korea base-rate history page: BOK policy-rate events
-- Federal Reserve H.15 and Open Market Operations: Fed effective and target rates
-- FRED: US inflation, Treasury yields, M2, financial conditions, credit spreads, business-loan delinquency proxy, FX, employment, and several commodity proxies
-- Yahoo Finance chart API: DXY and commodity futures prices
-- GDACS RSS: current natural-hazard events
-
-Manual or future-feed items:
-
-- `us_default_rate`: optional exact corporate default-rate override. The automated dashboard uses FRED `DRBLACBS` as a business-loan delinquency proxy.
-- `korea_foreign_stock_flows_manual`: optional KRX/FSS daily or monthly override
-- `korea_foreign_bond_flows_manual`: optional KOFIA/FSS daily or monthly override
-
-Useful options:
-
-```powershell
-python scripts/fetch_macro_pipeline.py --skip-rates
-python scripts/fetch_macro_pipeline.py --bok-key $env:BOK_API_KEY
-python scripts/fetch_macro_pipeline.py --yahoo-range 10y
-```
-
-## Macro regime report
-
-Generate a markdown regime report from the latest processed macro snapshot:
-
-```powershell
+```bash
 python scripts/analyze_macro_regime.py
 ```
 
-Output:
+매크로 차트만 다시 생성해서 리포트에 붙이기:
 
-- `reports/macro_regime_YYYY-MM-DD.md`
+```bash
+python scripts/visualize_macro_trends.py --report-date 2026-05-27 --report reports/macro_regime_2026-05-27.md
+```
 
-## Monthly historical reports
+## 월간 히스토리
 
-Generate one as-of report per month. The default report day is the 6th,
-matching a 5th-of-month payday and the next-day allocation review:
+매월 6일 기준의 과거 레짐 리포트를 생성합니다. 기본 6일은 월급일 다음날에 신규 투자 배분을 점검한다는 가정입니다.
 
-```powershell
+```bash
 python scripts/generate_monthly_reports.py --start 2012-03 --end 2026-04
 ```
 
-Outputs:
+결과:
 
 - `reports/monthly/YYYY-MM/macro_regime_YYYY-MM-06.md`
 - `data/processed/macro/risk_score_history_monthly.csv`
 
-## Monthly history dashboard
+월간 대시보드 생성:
 
-Generate a markdown dashboard with long-run monthly risk-score charts,
-allocation trends, regime counts, summary tables, and reading notes:
-
-```powershell
+```bash
 python scripts/visualize_monthly_history.py
 ```
 
-Outputs:
+결과:
 
 - `reports/monthly_dashboard.md`
 - `reports/assets/monthly_dashboard/*.png`
 - `data/processed/macro/monthly_dashboard/*.csv`
 
-The dashboard includes year-by-year monthly detail tables for regime, risk
-scores, and the monthly 150만원 allocation amounts.
+## ISA ETF 백테스트
 
-The dashboard treats `411060.KS` as the cleaner practical gold hedge for ISA
-use, while keeping `144600.KS` silver futures as a small supplemental hedge
-assumption where silver exposure is requested.
+월간 레짐 기반 배분을 ISA에서 매수 가능한 국내 상장 ETF로 대체해 백테스트합니다.
 
-## ISA ETF max backtests
-
-Backtest the monthly allocation with ISA-compatible Korea-listed ETFs over
-the longest available data windows:
-
-```powershell
+```bash
 python scripts/generate_monthly_reports.py --start 2012-03 --end 2026-04
 python scripts/run_isa_etf_max_backtests.py
 ```
 
-Outputs:
+결과:
 
-- `data/processed/macro/risk_score_history_monthly.csv`
 - `reports/backtests/isa_etf_max_summary.md`
 - `reports/backtests/isa_etf_max/*.md`
 - `data/processed/backtests/isa_etf_max/variant_summary.csv`
+- `data/processed/backtests/isa_etf_max/*/actual_etf_trades.csv`
+- `data/processed/backtests/isa_etf_max/*/actual_etf_equity_curve.csv`
 
-Legacy/proxy backtest scripts remain available for sensitivity checks:
+백테스트 상품 가정:
+
+- 현금/단기채: 국내 단기채 ETF
+- 금: 실전 ISA 기준으로 `411060.KS` ACE KRX금현물을 우선 사용
+- 과거 장기 구간이 필요한 경우 금 선물 ETF `132030.KS`를 프록시로 사용
+- 은/원자재: 국내 선택지가 제한적이어서 `144600.KS` 은 선물 ETF를 보조 헤지로 사용
+- 주식/ETF: S&P500, Nasdaq100, 환헤지/비환헤지 조합을 variant별로 비교
+
+레거시 또는 민감도 확인용 스크립트:
 
 - `scripts/backtest_monthly_allocation.py`
 - `scripts/backtest_actual_etfs.py`
 - `scripts/run_actual_etf_variants.py`
 
-## Macro trend charts
+## 데이터 소스
 
-Generate PNG charts from the processed macro observations and attach them to a
-markdown report:
+자동 수집 소스:
 
-```powershell
-python scripts/visualize_macro_trends.py --report-date 2026-05-27 --report reports/macro_regime_2026-05-27.md
+- Bank of Korea ECOS: 한국 CPI, M2, 무역, 국제수지, 주요 통계
+- Bank of Korea 기준금리 페이지: 기준금리 이벤트 및 일별 확장 시계열
+- Federal Reserve H.15: Fed Funds Effective Rate
+- Federal Reserve Open Market Operations: FOMC 목표금리 이벤트
+- FRED: 미국 물가, 금리, 유동성, 신용스프레드, 금융 스트레스, 고용, 원자재 프록시
+- Yahoo Finance chart API: DXY, 원자재 선물, 국내 상장 ETF 가격
+- GDACS RSS: 현재 자연재해/공급 충격 이벤트
+
+수동 입력 파일:
+
+- `data/manual/manual_indicators.csv`
+
+유료 또는 별도 출처가 필요한 지표는 수동 입력 파일로 보완할 수 있습니다. 예를 들어 정확한 회사채 부도율, 외국인 주식/채권 자금 흐름의 별도 집계치, 기후/공급망 메모 등이 여기에 들어갑니다.
+
+## 모델 구조
+
+핵심 규칙은 `scripts/macro_rules.py`와 `scripts/analyze_macro_regime.py`에 있습니다.
+
+Risk Score는 0~10점입니다. 점수가 높을수록 해당 위험이 강하다는 뜻입니다.
+
+- Inflation Risk: CPI, Core CPI, PCE, 기대인플레이션, WTI 등
+- Liquidity Bubble Risk: M2, Fed 지급준비금, 금융여건, 위험선호 등
+- Credit Stress Risk: HY/BBB 스프레드, 대출태도, 금융 스트레스, 연체율 프록시 등
+- FX Risk: USD/KRW, DXY, 한미 기준금리차, 외국인 자금 흐름, 무역수지 등
+- Climate Supply Shock Risk: 에너지, 농산물, 비료, GDACS 이벤트 등
+- Growth Slowdown Risk: 실업률, 비농업고용, 실업수당, 장단기 금리차 등
+
+신규 투자금 배분은 세 개의 큰 sleeve를 먼저 계산한 뒤 금/은을 나눕니다.
+
+- 현금/단기채
+- 금 및 은/원자재 헤지
+- 주식/ETF
+
+기본 신규 투자금은 150만원이며, 5만원 단위로 반올림합니다. 상한/하한, 점수 공식, 라벨은 `scripts/macro_rules.py`에서 관리합니다.
+
+## 디렉터리 구조
+
+```text
+data/
+  raw/                 원천 응답 원본
+  processed/           정규화된 CSV, 스냅샷, 백테스트 결과
+  manual/              수동 보완 지표
+reports/
+  macro_regime_*.md    최신 일자별 레짐 리포트
+  archive/             월별 리포트 아카이브
+  monthly/             과거 월간 리포트
+  monthly_dashboard.md 장기 월간 대시보드
+  assets/              리포트 PNG 차트
+  backtests/           백테스트 리포트
+scripts/
+  update_macro.py                  전체 갱신 진입점
+  fetch_macro_pipeline.py          매크로 지표 수집/정규화
+  fetch_interest_rates.py          BOK/Fed 금리 수집
+  analyze_macro_regime.py          레짐 판정 및 리포트 생성
+  visualize_macro_trends.py        최신 리포트 차트 생성
+  generate_monthly_reports.py      월간 과거 리포트 생성
+  visualize_monthly_history.py     월간 대시보드 생성
+  run_isa_etf_max_backtests.py     ISA ETF 장기 백테스트
 ```
 
-Outputs:
+## 문제 해결
 
-- `reports/assets/macro_regime_YYYY-MM-DD/risk_scores.png`
-- `reports/assets/macro_regime_YYYY-MM-DD/suggested_allocation.png`
-- `reports/assets/macro_regime_YYYY-MM-DD/inflation_yoy.png`
-- `reports/assets/macro_regime_YYYY-MM-DD/policy_rates.png`
-- `reports/assets/macro_regime_YYYY-MM-DD/fx_trend.png`
-- `reports/assets/macro_regime_YYYY-MM-DD/liquidity_trend.png`
-- `reports/assets/macro_regime_YYYY-MM-DD/credit_stress.png`
-- `reports/assets/macro_regime_YYYY-MM-DD/commodity_trend.png`
+`ModuleNotFoundError: matplotlib`가 나오면:
 
-## Review history
-
-Each report generation appends or updates:
-
-- `data/processed/macro/risk_score_history.csv`: score and allocation history used for previous-report deltas
-- `reports/archive/YYYY-MM/macro_regime_YYYY-MM-DD.md`: monthly report archive for later review
-
-The report uses the fixed Korean format for:
-
-- current regime and supporting regime
-- indicator-by-indicator interpretation
-- six risk scores
-- fresh 150만원 allocation proposal with no pre-set portfolio weights
-- allocation formulas, raw scores, bounds, and rounding steps used by the heuristic rule
-- trigger-based action rules and metric freshness tags
-- risk-score history, previous-report deltas, and monthly archived reports
-- adjustment actions, checkpoints, and opposite scenarios
-
-The allocation rule is tuned for long-term monthly ISA contributions: cash and
-short-bond exposure stays lower in normal inflation/FX regimes, then rises more
-aggressively when credit stress or growth-shock risk becomes the dominant issue.
-
-Typical refresh flow:
-
-```powershell
-python scripts/update_macro.py
+```bash
+python -m pip install matplotlib
 ```
+
+ECOS 호출이 제한되거나 실패하면:
+
+```bash
+python scripts/update_macro.py --bok-source homepage-events
+```
+
+Yahoo Finance 호출이 실패하면 네트워크 상태를 확인한 뒤 다시 실행하세요. 원천 응답은 `data/raw/yahoo*` 아래에 저장됩니다.
+
+`fetch_status.csv`에서 `stale` 또는 `error`가 보이면 해당 지표가 오래되었거나 수집에 실패한 것입니다. 리포트는 가능한 데이터로 생성되지만, 레짐 확신도는 낮춰서 해석해야 합니다.
