@@ -154,6 +154,9 @@ Outputs:
 - `reports/assets/monthly_dashboard/*.png`
 - `data/processed/macro/monthly_dashboard/*.csv`
 
+The dashboard includes year-by-year monthly detail tables for regime, risk
+scores, and the monthly 150만원 allocation amounts.
+
 The dashboard treats `411060.KS` as the cleaner practical gold hedge for ISA
 use, while keeping `144600.KS` silver futures as a small supplemental hedge
 assumption where silver exposure is requested.

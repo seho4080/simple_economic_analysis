@@ -284,18 +284,26 @@ def build_regime_counts(rows: list[MonthlyRow]) -> list[dict[str, str]]:
     ]
 
 
-def build_yearly_risk(rows: list[MonthlyRow]) -> list[dict[str, str]]:
-    grouped: dict[int, list[MonthlyRow]] = defaultdict(list)
-    for row in rows:
-        grouped[row.report_date.year].append(row)
-
+def build_monthly_detail(rows: list[MonthlyRow]) -> list[dict[str, str]]:
     result: list[dict[str, str]] = []
-    for year in sorted(grouped):
-        year_rows = grouped[year]
-        item = {"year": str(year), "months": str(len(year_rows))}
-        for key, label in RISK_COLUMNS:
-            item[label.lower()] = fmt_number(mean([row.scores[key] for row in year_rows]))
-        result.append(item)
+    for row in rows:
+        result.append(
+            {
+                "year": str(row.report_date.year),
+                "month": row.report_date.strftime("%Y-%m"),
+                "regime": row.current_regime,
+                "inflation": fmt_number(row.scores["inflation_risk"]),
+                "liquidity": fmt_number(row.scores["liquidity_bubble_risk"]),
+                "credit": fmt_number(row.scores["credit_stress_risk"]),
+                "fx": fmt_number(row.scores["fx_risk"]),
+                "climate": fmt_number(row.scores["climate_supply_shock_risk"]),
+                "growth": fmt_number(row.scores["growth_slowdown_risk"]),
+                "cash": fmt_number(row.allocation["cash_amount"], 0),
+                "gold": fmt_number(row.allocation["gold_amount"], 0),
+                "silver": fmt_number(row.allocation["silver_amount"], 0),
+                "equity": fmt_number(row.allocation["equity_amount"], 0),
+            }
+        )
     return result
 
 
@@ -356,7 +364,7 @@ def write_report(
     chart_paths: dict[str, Path],
     risk_summary: list[dict[str, str]],
     regime_counts: list[dict[str, str]],
-    yearly_risk: list[dict[str, str]],
+    monthly_detail: list[dict[str, str]],
     rows: list[MonthlyRow],
 ) -> None:
     latest = rows[-1]
@@ -416,14 +424,13 @@ def write_report(
             ]
         )
 
-    lines.extend(
-        [
-            "## 연도별 평균 Risk Score",
-            "",
-            *markdown_table(yearly_risk),
-            "",
-        ]
-    )
+    lines.extend(["## 연도별 월별 상세", "", "각 월의 메인 레짐, Risk Score, 신규 150만원 배분액(만원)입니다.", ""])
+    monthly_by_year: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for row in monthly_detail:
+        monthly_by_year[row["year"]].append({key: value for key, value in row.items() if key != "year"})
+
+    for year in sorted(monthly_by_year):
+        lines.extend([f"### {year}", "", *markdown_table(monthly_by_year[year]), ""])
 
     ensure_parent(report_path)
     report_path.write_text("\n".join(lines), encoding="utf-8")
@@ -455,18 +462,21 @@ def generate_dashboard(
 
     risk_summary = build_risk_summary(rows)
     regime_counts = build_regime_counts(rows)
-    yearly_risk = build_yearly_risk(rows)
+    monthly_detail = build_monthly_detail(rows)
 
     write_csv(tables_dir / "risk_score_summary.csv", risk_summary)
     write_csv(tables_dir / "regime_counts.csv", regime_counts)
-    write_csv(tables_dir / "yearly_risk_scores.csv", yearly_risk)
+    write_csv(tables_dir / "monthly_detail.csv", monthly_detail)
+    stale_yearly_csv = tables_dir / "yearly_risk_scores.csv"
+    if stale_yearly_csv.exists():
+        stale_yearly_csv.unlink()
     write_report(
         report_path,
         history_path,
         chart_paths,
         risk_summary,
         regime_counts,
-        yearly_risk,
+        monthly_detail,
         rows,
     )
 
