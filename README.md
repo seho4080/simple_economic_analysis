@@ -125,6 +125,20 @@ Output:
 
 - `reports/macro_regime_YYYY-MM-DD.md`
 
+## Monthly historical reports
+
+Generate one as-of report per month. The default report day is the 6th,
+matching a 5th-of-month payday and the next-day allocation review:
+
+```powershell
+python scripts/generate_monthly_reports.py --start 2020-04 --end 2026-04
+```
+
+Outputs:
+
+- `reports/monthly/YYYY-MM/macro_regime_YYYY-MM-06.md`
+- `data/processed/macro/risk_score_history_monthly.csv`
+
 ## Macro trend charts
 
 Generate PNG charts from the processed macro observations and attach them to a
