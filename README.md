@@ -16,7 +16,9 @@ Outputs:
 - `data/processed/macro/latest_snapshot.csv`
 - `data/processed/macro/observations_long.csv`
 - `data/processed/macro/fetch_status.csv`
+- `data/processed/macro/risk_score_history.csv`
 - `reports/macro_regime_YYYY-MM-DD.md`
+- `reports/archive/YYYY-MM/macro_regime_YYYY-MM-DD.md`
 - `reports/assets/macro_regime_YYYY-MM-DD/*.png`
 
 Fetch data only:
@@ -143,6 +145,13 @@ Outputs:
 - `reports/assets/macro_regime_YYYY-MM-DD/credit_stress.png`
 - `reports/assets/macro_regime_YYYY-MM-DD/commodity_trend.png`
 
+## Review history
+
+Each report generation appends or updates:
+
+- `data/processed/macro/risk_score_history.csv`: score and allocation history used for previous-report deltas
+- `reports/archive/YYYY-MM/macro_regime_YYYY-MM-DD.md`: monthly report archive for later review
+
 The report uses the fixed Korean format for:
 
 - current regime and supporting regime
@@ -150,6 +159,8 @@ The report uses the fixed Korean format for:
 - six risk scores
 - fresh 150만원 allocation proposal with no pre-set portfolio weights
 - allocation formulas, raw scores, bounds, and rounding steps used by the heuristic rule
+- trigger-based action rules and metric freshness tags
+- risk-score history, previous-report deltas, and monthly archived reports
 - adjustment actions, checkpoints, and opposite scenarios
 
 Typical refresh flow:

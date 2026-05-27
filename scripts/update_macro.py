@@ -122,12 +122,16 @@ def build_fetch_args(args: argparse.Namespace) -> argparse.Namespace:
 
 def generate_report(output_dir: Path, report_dir: Path, report_date: str) -> tuple[Path, dict[str, float]]:
     snapshot_path = output_dir / "processed" / "macro" / "latest_snapshot.csv"
+    history_path = output_dir / "processed" / "macro" / "risk_score_history.csv"
     metrics = analyze_macro_regime.load_metrics(snapshot_path)
     scores = analyze_macro_regime.calc_scores(metrics)
-    report = analyze_macro_regime.build_report(metrics, scores, report_date)
+    previous_scores = analyze_macro_regime.load_previous_scores(history_path, report_date)
+    report = analyze_macro_regime.build_report(metrics, scores, report_date, previous_scores)
     report_dir.mkdir(parents=True, exist_ok=True)
     output_path = report_dir / f"macro_regime_{report_date}.md"
     output_path.write_text(report, encoding="utf-8")
+    allocation = analyze_macro_regime.build_allocation(scores)
+    analyze_macro_regime.upsert_report_history(history_path, report_date, scores, allocation)
     return output_path, scores
 
 
@@ -174,6 +178,8 @@ def main() -> int:
             print(f"  {name}: {score}/10")
 
         if args.no_charts:
+            archive_path = analyze_macro_regime.archive_report(report_path, args.report_date, Path(args.report_dir))
+            print(f"  Archive: {archive_path}")
             print("Done. Chart generation skipped.")
             return 0
 
@@ -188,6 +194,8 @@ def main() -> int:
         print(f"  Charts: {len(charts)}")
         for chart in charts:
             print(f"  {chart.path}")
+        archive_path = analyze_macro_regime.archive_report(report_path, args.report_date, Path(args.report_dir))
+        print(f"  Archive: {archive_path}")
         return 0
     except Exception as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
