@@ -330,6 +330,26 @@ def rel_path(report_path: Path, target: Path) -> str:
     return Path(os.path.relpath(target, report_path.parent)).as_posix()
 
 
+def build_dashboard_notes() -> list[str]:
+    return [
+        "## 대시보드 읽는 법",
+        "",
+        "- 이 대시보드는 월별 리포트 생성 결과를 다시 모아 복기하는 화면입니다. 매월 6일 기준으로 당시 보였던 리스크 점수와 신규 150만원 배분 판단을 비교합니다.",
+        "- Risk Score는 0~10점입니다. 점수가 높을수록 해당 위험이 강하다는 뜻이고, 모든 점수가 동시에 낮아야 공격적 배분이 자연스러워집니다.",
+        "- 배분 그래프는 기존 보유자산 전체 리밸런싱이 아니라, 매월 새로 넣는 150만원을 어디에 배분했는지를 보여줍니다.",
+        "- 레짐 빈도는 모델이 어떤 시장 환경을 가장 자주 봤는지 확인하는 용도입니다. 수익률 우열을 직접 뜻하지는 않습니다.",
+        "- Latest vs Average는 최근 리스크가 장기 평균보다 높은지 낮은지 빠르게 보는 비교표입니다.",
+        "",
+        "## 금/은 상품 가정",
+        "",
+        "- 실전 ISA 기준 금 헤지는 `411060.KS ACE KRX금현물`을 더 자연스러운 기본 후보로 봅니다.",
+        "- 긴 과거 구간이 필요한 백테스트에서는 상장 기간 때문에 `132030.KS KODEX 골드선물(H)`을 과거 프록시로 쓸 수 있습니다.",
+        "- 은은 국내 상장 은현물 ETF가 마땅치 않아 `144600.KS KODEX 은선물(H)`을 보조 헤지로 유지합니다.",
+        "- 따라서 은/원자재 비중은 장기 핵심 방어자산이라기보다, 인플레나 원자재 충격에 대한 작은 선택 옵션으로 해석합니다.",
+        "",
+    ]
+
+
 def write_report(
     report_path: Path,
     history_path: Path,
@@ -373,6 +393,7 @@ def write_report(
         "## 그래프",
         "",
     ]
+    lines[5:5] = build_dashboard_notes()
 
     chart_sections = [
         ("Risk Score Trend", "월별 6개 Risk Score의 장기 흐름입니다.", "risk_lines"),

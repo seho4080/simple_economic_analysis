@@ -142,7 +142,7 @@ Outputs:
 ## Monthly history dashboard
 
 Generate a markdown dashboard with long-run monthly risk-score charts,
-allocation trends, regime counts, and summary tables:
+allocation trends, regime counts, summary tables, and reading notes:
 
 ```powershell
 python scripts/visualize_monthly_history.py
@@ -153,6 +153,10 @@ Outputs:
 - `reports/monthly_dashboard.md`
 - `reports/assets/monthly_dashboard/*.png`
 - `data/processed/macro/monthly_dashboard/*.csv`
+
+The dashboard treats `411060.KS` as the cleaner practical gold hedge for ISA
+use, while keeping `144600.KS` silver futures as a small supplemental hedge
+assumption where silver exposure is requested.
 
 ## ISA ETF max backtests
 
