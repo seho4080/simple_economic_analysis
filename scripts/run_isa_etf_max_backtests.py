@@ -8,7 +8,11 @@ from pathlib import Path
 
 import backtest_actual_etfs
 from backtest_monthly_allocation import pct, write_csv
+from date_defaults import latest_report_date_iso, today_iso
 from run_actual_etf_variants import Variant, build_variant_args, summarize_variant
+
+
+DEFAULT_END_DATE = latest_report_date_iso()
 
 
 ISA_MAX_VARIANTS = [
@@ -16,7 +20,7 @@ ISA_MAX_VARIANTS = [
         slug="isa_max_hedged_sp500",
         title="ISA 장기 환헤지 S&P500",
         start="2015-06-06",
-        end="2026-04-06",
+        end=DEFAULT_END_DATE,
         cash_symbol="153130.KS",
         cash_label="KODEX 단기채권",
         gold_symbol="132030.KS",
@@ -31,7 +35,7 @@ ISA_MAX_VARIANTS = [
         slug="isa_max_unhedged_sp500",
         title="ISA 장기 환노출 S&P500",
         start="2020-09-06",
-        end="2026-04-06",
+        end=DEFAULT_END_DATE,
         cash_symbol="153130.KS",
         cash_label="KODEX 단기채권",
         gold_symbol="132030.KS",
@@ -46,7 +50,7 @@ ISA_MAX_VARIANTS = [
         slug="isa_max_unhedged_nasdaq100",
         title="ISA 장기 환노출 나스닥100",
         start="2012-03-06",
-        end="2026-04-06",
+        end=DEFAULT_END_DATE,
         cash_symbol="153130.KS",
         cash_label="KODEX 단기채권",
         gold_symbol="132030.KS",
@@ -61,7 +65,7 @@ ISA_MAX_VARIANTS = [
         slug="isa_unhedged_gold_sp500",
         title="ISA 금+S&P500 환노출",
         start="2022-01-06",
-        end="2026-04-06",
+        end=DEFAULT_END_DATE,
         cash_symbol="153130.KS",
         cash_label="KODEX 단기채권",
         gold_symbol="411060.KS",
@@ -76,7 +80,7 @@ ISA_MAX_VARIANTS = [
         slug="isa_unhedged_gold_nasdaq100",
         title="ISA 금+나스닥100 환노출",
         start="2022-01-06",
-        end="2026-04-06",
+        end=DEFAULT_END_DATE,
         cash_symbol="153130.KS",
         cash_label="KODEX 단기채권",
         gold_symbol="411060.KS",
@@ -131,7 +135,7 @@ def write_summary_report(path: Path, summary_rows: list[dict]) -> None:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run longest ISA-compatible ETF backtests.")
     parser.add_argument("--history", default="data/processed/macro/risk_score_history_monthly.csv")
-    parser.add_argument("--valuation-date", default="2026-05-27")
+    parser.add_argument("--valuation-date", default=today_iso())
     parser.add_argument("--raw-dir", default="data/raw/yahoo_isa_etf_max")
     parser.add_argument("--output-dir", default="data/processed/backtests/isa_etf_max")
     parser.add_argument("--report-dir", default="reports/backtests/isa_etf_max")

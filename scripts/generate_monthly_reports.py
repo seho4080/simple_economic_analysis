@@ -11,6 +11,7 @@ from datetime import date
 from pathlib import Path
 
 import analyze_macro_regime
+from date_defaults import latest_report_month
 from fetch_macro_pipeline import SNAPSHOT_FIELDS, add_months, delta, find_on_or_before, pct_change
 
 
@@ -203,7 +204,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="Score/allocation history CSV for monthly reports.",
     )
     parser.add_argument("--start", default="2012-03", help="Start month in YYYY-MM format.")
-    parser.add_argument("--end", default="2026-04", help="End month in YYYY-MM format.")
+    parser.add_argument(
+        "--end",
+        default=latest_report_month(),
+        help="End month in YYYY-MM format. Defaults to the latest report month whose report day has passed.",
+    )
     parser.add_argument(
         "--report-day",
         type=int,

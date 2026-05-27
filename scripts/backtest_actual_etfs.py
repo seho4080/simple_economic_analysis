@@ -21,6 +21,7 @@ from backtest_monthly_allocation import (
     write_csv,
     xirr,
 )
+from date_defaults import latest_report_date_iso, today_iso
 
 
 @dataclass(frozen=True)
@@ -122,6 +123,9 @@ def run_backtest(args: argparse.Namespace) -> tuple[Path, Path, Path]:
     ]
     if not history_rows:
         raise ValueError("No monthly allocation rows found for the requested period.")
+    history_rows.sort(key=lambda row: date.fromisoformat(row["report_date"]))
+    actual_start = history_rows[0]["report_date"]
+    actual_end = history_rows[-1]["report_date"]
 
     raw_dir = Path(args.raw_dir)
     price_start = start - timedelta(days=14)
@@ -236,7 +240,7 @@ def run_backtest(args: argparse.Namespace) -> tuple[Path, Path, Path]:
         "# 실제 국내 ETF 가격 기반 월별 150만원 백테스트",
         "",
         "## 가정",
-        f"- 매수 기간: {start.isoformat()} ~ {end.isoformat()}, 매월 6일 리포트 배분표 기준",
+        f"- 매수 기간: {actual_start} ~ {actual_end}, 매월 6일 리포트 배분표 기준",
         f"- 평가일: {valuation_date.isoformat()}",
         "- 가격 데이터: Yahoo Finance 국내 ETF 조정종가",
         "- 매수/평가는 해당일 또는 직전 거래일 조정종가 사용",
@@ -300,8 +304,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Backtest monthly allocations with actual ETF prices.")
     parser.add_argument("--history", default="data/processed/macro/risk_score_history_monthly.csv")
     parser.add_argument("--start", default="2015-06-06")
-    parser.add_argument("--end", default="2026-04-06")
-    parser.add_argument("--valuation-date", default="2026-05-27")
+    parser.add_argument("--end", default=latest_report_date_iso())
+    parser.add_argument("--valuation-date", default=today_iso())
     parser.add_argument("--raw-dir", default="data/raw/yahoo_kr_etf_actual")
     parser.add_argument("--output-dir", default="data/processed/backtests/actual_kr_etf_max_hedged_sp500")
     parser.add_argument("--report", default="reports/backtests/actual_kr_etf_max_hedged_sp500.md")

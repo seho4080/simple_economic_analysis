@@ -13,6 +13,8 @@ from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
+from date_defaults import latest_report_date_iso, today_iso
+
 
 USER_AGENT = "stock-economic-indicators/0.3"
 MANWON_TO_KRW = 10_000
@@ -274,6 +276,9 @@ def run_backtest(args: argparse.Namespace) -> tuple[Path, Path, Path]:
     ]
     if not history_rows:
         raise ValueError("No monthly allocation rows found for the requested period.")
+    history_rows.sort(key=lambda row: date.fromisoformat(row["report_date"]))
+    actual_start = history_rows[0]["report_date"]
+    actual_end = history_rows[-1]["report_date"]
 
     price_start = start - timedelta(days=14)
     price_end = valuation_date
@@ -404,7 +409,7 @@ def run_backtest(args: argparse.Namespace) -> tuple[Path, Path, Path]:
         "# 월별 150만원 매수 백테스트",
         "",
         "## 가정",
-        f"- 매수 기간: {start.isoformat()} ~ {end.isoformat()}, 매월 6일 리포트 배분표 기준",
+        f"- 매수 기간: {actual_start} ~ {actual_end}, 매월 6일 리포트 배분표 기준",
         f"- 평가일: {valuation_date.isoformat()}",
         "- 금: Yahoo Finance `GC=F` 종가를 USD/KRW로 원화 환산",
         "- 은/원자재: Yahoo Finance `SI=F` 종가를 USD/KRW로 원화 환산",
@@ -466,8 +471,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--history", default="data/processed/macro/risk_score_history_monthly.csv")
     parser.add_argument("--observations", default="data/processed/macro/observations_long.csv")
     parser.add_argument("--start", default="2012-03-06")
-    parser.add_argument("--end", default="2026-04-06")
-    parser.add_argument("--valuation-date", default="2026-05-27")
+    parser.add_argument("--end", default=latest_report_date_iso())
+    parser.add_argument("--valuation-date", default=today_iso())
     parser.add_argument("--equity-symbol", default="SPY")
     parser.add_argument("--gold-symbol", default="GC=F")
     parser.add_argument("--silver-symbol", default="SI=F")

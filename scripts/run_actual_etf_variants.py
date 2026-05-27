@@ -11,6 +11,10 @@ from types import SimpleNamespace
 
 import backtest_actual_etfs
 from backtest_monthly_allocation import pct, read_csv, write_csv, xirr
+from date_defaults import latest_report_date_iso, latest_report_month, today_iso
+
+
+DEFAULT_END_DATE = latest_report_date_iso()
 
 
 @dataclass(frozen=True)
@@ -35,7 +39,7 @@ DEFAULT_VARIANTS = [
         slug="hedged_sp500_2022",
         title="환헤지 S&P500",
         start="2022-01-06",
-        end="2026-04-06",
+        end=DEFAULT_END_DATE,
         cash_symbol="153130.KS",
         cash_label="KODEX 단기채권",
         gold_symbol="132030.KS",
@@ -50,7 +54,7 @@ DEFAULT_VARIANTS = [
         slug="unhedged_sp500_2022",
         title="환노출 S&P500",
         start="2022-01-06",
-        end="2026-04-06",
+        end=DEFAULT_END_DATE,
         cash_symbol="153130.KS",
         cash_label="KODEX 단기채권",
         gold_symbol="411060.KS",
@@ -65,7 +69,7 @@ DEFAULT_VARIANTS = [
         slug="unhedged_nasdaq_2022",
         title="환노출 나스닥100",
         start="2022-01-06",
-        end="2026-04-06",
+        end=DEFAULT_END_DATE,
         cash_symbol="153130.KS",
         cash_label="KODEX 단기채권",
         gold_symbol="411060.KS",
@@ -114,6 +118,8 @@ def summarize_variant(variant: Variant, output_dir: Path, report_path: Path) -> 
     trades = read_csv(output_dir / "actual_etf_trades.csv")
     curve = read_csv(output_dir / "actual_etf_equity_curve.csv")
     final = curve[-1]
+    actual_start = min(row["report_date"] for row in trades) if trades else variant.start
+    actual_end = max(row["report_date"] for row in trades) if trades else variant.end
     cashflows = [(row["report_date"], -float(row["amount_krw"])) for row in trades]
     cashflows.append((final["date"], float(final["total_value_krw"])))
     irr = xirr([(date.fromisoformat(day), amount) for day, amount in cashflows])
@@ -122,8 +128,8 @@ def summarize_variant(variant: Variant, output_dir: Path, report_path: Path) -> 
     return {
         "variant": variant.slug,
         "title": variant.title,
-        "start": variant.start,
-        "end": variant.end,
+        "start": actual_start,
+        "end": actual_end,
         "valuation_date": final["date"],
         "cash_symbol": variant.cash_symbol,
         "gold_symbol": variant.gold_symbol,
@@ -142,12 +148,15 @@ def summarize_variant(variant: Variant, output_dir: Path, report_path: Path) -> 
 
 def write_summary_report(path: Path, summary_rows: list[dict]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
+    start = min(row["start"] for row in summary_rows) if summary_rows else "n/a"
+    end = max(row["end"] for row in summary_rows) if summary_rows else "n/a"
+    valuation_date = max(row["valuation_date"] for row in summary_rows) if summary_rows else "n/a"
     lines = [
         "# 실제 ETF 환헤지/환노출/나스닥 비교 백테스트",
         "",
         "## 비교 기준",
-        "- 매수 기간: 2022-01-06 ~ 2026-04-06, 매월 150만원 리포트 배분",
-        "- 평가일: 2026-05-27",
+        f"- 매수 기간: {start} ~ {end}, 매월 150만원 리포트 배분",
+        f"- 평가일: {valuation_date}",
         "- 가격 데이터: Yahoo Finance 국내 ETF 조정종가",
         "- 2022년부터 비교한 이유: ACE KRX금현물(411060)이 2021년 12월 상장이라 금 환노출형 비교가 이 시점부터 가능",
         "- 은은 장기 국내 환노출 ETF 대체재가 제한적이라 KODEX 은선물(H)을 공통 사용",
@@ -184,11 +193,14 @@ def write_summary_report(path: Path, summary_rows: list[dict]) -> None:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run actual ETF variant backtests.")
     parser.add_argument("--history", default="data/processed/macro/risk_score_history_monthly.csv")
-    parser.add_argument("--valuation-date", default="2026-05-27")
+    parser.add_argument("--valuation-date", default=today_iso())
     parser.add_argument("--raw-dir", default="data/raw/yahoo_kr_etf_variants")
     parser.add_argument("--output-dir", default="data/processed/backtests/actual_kr_etf_variants")
     parser.add_argument("--report-dir", default="reports/backtests/actual_kr_etf_variants")
-    parser.add_argument("--summary-report", default="reports/backtests/actual_kr_etf_variants_2022-01_to_2026-04.md")
+    parser.add_argument(
+        "--summary-report",
+        default=f"reports/backtests/actual_kr_etf_variants_2022-01_to_{latest_report_month()}.md",
+    )
     parser.add_argument("--summary-csv", default="data/processed/backtests/actual_kr_etf_variants/variant_summary.csv")
     return parser
 

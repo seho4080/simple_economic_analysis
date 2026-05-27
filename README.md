@@ -21,7 +21,7 @@ python -m venv .venv
 source .venv/bin/activate
 # Git Bash에서 Windows Python으로 만든 venv라면: source .venv/Scripts/activate
 python -m pip install --upgrade pip
-python -m pip install matplotlib
+python -m pip install -r requirements.txt
 python scripts/update_macro.py
 ```
 
@@ -72,7 +72,7 @@ python scripts/update_macro.py --no-charts
 특정 날짜 리포트 생성:
 
 ```bash
-python scripts/update_macro.py --report-date 2026-05-27
+python scripts/update_macro.py --report-date "$(date +%F)"
 ```
 
 금리 데이터만 갱신:
@@ -96,7 +96,8 @@ python scripts/analyze_macro_regime.py
 매크로 차트만 다시 생성해서 리포트에 붙이기:
 
 ```bash
-python scripts/visualize_macro_trends.py --report-date 2026-05-27 --report reports/macro_regime_2026-05-27.md
+REPORT_DATE="$(date +%F)"
+python scripts/visualize_macro_trends.py --report-date "$REPORT_DATE" --report "reports/macro_regime_${REPORT_DATE}.md"
 ```
 
 ## 월간 히스토리
@@ -104,7 +105,7 @@ python scripts/visualize_macro_trends.py --report-date 2026-05-27 --report repor
 매월 6일 기준의 과거 레짐 리포트를 생성합니다. 기본 6일은 월급일 다음날에 신규 투자 배분을 점검한다는 가정입니다.
 
 ```bash
-python scripts/generate_monthly_reports.py --start 2012-03 --end 2026-04
+python scripts/generate_monthly_reports.py --start 2012-03
 ```
 
 결과:
@@ -129,7 +130,7 @@ python scripts/visualize_monthly_history.py
 월간 레짐 기반 배분을 ISA에서 매수 가능한 국내 상장 ETF로 대체해 백테스트합니다.
 
 ```bash
-python scripts/generate_monthly_reports.py --start 2012-03 --end 2026-04
+python scripts/generate_monthly_reports.py --start 2012-03
 python scripts/run_isa_etf_max_backtests.py
 ```
 
@@ -224,7 +225,7 @@ scripts/
 `ModuleNotFoundError: matplotlib`가 나오면:
 
 ```bash
-python -m pip install matplotlib
+python -m pip install -r requirements.txt
 ```
 
 ECOS 호출이 제한되거나 실패하면:
@@ -232,6 +233,8 @@ ECOS 호출이 제한되거나 실패하면:
 ```bash
 python scripts/update_macro.py --bok-source homepage-events
 ```
+
+한글이 터미널이나 에디터에서 깨져 보이면 UTF-8로 열었는지 확인하세요. 저장소는 `.editorconfig`로 `charset = utf-8`을 고정합니다.
 
 Yahoo Finance 호출이 실패하면 네트워크 상태를 확인한 뒤 다시 실행하세요. 원천 응답은 `data/raw/yahoo*` 아래에 저장됩니다.
 
