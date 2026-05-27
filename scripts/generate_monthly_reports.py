@@ -161,6 +161,7 @@ def generate_monthly_reports(
     start: str,
     end: str,
     report_day: int,
+    history_only: bool = False,
 ) -> list[Path]:
     rows = read_observations(observations_path)
     output_paths: list[Path] = []
@@ -172,14 +173,15 @@ def generate_monthly_reports(
         previous_scores = analyze_macro_regime.load_previous_scores(history_path, report_date_text)
         report = analyze_macro_regime.build_report(metrics, scores, report_date_text, previous_scores)
 
-        month_dir = output_dir / report_date_text[:7]
-        month_dir.mkdir(parents=True, exist_ok=True)
-        output_path = month_dir / f"macro_regime_{report_date_text}.md"
-        output_path.write_text(report, encoding="utf-8")
+        output_path = output_dir / report_date_text[:7] / f"macro_regime_{report_date_text}.md"
+        if not history_only:
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            output_path.write_text(report, encoding="utf-8")
 
         allocation = analyze_macro_regime.build_allocation(scores)
         analyze_macro_regime.upsert_report_history(history_path, report_date_text, scores, allocation)
-        output_paths.append(output_path)
+        if not history_only:
+            output_paths.append(output_path)
     return output_paths
 
 
@@ -208,6 +210,11 @@ def build_parser() -> argparse.ArgumentParser:
         default=6,
         help="Day of month used as the as-of report date. Defaults to 6.",
     )
+    parser.add_argument(
+        "--history-only",
+        action="store_true",
+        help="Only update the monthly score/allocation history CSV; do not write markdown reports.",
+    )
     return parser
 
 
@@ -220,8 +227,12 @@ def main() -> int:
         args.start,
         args.end,
         args.report_day,
+        args.history_only,
     )
-    print(f"Generated monthly reports: {len(output_paths)}")
+    if args.history_only:
+        print("Generated monthly reports: 0 (history-only mode)")
+    else:
+        print(f"Generated monthly reports: {len(output_paths)}")
     if output_paths:
         print(f"First report: {output_paths[0]}")
         print(f"Last report: {output_paths[-1]}")

@@ -199,6 +199,21 @@ Outputs:
 - `reports/backtests/actual_kr_etf_variants/*.md`
 - `data/processed/backtests/actual_kr_etf_variants/variant_summary.csv`
 
+Generate an extended monthly allocation history and run longest-available
+ISA-compatible ETF variants:
+
+```powershell
+python scripts/generate_monthly_reports.py --start 2012-03 --end 2026-04 --history data/processed/macro/risk_score_history_monthly_isa_extended.csv --history-only
+python scripts/run_isa_etf_max_backtests.py
+```
+
+Outputs:
+
+- `data/processed/macro/risk_score_history_monthly_isa_extended.csv`
+- `reports/backtests/isa_etf_max_summary.md`
+- `reports/backtests/isa_etf_max/*.md`
+- `data/processed/backtests/isa_etf_max/variant_summary.csv`
+
 ## Macro trend charts
 
 Generate PNG charts from the processed macro observations and attach them to a

@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 from backtest_monthly_allocation import (
@@ -124,8 +124,9 @@ def run_backtest(args: argparse.Namespace) -> tuple[Path, Path, Path]:
         raise ValueError("No monthly allocation rows found for the requested period.")
 
     raw_dir = Path(args.raw_dir)
+    price_start = start - timedelta(days=14)
     prices = {
-        spec.asset: fetch_yahoo_prices(spec.symbol, start, valuation_date, raw_dir, use_adjusted=True)
+        spec.asset: fetch_yahoo_prices(spec.symbol, price_start, valuation_date, raw_dir, use_adjusted=True)
         for spec in specs
     }
 
