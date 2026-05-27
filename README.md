@@ -139,6 +139,31 @@ Outputs:
 - `reports/monthly/YYYY-MM/macro_regime_YYYY-MM-06.md`
 - `data/processed/macro/risk_score_history_monthly.csv`
 
+## Monthly allocation backtest
+
+Backtest buying the monthly report allocation with 150만원 each month:
+
+```powershell
+python scripts/backtest_monthly_allocation.py
+```
+
+Default assumptions:
+
+- monthly allocation rows: `data/processed/macro/risk_score_history_monthly.csv`
+- buy dates: `2020-04-06` through `2026-04-06`
+- valuation date: `2026-05-27`
+- gold proxy: Yahoo Finance `GC=F`, converted to KRW with USD/KRW
+- silver/resources proxy: Yahoo Finance `SI=F`, converted to KRW with USD/KRW
+- stocks/ETF proxy: Yahoo Finance `SPY` adjusted close, converted to KRW with USD/KRW
+- cash/short bonds: Korea 3-month short rate compounded daily
+
+Outputs:
+
+- `reports/backtests/monthly_150manwon_2020-04_to_2026-04.md`
+- `reports/backtests/assets/monthly_150manwon_2020-04_to_2026-04/equity_curve.png`
+- `data/processed/backtests/monthly_allocation_2020-04_to_2026-04/monthly_allocation_trades.csv`
+- `data/processed/backtests/monthly_allocation_2020-04_to_2026-04/monthly_allocation_equity_curve.csv`
+
 ## Macro trend charts
 
 Generate PNG charts from the processed macro observations and attach them to a
