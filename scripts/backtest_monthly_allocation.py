@@ -465,7 +465,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Backtest monthly macro-regime allocation purchases.")
     parser.add_argument("--history", default="data/processed/macro/risk_score_history_monthly.csv")
     parser.add_argument("--observations", default="data/processed/macro/observations_long.csv")
-    parser.add_argument("--start", default="2020-04-06")
+    parser.add_argument("--start", default="2012-03-06")
     parser.add_argument("--end", default="2026-04-06")
     parser.add_argument("--valuation-date", default="2026-05-27")
     parser.add_argument("--equity-symbol", default="SPY")
@@ -473,11 +473,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--silver-symbol", default="SI=F")
     parser.add_argument("--fx-indicator", default="usd_krw")
     parser.add_argument("--cash-rate-indicator", default="korea_short_rate_3m")
-    parser.add_argument("--raw-dir", default="data/raw/yahoo_backtest")
-    parser.add_argument("--output-dir", default="data/processed/backtests/monthly_allocation_2020-04_to_2026-04")
+    parser.add_argument("--raw-dir", default="data/raw/yahoo_proxy_backtest")
+    parser.add_argument("--output-dir", default="data/processed/backtests/proxy_monthly_allocation_max")
     parser.add_argument(
         "--report",
-        default="reports/backtests/monthly_150manwon_2020-04_to_2026-04.md",
+        default="reports/backtests/proxy_monthly_allocation_max.md",
     )
     return parser
 

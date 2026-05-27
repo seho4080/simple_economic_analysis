@@ -130,7 +130,7 @@ def write_summary_report(path: Path, summary_rows: list[dict]) -> None:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run longest ISA-compatible ETF backtests.")
-    parser.add_argument("--history", default="data/processed/macro/risk_score_history_monthly_isa_extended.csv")
+    parser.add_argument("--history", default="data/processed/macro/risk_score_history_monthly.csv")
     parser.add_argument("--valuation-date", default="2026-05-27")
     parser.add_argument("--raw-dir", default="data/raw/yahoo_isa_etf_max")
     parser.add_argument("--output-dir", default="data/processed/backtests/isa_etf_max")

@@ -131,7 +131,7 @@ Generate one as-of report per month. The default report day is the 6th,
 matching a 5th-of-month payday and the next-day allocation review:
 
 ```powershell
-python scripts/generate_monthly_reports.py --start 2020-04 --end 2026-04
+python scripts/generate_monthly_reports.py --start 2012-03 --end 2026-04
 ```
 
 Outputs:
@@ -139,80 +139,28 @@ Outputs:
 - `reports/monthly/YYYY-MM/macro_regime_YYYY-MM-06.md`
 - `data/processed/macro/risk_score_history_monthly.csv`
 
-## Monthly allocation backtest
+## ISA ETF max backtests
 
-Backtest buying the monthly report allocation with 150만원 each month:
-
-```powershell
-python scripts/backtest_monthly_allocation.py
-```
-
-Default assumptions:
-
-- monthly allocation rows: `data/processed/macro/risk_score_history_monthly.csv`
-- buy dates: `2020-04-06` through `2026-04-06`
-- valuation date: `2026-05-27`
-- gold proxy: Yahoo Finance `GC=F`, converted to KRW with USD/KRW
-- silver/resources proxy: Yahoo Finance `SI=F`, converted to KRW with USD/KRW
-- stocks/ETF proxy: Yahoo Finance `SPY` adjusted close, converted to KRW with USD/KRW
-- cash/short bonds: Korea 3-month short rate compounded daily
-
-Outputs:
-
-- `reports/backtests/monthly_150manwon_2020-04_to_2026-04.md`
-- `reports/backtests/assets/monthly_150manwon_2020-04_to_2026-04/equity_curve.png`
-- `data/processed/backtests/monthly_allocation_2020-04_to_2026-04/monthly_allocation_trades.csv`
-- `data/processed/backtests/monthly_allocation_2020-04_to_2026-04/monthly_allocation_equity_curve.csv`
-
-## Actual ETF backtest
-
-Backtest the same monthly allocation with actual Korea-listed ETF adjusted
-close prices:
+Backtest the monthly allocation with ISA-compatible Korea-listed ETFs over
+the longest available data windows:
 
 ```powershell
-python scripts/backtest_actual_etfs.py
-```
-
-Default full-history ETF mapping:
-
-- cash/short bonds: `153130.KS` KODEX 단기채권
-- gold: `132030.KS` KODEX 골드선물(H)
-- silver/resources: `144600.KS` KODEX 은선물(H)
-- stocks/ETF: `219480.KS` KODEX 미국S&P500선물(H)
-
-Outputs:
-
-- `reports/backtests/actual_kr_etf_2020-04_to_2026-04.md`
-- `data/processed/backtests/actual_kr_etf_2020-04_to_2026-04/actual_etf_trades.csv`
-- `data/processed/backtests/actual_kr_etf_2020-04_to_2026-04/actual_etf_equity_curve.csv`
-
-Compare hedged S&P500, unhedged S&P500, and unhedged Nasdaq100 variants from
-2022-01 onward:
-
-```powershell
-python scripts/run_actual_etf_variants.py
-```
-
-Outputs:
-
-- `reports/backtests/actual_kr_etf_variants_2022-01_to_2026-04.md`
-- `reports/backtests/actual_kr_etf_variants/*.md`
-- `data/processed/backtests/actual_kr_etf_variants/variant_summary.csv`
-
-Generate an extended monthly allocation history and run longest-available
-ISA-compatible ETF variants:
-
-```powershell
-python scripts/generate_monthly_reports.py --start 2012-03 --end 2026-04 --history data/processed/macro/risk_score_history_monthly_isa_extended.csv --history-only
+python scripts/generate_monthly_reports.py --start 2012-03 --end 2026-04
 python scripts/run_isa_etf_max_backtests.py
 ```
 
 Outputs:
 
-- `data/processed/macro/risk_score_history_monthly_isa_extended.csv`
+- `data/processed/macro/risk_score_history_monthly.csv`
 - `reports/backtests/isa_etf_max_summary.md`
 - `reports/backtests/isa_etf_max/*.md`
 - `data/processed/backtests/isa_etf_max/variant_summary.csv`
+
+Legacy/proxy backtest scripts remain available for sensitivity checks:
+
+- `scripts/backtest_monthly_allocation.py`
+- `scripts/backtest_actual_etfs.py`
+- `scripts/run_actual_etf_variants.py`
 
 ## Macro trend charts
 

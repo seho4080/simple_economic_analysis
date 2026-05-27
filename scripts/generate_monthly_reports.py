@@ -202,7 +202,7 @@ def build_parser() -> argparse.ArgumentParser:
         default="data/processed/macro/risk_score_history_monthly.csv",
         help="Score/allocation history CSV for monthly reports.",
     )
-    parser.add_argument("--start", default="2020-04", help="Start month in YYYY-MM format.")
+    parser.add_argument("--start", default="2012-03", help="Start month in YYYY-MM format.")
     parser.add_argument("--end", default="2026-04", help="End month in YYYY-MM format.")
     parser.add_argument(
         "--report-day",
