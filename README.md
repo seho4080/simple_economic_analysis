@@ -17,11 +17,18 @@ Outputs:
 - `data/processed/macro/observations_long.csv`
 - `data/processed/macro/fetch_status.csv`
 - `reports/macro_regime_YYYY-MM-DD.md`
+- `reports/assets/macro_regime_YYYY-MM-DD/*.png`
 
 Fetch data only:
 
 ```powershell
 python scripts/update_macro.py --no-report
+```
+
+Generate the report without chart images:
+
+```powershell
+python scripts/update_macro.py --no-charts
 ```
 
 ## Interest-rate data
@@ -115,6 +122,26 @@ python scripts/analyze_macro_regime.py
 Output:
 
 - `reports/macro_regime_YYYY-MM-DD.md`
+
+## Macro trend charts
+
+Generate PNG charts from the processed macro observations and attach them to a
+markdown report:
+
+```powershell
+python scripts/visualize_macro_trends.py --report-date 2026-05-27 --report reports/macro_regime_2026-05-27.md
+```
+
+Outputs:
+
+- `reports/assets/macro_regime_YYYY-MM-DD/risk_scores.png`
+- `reports/assets/macro_regime_YYYY-MM-DD/suggested_allocation.png`
+- `reports/assets/macro_regime_YYYY-MM-DD/inflation_yoy.png`
+- `reports/assets/macro_regime_YYYY-MM-DD/policy_rates.png`
+- `reports/assets/macro_regime_YYYY-MM-DD/fx_trend.png`
+- `reports/assets/macro_regime_YYYY-MM-DD/liquidity_trend.png`
+- `reports/assets/macro_regime_YYYY-MM-DD/credit_stress.png`
+- `reports/assets/macro_regime_YYYY-MM-DD/commodity_trend.png`
 
 The report uses the fixed Korean format for:
 

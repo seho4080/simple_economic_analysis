@@ -10,6 +10,7 @@ from pathlib import Path
 
 import analyze_macro_regime
 import fetch_macro_pipeline
+import visualize_macro_trends
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -35,6 +36,22 @@ def build_parser() -> argparse.ArgumentParser:
         "--no-report",
         action="store_true",
         help="Only fetch data; do not generate the markdown report.",
+    )
+    parser.add_argument(
+        "--no-charts",
+        action="store_true",
+        help="Generate the markdown report without trend chart images.",
+    )
+    parser.add_argument(
+        "--chart-dir",
+        default="reports/assets",
+        help="Directory for generated chart assets. Defaults to ./reports/assets.",
+    )
+    parser.add_argument(
+        "--chart-years",
+        type=int,
+        default=5,
+        help="Trailing number of years to show in trend charts. Defaults to 5.",
     )
     parser.add_argument(
         "--bok-source",
@@ -114,6 +131,24 @@ def generate_report(output_dir: Path, report_dir: Path, report_date: str) -> tup
     return output_path, scores
 
 
+def generate_charts(
+    output_dir: Path,
+    chart_dir: Path,
+    report_path: Path,
+    report_date: str,
+    years: int,
+) -> list[visualize_macro_trends.ChartResult]:
+    return visualize_macro_trends.generate_visual_dashboard(
+        output_dir / "processed" / "macro" / "observations_long.csv",
+        output_dir / "processed" / "macro" / "latest_snapshot.csv",
+        report_date,
+        chart_dir,
+        report_path=report_path,
+        update_report=True,
+        years=years,
+    )
+
+
 def main() -> int:
     args = build_parser().parse_args()
     try:
@@ -128,7 +163,7 @@ def main() -> int:
             print("Done. Report generation skipped.")
             return 0
 
-        print("[2/2] Generating macro regime report...")
+        print("[2/3] Generating macro regime report...")
         report_path, scores = generate_report(
             Path(args.output_dir),
             Path(args.report_dir),
@@ -137,6 +172,22 @@ def main() -> int:
         print(f"  Report: {report_path}")
         for name, score in scores.items():
             print(f"  {name}: {score}/10")
+
+        if args.no_charts:
+            print("Done. Chart generation skipped.")
+            return 0
+
+        print("[3/3] Generating macro trend charts...")
+        charts = generate_charts(
+            Path(args.output_dir),
+            Path(args.chart_dir),
+            report_path,
+            args.report_date,
+            args.chart_years,
+        )
+        print(f"  Charts: {len(charts)}")
+        for chart in charts:
+            print(f"  {chart.path}")
         return 0
     except Exception as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
