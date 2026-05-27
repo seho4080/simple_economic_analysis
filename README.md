@@ -139,6 +139,21 @@ Outputs:
 - `reports/monthly/YYYY-MM/macro_regime_YYYY-MM-06.md`
 - `data/processed/macro/risk_score_history_monthly.csv`
 
+## Monthly history dashboard
+
+Generate a markdown dashboard with long-run monthly risk-score charts,
+allocation trends, regime counts, and summary tables:
+
+```powershell
+python scripts/visualize_monthly_history.py
+```
+
+Outputs:
+
+- `reports/monthly_dashboard.md`
+- `reports/assets/monthly_dashboard/*.png`
+- `data/processed/macro/monthly_dashboard/*.csv`
+
 ## ISA ETF max backtests
 
 Backtest the monthly allocation with ISA-compatible Korea-listed ETFs over
