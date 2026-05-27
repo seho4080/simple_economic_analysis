@@ -98,3 +98,57 @@
 요약: 현재 지표 조합상 합리적인 선택지는 Inflation Rebound + Dollar/KRW Risk 레짐을 기본으로 보고, 현금성/단기채의 방어 축을 유지하되 금/은 헤지를 소폭 확대하는 것입니다. 이는 시장 방향을 단정하는 판단이 아니라, 인플레·환율·공급충격 리스크가 완전히 해소되지 않은 상태에서 월 ISA 150만원의 방어적 대기 전략을 유지하는 접근입니다.
 
 작성일: 2026-05-27
+<!-- macro-visual-dashboard:start -->
+## Visual Dashboard
+
+Charts are generated from `data/processed/macro/observations_long.csv` and the latest risk-score snapshot.
+
+### Macro Risk Scores
+
+![Macro Risk Scores](assets/macro_regime_2026-05-27/risk_scores.png)
+
+A compact view of the regime model's six risk buckets.
+
+### Suggested Allocation
+
+![Suggested Allocation](assets/macro_regime_2026-05-27/suggested_allocation.png)
+
+Current allocation output from the same score rules used in the report.
+
+### Inflation Trend
+
+![Inflation Trend](assets/macro_regime_2026-05-27/inflation_yoy.png)
+
+Consumer inflation momentum across US and Korea.
+
+### Rates and Yield Trend
+
+![Rates and Yield Trend](assets/macro_regime_2026-05-27/policy_rates.png)
+
+Policy rates and US Treasury yields show how restrictive conditions remain.
+
+### Dollar and USD/KRW Trend
+
+![Dollar and USD/KRW Trend](assets/macro_regime_2026-05-27/fx_trend.png)
+
+USD/KRW and DXY are normalized so direction and slope are easy to compare.
+
+### Liquidity Trend
+
+![Liquidity Trend](assets/macro_regime_2026-05-27/liquidity_trend.png)
+
+Money supply and Fed balance-sheet indicators are normalized to compare liquidity pressure.
+
+### Credit Stress Trend
+
+![Credit Stress Trend](assets/macro_regime_2026-05-27/credit_stress.png)
+
+Credit spreads and financial-stress indexes flag whether risk appetite is cracking.
+
+### Commodity Shock Trend
+
+![Commodity Shock Trend](assets/macro_regime_2026-05-27/commodity_trend.png)
+
+Energy, metals, and agricultural prices are normalized to make supply-shock pressure visible.
+
+<!-- macro-visual-dashboard:end -->
