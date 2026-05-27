@@ -149,6 +149,7 @@ The report uses the fixed Korean format for:
 - indicator-by-indicator interpretation
 - six risk scores
 - fresh 150만원 allocation proposal with no pre-set portfolio weights
+- allocation formulas, raw scores, bounds, and rounding steps used by the heuristic rule
 - adjustment actions, checkpoints, and opposite scenarios
 
 Typical refresh flow:

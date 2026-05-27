@@ -20,6 +20,18 @@ SLEEVE_BOUNDS = {
     "equity": (0.15, 0.40),
 }
 
+SLEEVE_LABELS = {
+    "cash": "현금성/단기채",
+    "hedge": "금/은·원자재 헤지",
+    "equity": "주식/ETF",
+}
+
+ALLOCATION_FORMULAS = {
+    "cash": "1.8 + 0.25*Credit + 0.22*Growth + 0.16*FX + 0.08*Inflation",
+    "hedge": "1.2 + 0.35*Inflation + 0.30*FX + 0.25*Climate",
+    "equity": "1.0 + 0.30*Liquidity + 0.20*(10-Credit) + 0.16*(10-Growth) - 0.15*Inflation - 0.12*FX",
+}
+
 
 @dataclass(frozen=True)
 class Metric:
@@ -33,6 +45,16 @@ class Metric:
     pct_change_12m: float | None
     freshness_status: str
     source: str
+
+
+@dataclass(frozen=True)
+class AllocationTrace:
+    raw_scores: dict[str, float]
+    raw_shares: dict[str, float]
+    bounded_shares: dict[str, float]
+    sleeve_amounts: dict[str, int]
+    gold_ratio: float
+    allocation: dict[str, int]
 
 
 def parse_float(value: str | None) -> float | None:
@@ -468,8 +490,8 @@ def rounded_sleeve_amounts(shares: dict[str, float]) -> dict[str, int]:
     return amounts
 
 
-def build_allocation(scores: dict[str, float]) -> dict[str, int]:
-    raw_scores = {
+def allocation_raw_scores(scores: dict[str, float]) -> dict[str, float]:
+    return {
         "cash": max(
             0.1,
             1.8
@@ -495,10 +517,9 @@ def build_allocation(scores: dict[str, float]) -> dict[str, int]:
             - 0.12 * scores["FX Risk"],
         ),
     }
-    raw_total = sum(raw_scores.values())
-    raw_shares = {name: score / raw_total for name, score in raw_scores.items()}
-    sleeves = rounded_sleeve_amounts(bounded_shares(raw_shares, SLEEVE_BOUNDS))
 
+
+def calc_gold_ratio(scores: dict[str, float]) -> float:
     gold_ratio = 0.66
     if scores["Inflation Risk"] >= 6:
         gold_ratio += 0.04
@@ -506,7 +527,17 @@ def build_allocation(scores: dict[str, float]) -> dict[str, int]:
         gold_ratio += 0.04
     if scores["Climate Supply Shock Risk"] >= 7:
         gold_ratio -= 0.04
-    gold_ratio = max(0.60, min(0.78, gold_ratio))
+    return max(0.60, min(0.78, gold_ratio))
+
+
+def build_allocation_trace(scores: dict[str, float]) -> AllocationTrace:
+    raw_scores = allocation_raw_scores(scores)
+    raw_total = sum(raw_scores.values())
+    raw_shares = {name: score / raw_total for name, score in raw_scores.items()}
+    bounded = bounded_shares(raw_shares, SLEEVE_BOUNDS)
+    sleeves = rounded_sleeve_amounts(bounded)
+
+    gold_ratio = calc_gold_ratio(scores)
 
     gold = round_to_increment(sleeves["hedge"] * gold_ratio)
     silver = sleeves["hedge"] - gold
@@ -514,12 +545,17 @@ def build_allocation(scores: dict[str, float]) -> dict[str, int]:
         silver = ROUNDING_INCREMENT_MILLION_KRW
         gold = sleeves["hedge"] - silver
 
-    return {
+    allocation = {
         "cash": sleeves["cash"],
         "gold": gold,
         "silver": silver,
         "equity": sleeves["equity"],
     }
+    return AllocationTrace(raw_scores, raw_shares, bounded, sleeves, gold_ratio, allocation)
+
+
+def build_allocation(scores: dict[str, float]) -> dict[str, int]:
+    return build_allocation_trace(scores).allocation
 
 
 def allocation_eval(scores: dict[str, float], allocation: dict[str, int]) -> tuple[str, str, str]:
@@ -533,6 +569,54 @@ def allocation_eval(scores: dict[str, float], allocation: dict[str, int]) -> tup
     if scores["Liquidity Bubble Risk"] >= 7 and scores["Credit Stress Risk"] < 5:
         growth = f"유동성 장세 가능성도 남아 있어 주식/ETF {allocation['equity']}만원의 최소 성장 노출은 유지"
     return core, hedge, growth
+
+
+def allocation_method_lines(trace: AllocationTrace) -> list[str]:
+    lines = [
+        "## 7. 배분 산정 방식",
+        "주의: 이 가중치는 백테스트나 머신러닝으로 학습된 계수가 아니라, 리스크 점수를 설명 가능하게 자산군으로 옮기기 위한 휴리스틱 룰입니다.",
+        "",
+        "### 7-1. 버킷 원점수 공식",
+        "| 버킷 | 공식 | 이번 원점수 |",
+        "|---|---|---:|",
+    ]
+    for name in ["cash", "hedge", "equity"]:
+        lines.append(
+            f"| {SLEEVE_LABELS[name]} | `{ALLOCATION_FORMULAS[name]}` | {trace.raw_scores[name]:.2f} |"
+        )
+
+    lines.extend(
+        [
+            "",
+            "### 7-2. 비중 변환 과정",
+            "| 버킷 | 원점수 | 정규화 전 비중 | 상하한 | 상하한 적용 후 | 5만원 단위 금액 |",
+            "|---|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for name in ["cash", "hedge", "equity"]:
+        low, high = SLEEVE_BOUNDS[name]
+        lines.append(
+            f"| {SLEEVE_LABELS[name]} | {trace.raw_scores[name]:.2f} | {trace.raw_shares[name]:.1%} | "
+            f"{low:.0%}~{high:.0%} | {trace.bounded_shares[name]:.1%} | {trace.sleeve_amounts[name]}만원 |"
+        )
+
+    lines.extend(
+        [
+            "",
+            "### 7-3. 헤지 버킷 내부 분리",
+            (
+                "- 금 비율 공식: 기본 66% + Inflation Risk가 6 이상이면 4%p "
+                "+ FX Risk가 6 이상이면 4%p - Climate Supply Shock Risk가 7 이상이면 4%p, "
+                "이후 60~78% 범위로 제한합니다."
+            ),
+            (
+                f"- 이번 금 비율은 {trace.gold_ratio:.0%}이고, 헤지 버킷 {trace.sleeve_amounts['hedge']}만원을 "
+                f"5만원 단위로 나누어 금 {trace.allocation['gold']}만원, "
+                f"은/원자재 {trace.allocation['silver']}만원으로 배분했습니다."
+            ),
+        ]
+    )
+    return lines
 
 
 def risk_interpretation(name: str, score: float) -> str:
@@ -560,7 +644,8 @@ def stale_items(metrics: dict[str, Metric]) -> list[str]:
 
 def build_report(metrics: dict[str, Metric], scores: dict[str, float], report_date: str) -> str:
     current_regime, sub_regime, summary = determine_regime(scores)
-    allocation = build_allocation(scores)
+    allocation_trace = build_allocation_trace(scores)
+    allocation = allocation_trace.allocation
     core, hedge, growth = allocation_eval(scores, allocation)
     stale = stale_items(metrics)
 
@@ -666,24 +751,26 @@ def build_report(metrics: dict[str, Metric], scores: dict[str, float], report_da
             f"| 은/원자재 | {allocation['silver']}만원 | {allocation['silver'] / TOTAL_INVESTMENT_MILLION_KRW:.1%} | 귀금속과 산업재 성격의 보조 헤지 |",
             f"| 주식/ETF | {allocation['equity']}만원 | {allocation['equity'] / TOTAL_INVESTMENT_MILLION_KRW:.1%} | 장기 성장 엔진과 기회 상실 방지 |",
             "",
-            "## 7. 실행 액션",
+            *allocation_method_lines(allocation_trace),
+            "",
+            "## 8. 실행 액션",
             f"- 이번 달: {month_action}.",
             "- 집행 방식: 한 번에 전액 매수하기보다 2~4회로 나누어 진입하면 환율·금리 변동 리스크를 줄일 수 있습니다.",
             "- 다음 달: CPI/PCE, USD/KRW, WTI, 하이일드 스프레드가 완화되면 신규 투자분의 현금성 비중을 일부 낮추고 주식/ETF 또는 장기 성장 자산을 재검토합니다.",
             "- 지표 변화 시: Core CPI 재가속, USD/KRW 추가 상승, WTI 급등이면 금/은 헤지를 유지하거나 소폭 확대하고, 신용스프레드 급등이면 주식/ETF 확대를 보류.",
             "",
-            "## 8. 다음 체크포인트",
+            "## 9. 다음 체크포인트",
             "- 미국 CPI/Core CPI/PCE/Core PCE의 다음 발표에서 3개월 변화율이 둔화되는지 확인",
             "- USD/KRW, DXY, 한미 기준금리차가 동시에 완화되는지 확인",
             "- 하이일드 스프레드, BBB 스프레드, 신규 실업수당 청구가 동반 악화되는지 확인",
             "",
-            "## 9. 반대 시나리오",
+            "## 10. 반대 시나리오",
             "현재 판단이 틀릴 수 있는 조건:",
             "- 유가와 식품 원자재가 빠르게 안정되고 Core CPI/Core PCE가 2%대 초중반으로 내려오는 경우",
             "- USD/KRW가 안정되고 DXY가 하락하며 원화 약세 압력이 줄어드는 경우",
             "- 신용스프레드가 낮게 유지되고 고용이 견조해 주식/ETF의 기회비용이 더 커지는 경우",
             "",
-            "## 10. 최종 결론",
+            "## 11. 최종 결론",
             f"요약: 현재 지표 조합상 합리적인 선택지는 {current_regime} 레짐을 기본으로 보고, {conclusion_action}입니다. 이는 시장 방향을 단정하는 판단이 아니라, 인플레·환율·공급충격 리스크가 완전히 해소되지 않은 상태에서 신규 투자금 150만원을 방어적으로 배분하는 접근입니다.",
             "",
             f"작성일: {report_date}",
