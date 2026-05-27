@@ -186,6 +186,19 @@ Outputs:
 - `data/processed/backtests/actual_kr_etf_2020-04_to_2026-04/actual_etf_trades.csv`
 - `data/processed/backtests/actual_kr_etf_2020-04_to_2026-04/actual_etf_equity_curve.csv`
 
+Compare hedged S&P500, unhedged S&P500, and unhedged Nasdaq100 variants from
+2022-01 onward:
+
+```powershell
+python scripts/run_actual_etf_variants.py
+```
+
+Outputs:
+
+- `reports/backtests/actual_kr_etf_variants_2022-01_to_2026-04.md`
+- `reports/backtests/actual_kr_etf_variants/*.md`
+- `data/processed/backtests/actual_kr_etf_variants/variant_summary.csv`
+
 ## Macro trend charts
 
 Generate PNG charts from the processed macro observations and attach them to a
