@@ -164,6 +164,28 @@ Outputs:
 - `data/processed/backtests/monthly_allocation_2020-04_to_2026-04/monthly_allocation_trades.csv`
 - `data/processed/backtests/monthly_allocation_2020-04_to_2026-04/monthly_allocation_equity_curve.csv`
 
+## Actual ETF backtest
+
+Backtest the same monthly allocation with actual Korea-listed ETF adjusted
+close prices:
+
+```powershell
+python scripts/backtest_actual_etfs.py
+```
+
+Default full-history ETF mapping:
+
+- cash/short bonds: `153130.KS` KODEX 단기채권
+- gold: `132030.KS` KODEX 골드선물(H)
+- silver/resources: `144600.KS` KODEX 은선물(H)
+- stocks/ETF: `219480.KS` KODEX 미국S&P500선물(H)
+
+Outputs:
+
+- `reports/backtests/actual_kr_etf_2020-04_to_2026-04.md`
+- `data/processed/backtests/actual_kr_etf_2020-04_to_2026-04/actual_etf_trades.csv`
+- `data/processed/backtests/actual_kr_etf_2020-04_to_2026-04/actual_etf_equity_curve.csv`
+
 ## Macro trend charts
 
 Generate PNG charts from the processed macro observations and attach them to a
