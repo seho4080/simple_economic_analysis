@@ -1,0 +1,712 @@
+{
+  "row_count": 101,
+  "raw_rows": [
+    {
+      "CLASS_NAME": "통화량",
+      "KEYSTAT_NAME": "M1(협의통화, 평잔)",
+      "DATA_VALUE": "1378116",
+      "CYCLE": "202603",
+      "UNIT_NAME": "십억원"
+    },
+    {
+      "CLASS_NAME": "통화량",
+      "KEYSTAT_NAME": "M2(광의통화, 평잔)",
+      "DATA_VALUE": "4143515.8",
+      "CYCLE": "202603",
+      "UNIT_NAME": "십억원"
+    },
+    {
+      "CLASS_NAME": "환율",
+      "KEYSTAT_NAME": "원/달러 환율(종가)",
+      "DATA_VALUE": "1504.3",
+      "CYCLE": "20260526",
+      "UNIT_NAME": "원"
+    },
+    {
+      "CLASS_NAME": "환율",
+      "KEYSTAT_NAME": "원/엔(100엔) 환율(매매기준율)",
+      "DATA_VALUE": "946.7",
+      "CYCLE": "20260527",
+      "UNIT_NAME": "원"
+    },
+    {
+      "CLASS_NAME": "환율",
+      "KEYSTAT_NAME": "원/유로 환율(매매기준율)",
+      "DATA_VALUE": "1754.22",
+      "CYCLE": "20260527",
+      "UNIT_NAME": "원"
+    },
+    {
+      "CLASS_NAME": "환율",
+      "KEYSTAT_NAME": "원/위안 환율(종가)",
+      "DATA_VALUE": "221.65",
+      "CYCLE": "20260526",
+      "UNIT_NAME": "원"
+    },
+    {
+      "CLASS_NAME": "채권",
+      "KEYSTAT_NAME": "국고채발행액",
+      "DATA_VALUE": "24953",
+      "CYCLE": "202603",
+      "UNIT_NAME": "십억원"
+    },
+    {
+      "CLASS_NAME": "소득",
+      "KEYSTAT_NAME": "GDP(명목, 계절조정)",
+      "DATA_VALUE": "690599.9",
+      "CYCLE": "2025Q4",
+      "UNIT_NAME": "십억원"
+    },
+    {
+      "CLASS_NAME": "소비",
+      "KEYSTAT_NAME": "개인신용카드사용액",
+      "DATA_VALUE": "70112718",
+      "CYCLE": "202602",
+      "UNIT_NAME": "백만원"
+    },
+    {
+      "CLASS_NAME": "가계",
+      "KEYSTAT_NAME": "가구당월평균소득",
+      "DATA_VALUE": "6969.4",
+      "CYCLE": "2024Q4",
+      "UNIT_NAME": "천원"
+    },
+    {
+      "CLASS_NAME": "예금/대출금",
+      "KEYSTAT_NAME": "예금은행총예금(말잔)",
+      "DATA_VALUE": "2222685",
+      "CYCLE": "202603",
+      "UNIT_NAME": "십억원"
+    },
+    {
+      "CLASS_NAME": "예금/대출금",
+      "KEYSTAT_NAME": "예금은행대출금(말잔)",
+      "DATA_VALUE": "2515637.1",
+      "CYCLE": "202603",
+      "UNIT_NAME": "십억원"
+    },
+    {
+      "CLASS_NAME": "예금/대출금",
+      "KEYSTAT_NAME": "가계신용",
+      "DATA_VALUE": "1993110.8",
+      "CYCLE": "2026Q1",
+      "UNIT_NAME": "십억원"
+    },
+    {
+      "CLASS_NAME": "통화량",
+      "KEYSTAT_NAME": "Lf(평잔)",
+      "DATA_VALUE": "6202575.8",
+      "CYCLE": "202603",
+      "UNIT_NAME": "십억원"
+    },
+    {
+      "CLASS_NAME": "통화량",
+      "KEYSTAT_NAME": "L(말잔)",
+      "DATA_VALUE": "7826575.6",
+      "CYCLE": "202603",
+      "UNIT_NAME": "십억원"
+    },
+    {
+      "CLASS_NAME": "주식",
+      "KEYSTAT_NAME": "주식거래대금(KOSPI)",
+      "DATA_VALUE": "650.1",
+      "CYCLE": "202604",
+      "UNIT_NAME": "조원"
+    },
+    {
+      "CLASS_NAME": "주식",
+      "KEYSTAT_NAME": "투자자예탁금",
+      "DATA_VALUE": "124.8",
+      "CYCLE": "202604",
+      "UNIT_NAME": "조원"
+    },
+    {
+      "CLASS_NAME": "채권",
+      "KEYSTAT_NAME": "채권거래대금",
+      "DATA_VALUE": "117.3",
+      "CYCLE": "202605",
+      "UNIT_NAME": "조원"
+    },
+    {
+      "CLASS_NAME": "투자",
+      "KEYSTAT_NAME": "국내기계수주액",
+      "DATA_VALUE": "3.9",
+      "CYCLE": "202603",
+      "UNIT_NAME": "조원"
+    },
+    {
+      "CLASS_NAME": "투자",
+      "KEYSTAT_NAME": "건설수주액",
+      "DATA_VALUE": "20",
+      "CYCLE": "202603",
+      "UNIT_NAME": "조원"
+    },
+    {
+      "CLASS_NAME": "소득",
+      "KEYSTAT_NAME": "1인당GNI",
+      "DATA_VALUE": "36855.1",
+      "CYCLE": "2025",
+      "UNIT_NAME": "달러"
+    },
+    {
+      "CLASS_NAME": "투자",
+      "KEYSTAT_NAME": "건설기성액",
+      "DATA_VALUE": "9.1",
+      "CYCLE": "202603",
+      "UNIT_NAME": "조원"
+    },
+    {
+      "CLASS_NAME": "국제수지",
+      "KEYSTAT_NAME": "경상수지",
+      "DATA_VALUE": "37327.1",
+      "CYCLE": "202603",
+      "UNIT_NAME": "백만달러"
+    },
+    {
+      "CLASS_NAME": "국제수지",
+      "KEYSTAT_NAME": "직접투자(자산)",
+      "DATA_VALUE": "8885.3",
+      "CYCLE": "202603",
+      "UNIT_NAME": "백만달러"
+    },
+    {
+      "CLASS_NAME": "국제수지",
+      "KEYSTAT_NAME": "직접투자(부채)",
+      "DATA_VALUE": "3769.1",
+      "CYCLE": "202603",
+      "UNIT_NAME": "백만달러"
+    },
+    {
+      "CLASS_NAME": "국제수지",
+      "KEYSTAT_NAME": "증권투자(자산)",
+      "DATA_VALUE": "4002.7",
+      "CYCLE": "202603",
+      "UNIT_NAME": "백만달러"
+    },
+    {
+      "CLASS_NAME": "국제수지",
+      "KEYSTAT_NAME": "증권투자(부채)",
+      "DATA_VALUE": "-34042.8",
+      "CYCLE": "202603",
+      "UNIT_NAME": "백만달러"
+    },
+    {
+      "CLASS_NAME": "대외채권/채무",
+      "KEYSTAT_NAME": "외환보유액",
+      "DATA_VALUE": "427875470",
+      "CYCLE": "202604",
+      "UNIT_NAME": "천달러"
+    },
+    {
+      "CLASS_NAME": "대외채권/채무",
+      "KEYSTAT_NAME": "대외채무",
+      "DATA_VALUE": "770153.3",
+      "CYCLE": "2025Q4",
+      "UNIT_NAME": "백만달러"
+    },
+    {
+      "CLASS_NAME": "대외채권/채무",
+      "KEYSTAT_NAME": "대외채권",
+      "DATA_VALUE": "1143246.5",
+      "CYCLE": "2025Q4",
+      "UNIT_NAME": "백만달러"
+    },
+    {
+      "CLASS_NAME": "성장률",
+      "KEYSTAT_NAME": "경제성장률(실질, 계절조정 전기대비)",
+      "DATA_VALUE": "1.7",
+      "CYCLE": "2026Q1",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "성장률",
+      "KEYSTAT_NAME": "민간소비증감률(실질, 계절조정 전기대비)",
+      "DATA_VALUE": "0.5",
+      "CYCLE": "2026Q1",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "성장률",
+      "KEYSTAT_NAME": "설비투자증감률(실질, 계절조정 전기대비)",
+      "DATA_VALUE": "4.8",
+      "CYCLE": "2026Q1",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "성장률",
+      "KEYSTAT_NAME": "건설투자증감률(실질, 계절조정 전기대비)",
+      "DATA_VALUE": "2.8",
+      "CYCLE": "2026Q1",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "GDP대비 비율",
+      "KEYSTAT_NAME": "총저축률",
+      "DATA_VALUE": "35.9",
+      "CYCLE": "2025Q4",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "GDP대비 비율",
+      "KEYSTAT_NAME": "국내총투자율",
+      "DATA_VALUE": "28.5",
+      "CYCLE": "2025Q4",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "GDP대비 비율",
+      "KEYSTAT_NAME": "수출입의 대 GNI 비율",
+      "DATA_VALUE": "91.2",
+      "CYCLE": "2025",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "기업경영지표",
+      "KEYSTAT_NAME": "제조업매출액증감률",
+      "DATA_VALUE": "4.58",
+      "CYCLE": "2024",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "기업경영지표",
+      "KEYSTAT_NAME": "제조업매출액세전순이익률",
+      "DATA_VALUE": "5.76",
+      "CYCLE": "2024",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "기업경영지표",
+      "KEYSTAT_NAME": "제조업부채비율",
+      "DATA_VALUE": "75.78",
+      "CYCLE": "2024",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "시장금리",
+      "KEYSTAT_NAME": "한국은행 기준금리",
+      "DATA_VALUE": "2.5",
+      "CYCLE": "20260524",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "시장금리",
+      "KEYSTAT_NAME": "콜금리(익일물)",
+      "DATA_VALUE": "2.538",
+      "CYCLE": "20260526",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "시장금리",
+      "KEYSTAT_NAME": "KORIBOR(3개월)",
+      "DATA_VALUE": "2.83",
+      "CYCLE": "20260526",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "시장금리",
+      "KEYSTAT_NAME": "국고채수익률(5년)",
+      "DATA_VALUE": "3.901",
+      "CYCLE": "20260526",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "여수신금리",
+      "KEYSTAT_NAME": "예금은행 대출금리",
+      "DATA_VALUE": "4.2",
+      "CYCLE": "202603",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "예금/대출금",
+      "KEYSTAT_NAME": "가계대출연체율",
+      "DATA_VALUE": "0.4",
+      "CYCLE": "202603",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "성장률",
+      "KEYSTAT_NAME": "재화의 수출 증감률(실질, 계절조정 전기대비)",
+      "DATA_VALUE": "5.6",
+      "CYCLE": "2026Q1",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "고용",
+      "KEYSTAT_NAME": "실업률",
+      "DATA_VALUE": "2.9",
+      "CYCLE": "202604",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "인구",
+      "KEYSTAT_NAME": "고령인구비율",
+      "DATA_VALUE": "21.6",
+      "CYCLE": "2026",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "부동산 가격",
+      "KEYSTAT_NAME": "지가변동률(전기대비)",
+      "DATA_VALUE": "0.203",
+      "CYCLE": "202603",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "시장금리",
+      "KEYSTAT_NAME": "CD수익률(91일)",
+      "DATA_VALUE": "2.84",
+      "CYCLE": "20260526",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "시장금리",
+      "KEYSTAT_NAME": "통안증권수익률(364일)",
+      "DATA_VALUE": "2.871",
+      "CYCLE": "20260526",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "시장금리",
+      "KEYSTAT_NAME": "국고채수익률(3년)",
+      "DATA_VALUE": "3.664",
+      "CYCLE": "20260526",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "시장금리",
+      "KEYSTAT_NAME": "회사채수익률(3년,AA-)",
+      "DATA_VALUE": "4.295",
+      "CYCLE": "20260526",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "여수신금리",
+      "KEYSTAT_NAME": "예금은행 수신금리",
+      "DATA_VALUE": "2.82",
+      "CYCLE": "202603",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "투자",
+      "KEYSTAT_NAME": "건축허가면적",
+      "DATA_VALUE": "9304.81",
+      "CYCLE": "202603",
+      "UNIT_NAME": "천㎡ "
+    },
+    {
+      "CLASS_NAME": "투자",
+      "KEYSTAT_NAME": "건축착공면적",
+      "DATA_VALUE": "7173.44",
+      "CYCLE": "202603",
+      "UNIT_NAME": "천㎡ "
+    },
+    {
+      "CLASS_NAME": "가계",
+      "KEYSTAT_NAME": "평균소비성향",
+      "DATA_VALUE": "68.1",
+      "CYCLE": "2024Q4",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "고용",
+      "KEYSTAT_NAME": "고용률",
+      "DATA_VALUE": "63",
+      "CYCLE": "202604",
+      "UNIT_NAME": "%"
+    },
+    {
+      "CLASS_NAME": "인구",
+      "KEYSTAT_NAME": "합계출산율",
+      "DATA_VALUE": "0.8",
+      "CYCLE": "2025",
+      "UNIT_NAME": "명"
+    },
+    {
+      "CLASS_NAME": "주식",
+      "KEYSTAT_NAME": "코스피지수",
+      "DATA_VALUE": "8047.51",
+      "CYCLE": "20260526",
+      "UNIT_NAME": "1980.01.04=100 "
+    },
+    {
+      "CLASS_NAME": "주식",
+      "KEYSTAT_NAME": "코스닥지수",
+      "DATA_VALUE": "1172.52",
+      "CYCLE": "20260526",
+      "UNIT_NAME": "1996.07.01=1000"
+    },
+    {
+      "CLASS_NAME": "생산",
+      "KEYSTAT_NAME": "전산업생산지수",
+      "DATA_VALUE": "118.3",
+      "CYCLE": "202603",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "투자",
+      "KEYSTAT_NAME": "설비투자지수",
+      "DATA_VALUE": "131.1",
+      "CYCLE": "202603",
+      "UNIT_NAME": "2015=100"
+    },
+    {
+      "CLASS_NAME": "경기순환지표",
+      "KEYSTAT_NAME": "동행지수순환변동치",
+      "DATA_VALUE": "100.1",
+      "CYCLE": "202603",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "경기순환지표",
+      "KEYSTAT_NAME": "선행지수순환변동치",
+      "DATA_VALUE": "103.5",
+      "CYCLE": "202603",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "고용",
+      "KEYSTAT_NAME": "경제활동인구",
+      "DATA_VALUE": "29813",
+      "CYCLE": "202604",
+      "UNIT_NAME": "천명"
+    },
+    {
+      "CLASS_NAME": "고용",
+      "KEYSTAT_NAME": "취업자수",
+      "DATA_VALUE": "28961",
+      "CYCLE": "202604",
+      "UNIT_NAME": "천명"
+    },
+    {
+      "CLASS_NAME": "노동",
+      "KEYSTAT_NAME": "노동생산성지수",
+      "DATA_VALUE": "113.9",
+      "CYCLE": "2025Q4",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "인구",
+      "KEYSTAT_NAME": "추계인구",
+      "DATA_VALUE": "51609.1",
+      "CYCLE": "2026",
+      "UNIT_NAME": "천명"
+    },
+    {
+      "CLASS_NAME": "소비",
+      "KEYSTAT_NAME": "소매판매액지수",
+      "DATA_VALUE": "107.2",
+      "CYCLE": "202603",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "소비",
+      "KEYSTAT_NAME": "자동차판매액지수",
+      "DATA_VALUE": "121.2",
+      "CYCLE": "202603",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "노동",
+      "KEYSTAT_NAME": "시간당명목임금지수",
+      "DATA_VALUE": "132.6",
+      "CYCLE": "2025Q4",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "노동",
+      "KEYSTAT_NAME": "단위노동비용지수",
+      "DATA_VALUE": "116.4",
+      "CYCLE": "2025Q4",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "통관수출입",
+      "KEYSTAT_NAME": "순상품교역조건지수",
+      "DATA_VALUE": "107.02",
+      "CYCLE": "202604",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "소비자/생산자 물가",
+      "KEYSTAT_NAME": "소비자물가지수",
+      "DATA_VALUE": "119.37",
+      "CYCLE": "202604",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "소비자/생산자 물가",
+      "KEYSTAT_NAME": "농산물 및 석유류제외 소비자물가지수",
+      "DATA_VALUE": "117.38",
+      "CYCLE": "202604",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "소비자/생산자 물가",
+      "KEYSTAT_NAME": "생활물가지수",
+      "DATA_VALUE": "122.83",
+      "CYCLE": "202604",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "소비자/생산자 물가",
+      "KEYSTAT_NAME": "생산자물가지수",
+      "DATA_VALUE": "128.43",
+      "CYCLE": "202604",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "수출입 물가",
+      "KEYSTAT_NAME": "수출물가지수",
+      "DATA_VALUE": "187.4",
+      "CYCLE": "202604",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "생산",
+      "KEYSTAT_NAME": "제조업생산지수",
+      "DATA_VALUE": "119.3",
+      "CYCLE": "202603",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "생산",
+      "KEYSTAT_NAME": "제조업출하지수",
+      "DATA_VALUE": "110.4",
+      "CYCLE": "202603",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "생산",
+      "KEYSTAT_NAME": "제조업재고지수",
+      "DATA_VALUE": "103.1",
+      "CYCLE": "202603",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "생산",
+      "KEYSTAT_NAME": "제조업가동률지수",
+      "DATA_VALUE": "105.2",
+      "CYCLE": "202603",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "생산",
+      "KEYSTAT_NAME": "서비스업생산지수",
+      "DATA_VALUE": "124.4",
+      "CYCLE": "202603",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "생산",
+      "KEYSTAT_NAME": "도소매업생산지수",
+      "DATA_VALUE": "112.1",
+      "CYCLE": "202603",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "투자",
+      "KEYSTAT_NAME": "설비용 기계류내수출하지수",
+      "DATA_VALUE": "103.5",
+      "CYCLE": "202603",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "통관수출입",
+      "KEYSTAT_NAME": "수출금액지수",
+      "DATA_VALUE": "203.1",
+      "CYCLE": "202604",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "통관수출입",
+      "KEYSTAT_NAME": "수입금액지수",
+      "DATA_VALUE": "158.95",
+      "CYCLE": "202604",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "수출입 물가",
+      "KEYSTAT_NAME": "수입물가지수",
+      "DATA_VALUE": "168.12",
+      "CYCLE": "202604",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "심리지표",
+      "KEYSTAT_NAME": "전산업 기업심리지수실적",
+      "DATA_VALUE": "98.9",
+      "CYCLE": "202605",
+      "UNIT_NAME": null
+    },
+    {
+      "CLASS_NAME": "심리지표",
+      "KEYSTAT_NAME": "소비자심리지수",
+      "DATA_VALUE": "106.1",
+      "CYCLE": "202605",
+      "UNIT_NAME": null
+    },
+    {
+      "CLASS_NAME": "심리지표",
+      "KEYSTAT_NAME": "경제심리지수",
+      "DATA_VALUE": "97.5",
+      "CYCLE": "202605",
+      "UNIT_NAME": null
+    },
+    {
+      "CLASS_NAME": "소득분배지표",
+      "KEYSTAT_NAME": "지니계수",
+      "DATA_VALUE": "0.325",
+      "CYCLE": "2024",
+      "UNIT_NAME": null
+    },
+    {
+      "CLASS_NAME": "소득분배지표",
+      "KEYSTAT_NAME": "5분위배율",
+      "DATA_VALUE": "5.78",
+      "CYCLE": "2024",
+      "UNIT_NAME": null
+    },
+    {
+      "CLASS_NAME": "통관수출입",
+      "KEYSTAT_NAME": "소득교역조건지수",
+      "DATA_VALUE": "147.59",
+      "CYCLE": "202604",
+      "UNIT_NAME": "2020=100"
+    },
+    {
+      "CLASS_NAME": "부동산 가격",
+      "KEYSTAT_NAME": "주택매매가격지수",
+      "DATA_VALUE": "101.4",
+      "CYCLE": "202601",
+      "UNIT_NAME": "2025.03=100"
+    },
+    {
+      "CLASS_NAME": "부동산 가격",
+      "KEYSTAT_NAME": "주택전세가격지수",
+      "DATA_VALUE": "101.2",
+      "CYCLE": "202601",
+      "UNIT_NAME": "2025.03=100"
+    },
+    {
+      "CLASS_NAME": "국제원자재가격",
+      "KEYSTAT_NAME": "Dubai유(현물)",
+      "DATA_VALUE": "105.3",
+      "CYCLE": "202604",
+      "UNIT_NAME": "달러/배럴"
+    },
+    {
+      "CLASS_NAME": "국제원자재가격",
+      "KEYSTAT_NAME": "금",
+      "DATA_VALUE": "4719.97",
+      "CYCLE": "202604",
+      "UNIT_NAME": "달러/트로이온스"
+    },
+    {
+      "CLASS_NAME": "심리지표",
+      "KEYSTAT_NAME": "제조업업황실적BSI",
+      "DATA_VALUE": null,
+      "CYCLE": null,
+      "UNIT_NAME": null
+    }
+  ]
+}
