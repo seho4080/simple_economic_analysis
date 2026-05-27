@@ -5,18 +5,19 @@ from __future__ import annotations
 
 import argparse
 import csv
+import math
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 
 
 TOTAL_INVESTMENT_MILLION_KRW = 150
+ROUNDING_INCREMENT_MILLION_KRW = 5
 
-NEUTRAL_ALLOCATION = {
-    "cash": 100,
-    "gold": 22,
-    "silver": 8,
-    "equity": 20,
+SLEEVE_BOUNDS = {
+    "cash": (0.35, 0.60),
+    "hedge": (0.20, 0.45),
+    "equity": (0.15, 0.40),
 }
 
 
@@ -403,35 +404,122 @@ def score_label(score: float) -> str:
     return "낮음"
 
 
+def round_to_increment(value: float, increment: int = ROUNDING_INCREMENT_MILLION_KRW) -> int:
+    return int(math.floor(value / increment + 0.5) * increment)
+
+
+def bounded_shares(
+    raw_shares: dict[str, float],
+    bounds: dict[str, tuple[float, float]],
+) -> dict[str, float]:
+    fixed: dict[str, float] = {}
+    remaining_names = set(raw_shares)
+    shares: dict[str, float] = {}
+
+    for _ in range(len(raw_shares) + 1):
+        remaining_total = 1.0 - sum(fixed.values())
+        raw_total = sum(max(raw_shares[name], 0.01) for name in remaining_names)
+        changed = False
+        candidates: dict[str, float] = {}
+
+        for name in remaining_names:
+            value = (
+                remaining_total * max(raw_shares[name], 0.01) / raw_total
+                if raw_total
+                else remaining_total / len(remaining_names)
+            )
+            low, high = bounds[name]
+            if value < low:
+                fixed[name] = low
+                changed = True
+            elif value > high:
+                fixed[name] = high
+                changed = True
+            else:
+                candidates[name] = value
+
+        if not changed:
+            shares = {**fixed, **candidates}
+            break
+
+        remaining_names = set(raw_shares) - set(fixed)
+        if not remaining_names:
+            shares = fixed.copy()
+            break
+
+    total = sum(shares.values())
+    if not total:
+        equal = 1 / len(raw_shares)
+        return {name: equal for name in raw_shares}
+    return {name: value / total for name, value in shares.items()}
+
+
+def rounded_sleeve_amounts(shares: dict[str, float]) -> dict[str, int]:
+    amounts = {
+        name: round_to_increment(TOTAL_INVESTMENT_MILLION_KRW * share)
+        for name, share in shares.items()
+    }
+    diff = TOTAL_INVESTMENT_MILLION_KRW - sum(amounts.values())
+    while diff != 0:
+        step = ROUNDING_INCREMENT_MILLION_KRW if diff > 0 else -ROUNDING_INCREMENT_MILLION_KRW
+        target = max(amounts, key=amounts.get) if diff < 0 else min(amounts, key=amounts.get)
+        amounts[target] += step
+        diff -= step
+    return amounts
+
+
 def build_allocation(scores: dict[str, float]) -> dict[str, int]:
-    allocation = NEUTRAL_ALLOCATION.copy()
-    if scores["Inflation Risk"] >= 6.5 or scores["FX Risk"] >= 6.5:
-        allocation["cash"] -= 5
-        allocation["gold"] += 4
-        allocation["silver"] += 1
-    if scores["Climate Supply Shock Risk"] >= 7.0:
-        allocation["cash"] -= 5
-        allocation["gold"] += 2
-        allocation["silver"] += 3
-    if scores["Credit Stress Risk"] >= 6.5 or scores["Growth Slowdown Risk"] >= 6.5:
-        allocation["equity"] -= 5
-        allocation["cash"] += 5
-    if (
-        scores["Liquidity Bubble Risk"] >= 7.0
-        and scores["Credit Stress Risk"] < 5.0
-        and scores["Inflation Risk"] < 7.0
-    ):
-        allocation["cash"] -= 5
-        allocation["equity"] += 5
+    raw_scores = {
+        "cash": max(
+            0.1,
+            1.8
+            + 0.25 * scores["Credit Stress Risk"]
+            + 0.22 * scores["Growth Slowdown Risk"]
+            + 0.16 * scores["FX Risk"]
+            + 0.08 * scores["Inflation Risk"],
+        ),
+        "hedge": max(
+            0.1,
+            1.2
+            + 0.35 * scores["Inflation Risk"]
+            + 0.30 * scores["FX Risk"]
+            + 0.25 * scores["Climate Supply Shock Risk"],
+        ),
+        "equity": max(
+            0.1,
+            1.0
+            + 0.30 * scores["Liquidity Bubble Risk"]
+            + 0.20 * (10 - scores["Credit Stress Risk"])
+            + 0.16 * (10 - scores["Growth Slowdown Risk"])
+            - 0.15 * scores["Inflation Risk"]
+            - 0.12 * scores["FX Risk"],
+        ),
+    }
+    raw_total = sum(raw_scores.values())
+    raw_shares = {name: score / raw_total for name, score in raw_scores.items()}
+    sleeves = rounded_sleeve_amounts(bounded_shares(raw_shares, SLEEVE_BOUNDS))
 
-    allocation["cash"] = max(80, min(115, allocation["cash"]))
-    allocation["equity"] = max(10, min(30, allocation["equity"]))
-    allocation["gold"] = max(15, min(35, allocation["gold"]))
-    allocation["silver"] = max(5, min(20, allocation["silver"]))
+    gold_ratio = 0.66
+    if scores["Inflation Risk"] >= 6:
+        gold_ratio += 0.04
+    if scores["FX Risk"] >= 6:
+        gold_ratio += 0.04
+    if scores["Climate Supply Shock Risk"] >= 7:
+        gold_ratio -= 0.04
+    gold_ratio = max(0.60, min(0.78, gold_ratio))
 
-    total = sum(allocation.values())
-    allocation["cash"] += TOTAL_INVESTMENT_MILLION_KRW - total
-    return allocation
+    gold = round_to_increment(sleeves["hedge"] * gold_ratio)
+    silver = sleeves["hedge"] - gold
+    if sleeves["hedge"] >= 10 and silver < ROUNDING_INCREMENT_MILLION_KRW:
+        silver = ROUNDING_INCREMENT_MILLION_KRW
+        gold = sleeves["hedge"] - silver
+
+    return {
+        "cash": sleeves["cash"],
+        "gold": gold,
+        "silver": silver,
+        "equity": sleeves["equity"],
+    }
 
 
 def allocation_eval(scores: dict[str, float], allocation: dict[str, int]) -> tuple[str, str, str]:
