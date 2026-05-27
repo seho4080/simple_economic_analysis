@@ -144,49 +144,49 @@ Charts are generated from `data/processed/macro/observations_long.csv` and the l
 
 ### Macro Risk Scores
 
-![Macro Risk Scores](assets/macro_regime_2026-05-27/risk_scores.png)
+![Macro Risk Scores](../../assets/macro_regime_2026-05-27/risk_scores.png)
 
 A compact view of the regime model's six risk buckets.
 
 ### Suggested Allocation
 
-![Suggested Allocation](assets/macro_regime_2026-05-27/suggested_allocation.png)
+![Suggested Allocation](../../assets/macro_regime_2026-05-27/suggested_allocation.png)
 
 Fresh 150만원 allocation output from the same score rules used in the report.
 
 ### Inflation Trend
 
-![Inflation Trend](assets/macro_regime_2026-05-27/inflation_yoy.png)
+![Inflation Trend](../../assets/macro_regime_2026-05-27/inflation_yoy.png)
 
 Consumer inflation momentum across US and Korea.
 
 ### Rates and Yield Trend
 
-![Rates and Yield Trend](assets/macro_regime_2026-05-27/policy_rates.png)
+![Rates and Yield Trend](../../assets/macro_regime_2026-05-27/policy_rates.png)
 
 Policy rates and US Treasury yields show how restrictive conditions remain.
 
 ### Dollar and USD/KRW Trend
 
-![Dollar and USD/KRW Trend](assets/macro_regime_2026-05-27/fx_trend.png)
+![Dollar and USD/KRW Trend](../../assets/macro_regime_2026-05-27/fx_trend.png)
 
 USD/KRW and DXY are normalized so direction and slope are easy to compare.
 
 ### Liquidity Trend
 
-![Liquidity Trend](assets/macro_regime_2026-05-27/liquidity_trend.png)
+![Liquidity Trend](../../assets/macro_regime_2026-05-27/liquidity_trend.png)
 
 Money supply and Fed balance-sheet indicators are normalized to compare liquidity pressure.
 
 ### Credit Stress Trend
 
-![Credit Stress Trend](assets/macro_regime_2026-05-27/credit_stress.png)
+![Credit Stress Trend](../../assets/macro_regime_2026-05-27/credit_stress.png)
 
 Credit spreads and financial-stress indexes flag whether risk appetite is cracking.
 
 ### Commodity Shock Trend
 
-![Commodity Shock Trend](assets/macro_regime_2026-05-27/commodity_trend.png)
+![Commodity Shock Trend](../../assets/macro_regime_2026-05-27/commodity_trend.png)
 
 Energy, metals, and agricultural prices are normalized to make supply-shock pressure visible.
 
