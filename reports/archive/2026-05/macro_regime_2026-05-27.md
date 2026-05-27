@@ -71,19 +71,19 @@
 - 시장 방향을 맞히기보다 손실 방어, 헤지, 최소 성장 노출을 동시에 고려
 
 배분 판단:
-- 방어 축: 신규 150만원 중 55만원은 현금성/3개월 이하 단기채로 두어 변동성 방어와 추가 매수 여력을 확보
-- 헤지 축: 인플레·환율 리스크가 높아 금 45만원과 은/원자재 15만원을 방어 헤지로 우선 배치
-- 성장 축: 주식/ETF 35만원은 전면 배제하지 않고 장기 성장 노출만 제한적으로 확보
+- 방어 축: 신규 150만원 중 25만원은 현금성/3개월 이하 단기채로 두되, 평상시에는 장기 적립식의 기회비용을 낮추는 수준으로 제한
+- 헤지 축: 인플레·환율 리스크가 높아 금 50만원과 은/원자재 15만원을 방어 헤지로 우선 배치
+- 성장 축: 주식/ETF 60만원은 월급 기반 장기 적립식의 성장 엔진으로 유지
 
 ## 6. 제안 배분
 신규 투자금 150만원 기준:
 
 | 자산 | 금액 | 비중 | 이유 |
 |---|---:|---:|---|
-| 현금성/3개월 이하 단기채 | 55만원 | 36.7% | 변동성 방어와 폭락 시 매수 여력 보존 |
-| 금 | 45만원 | 30.0% | 인플레, 환율, 정책실수 리스크 헤지 |
+| 현금성/3개월 이하 단기채 | 25만원 | 16.7% | 변동성 방어와 폭락 시 매수 여력 보존 |
+| 금 | 50만원 | 33.3% | 인플레, 환율, 정책실수 리스크 헤지 |
 | 은/원자재 | 15만원 | 10.0% | 귀금속과 산업재 성격의 보조 헤지 |
-| 주식/ETF | 35만원 | 23.3% | 장기 성장 엔진과 기회 상실 방지 |
+| 주식/ETF | 60만원 | 40.0% | 장기 성장 엔진과 기회 상실 방지 |
 
 ## 7. 배분 산정 방식
 주의: 이 가중치는 백테스트나 머신러닝으로 학습된 계수가 아니라, 리스크 점수를 설명 가능하게 자산군으로 옮기기 위한 휴리스틱 룰입니다.
@@ -91,20 +91,20 @@
 ### 7-1. 버킷 원점수 공식
 | 버킷 | 공식 | 이번 원점수 |
 |---|---|---:|
-| 현금성/단기채 | `1.8 + 0.25*Credit + 0.22*Growth + 0.16*FX + 0.08*Inflation` | 4.53 |
-| 금/은·원자재 헤지 | `1.2 + 0.35*Inflation + 0.30*FX + 0.25*Climate` | 6.75 |
-| 주식/ETF | `1.0 + 0.30*Liquidity + 0.20*(10-Credit) + 0.16*(10-Growth) - 0.15*Inflation - 0.12*FX` | 3.87 |
+| 현금성/단기채 | `0.6 + 0.55*Credit + 0.36*Growth + 0.04*FX - 0.08*Liquidity` | 2.56 |
+| 금/은·원자재 헤지 | `1.0 + 0.42*Inflation + 0.35*FX + 0.30*Climate` | 7.59 |
+| 주식/ETF | `1.2 + 0.34*Liquidity + 0.25*(10-Credit) + 0.20*(10-Growth) - 0.05*Inflation + 0.08*FX` | 6.89 |
 
 ### 7-2. 비중 변환 과정
 | 버킷 | 원점수 | 정규화 전 비중 | 상하한 | 상하한 적용 후 | 5만원 단위 금액 |
 |---|---:|---:|---:|---:|---:|
-| 현금성/단기채 | 4.53 | 29.9% | 35%~60% | 35.0% | 55만원 |
-| 금/은·원자재 헤지 | 6.75 | 44.5% | 20%~45% | 41.3% | 60만원 |
-| 주식/ETF | 3.87 | 25.6% | 15%~40% | 23.7% | 35만원 |
+| 현금성/단기채 | 2.56 | 15.0% | 10%~50% | 15.0% | 25만원 |
+| 금/은·원자재 헤지 | 7.59 | 44.6% | 15%~50% | 44.6% | 65만원 |
+| 주식/ETF | 6.89 | 40.4% | 25%~65% | 40.4% | 60만원 |
 
 ### 7-3. 헤지 버킷 내부 분리
 - 금 비율 공식: 기본 66% + Inflation Risk가 6 이상이면 4%p + FX Risk가 6 이상이면 4%p - Climate Supply Shock Risk가 7 이상이면 4%p, 이후 60~78% 범위로 제한합니다.
-- 이번 금 비율은 74%이고, 헤지 버킷 60만원을 5만원 단위로 나누어 금 45만원, 은/원자재 15만원으로 배분했습니다.
+- 이번 금 비율은 74%이고, 헤지 버킷 65만원을 5만원 단위로 나누어 금 50만원, 은/원자재 15만원으로 배분했습니다.
 - 정합성 체크: 버킷 합계 150만원, 상세 자산 합계 150만원으로 신규 투자금 150만원과 일치합니다.
 
 ## 8. 트리거 기반 액션 룰
@@ -117,7 +117,7 @@
 | Liquidity high + credit calm | 관찰 | Liquidity 6.2, Credit 1.5 | 주식/ETF를 0으로 줄이지 않고 최소 성장 노출 유지 |
 
 ## 9. 실행 액션
-- 이번 달: 신규 150만원을 현금성/단기채 55만원, 금 45만원, 은/원자재 15만원, 주식/ETF 35만원으로 바로 배분.
+- 이번 달: 신규 150만원을 현금성/단기채 25만원, 금 50만원, 은/원자재 15만원, 주식/ETF 60만원으로 바로 배분.
 - 집행 방식: 한 번에 전액 매수하기보다 2~4회로 나누어 진입하면 환율·금리 변동 리스크를 줄일 수 있습니다.
 - 다음 달: CPI/PCE, USD/KRW, WTI, 하이일드 스프레드가 완화되면 신규 투자분의 현금성 비중을 일부 낮추고 주식/ETF 또는 장기 성장 자산을 재검토합니다.
 - 지표 변화 시: Core CPI 재가속, USD/KRW 추가 상승, WTI 급등이면 금/은 헤지를 유지하거나 소폭 확대하고, 신용스프레드 급등이면 주식/ETF 확대를 보류.
@@ -134,7 +134,7 @@
 - 신용스프레드가 낮게 유지되고 고용이 견조해 주식/ETF의 기회비용이 더 커지는 경우
 
 ## 12. 최종 결론
-요약: 현재 지표 조합상 합리적인 선택지는 Inflation Rebound + Dollar/KRW Risk 레짐을 기본으로 보고, 정해진 기존 비중 없이 신규 150만원을 방어성 36.7%, 금/은·원자재 헤지 40.0%, 주식/ETF 23.3%로 나누는 것입니다. 이는 시장 방향을 단정하는 판단이 아니라, 인플레·환율·공급충격 리스크가 완전히 해소되지 않은 상태에서 신규 투자금 150만원을 방어적으로 배분하는 접근입니다.
+요약: 현재 지표 조합상 합리적인 선택지는 Inflation Rebound + Dollar/KRW Risk 레짐을 기본으로 보고, 정해진 기존 비중 없이 신규 150만원을 방어성 16.7%, 금/은·원자재 헤지 43.3%, 주식/ETF 40.0%로 나누는 것입니다. 이는 시장 방향을 단정하는 판단이 아니라, 인플레·환율·공급충격 리스크가 완전히 해소되지 않은 상태에서 신규 투자금 150만원을 방어적으로 배분하는 접근입니다.
 
 작성일: 2026-05-27
 <!-- macro-visual-dashboard:start -->
@@ -144,49 +144,49 @@ Charts are generated from `data/processed/macro/observations_long.csv` and the l
 
 ### Macro Risk Scores
 
-![Macro Risk Scores](../../assets/macro_regime_2026-05-27/risk_scores.png)
+![Macro Risk Scores](assets/macro_regime_2026-05-27/risk_scores.png)
 
 A compact view of the regime model's six risk buckets.
 
 ### Suggested Allocation
 
-![Suggested Allocation](../../assets/macro_regime_2026-05-27/suggested_allocation.png)
+![Suggested Allocation](assets/macro_regime_2026-05-27/suggested_allocation.png)
 
 Fresh 150만원 allocation output from the same score rules used in the report.
 
 ### Inflation Trend
 
-![Inflation Trend](../../assets/macro_regime_2026-05-27/inflation_yoy.png)
+![Inflation Trend](assets/macro_regime_2026-05-27/inflation_yoy.png)
 
 Consumer inflation momentum across US and Korea.
 
 ### Rates and Yield Trend
 
-![Rates and Yield Trend](../../assets/macro_regime_2026-05-27/policy_rates.png)
+![Rates and Yield Trend](assets/macro_regime_2026-05-27/policy_rates.png)
 
 Policy rates and US Treasury yields show how restrictive conditions remain.
 
 ### Dollar and USD/KRW Trend
 
-![Dollar and USD/KRW Trend](../../assets/macro_regime_2026-05-27/fx_trend.png)
+![Dollar and USD/KRW Trend](assets/macro_regime_2026-05-27/fx_trend.png)
 
 USD/KRW and DXY are normalized so direction and slope are easy to compare.
 
 ### Liquidity Trend
 
-![Liquidity Trend](../../assets/macro_regime_2026-05-27/liquidity_trend.png)
+![Liquidity Trend](assets/macro_regime_2026-05-27/liquidity_trend.png)
 
 Money supply and Fed balance-sheet indicators are normalized to compare liquidity pressure.
 
 ### Credit Stress Trend
 
-![Credit Stress Trend](../../assets/macro_regime_2026-05-27/credit_stress.png)
+![Credit Stress Trend](assets/macro_regime_2026-05-27/credit_stress.png)
 
 Credit spreads and financial-stress indexes flag whether risk appetite is cracking.
 
 ### Commodity Shock Trend
 
-![Commodity Shock Trend](../../assets/macro_regime_2026-05-27/commodity_trend.png)
+![Commodity Shock Trend](assets/macro_regime_2026-05-27/commodity_trend.png)
 
 Energy, metals, and agricultural prices are normalized to make supply-shock pressure visible.
 
