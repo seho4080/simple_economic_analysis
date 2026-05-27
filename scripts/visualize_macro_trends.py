@@ -229,7 +229,7 @@ def plot_allocation(scores: dict[str, float], output_path: Path) -> bool:
     )
     for text in texts + autotexts:
         text.set_fontsize(10)
-    plt.title("Suggested ISA Allocation", fontsize=15, fontweight="bold")
+    plt.title("Suggested New Allocation", fontsize=15, fontweight="bold")
     plt.tight_layout()
     output_path.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(output_path, dpi=160)
@@ -403,7 +403,7 @@ def generate_visual_dashboard(
         ChartResult(
             "Suggested Allocation",
             allocation_path,
-            "Current allocation output from the same score rules used in the report.",
+            "Fresh 150만원 allocation output from the same score rules used in the report.",
         )
     )
 

@@ -10,7 +10,9 @@ from datetime import date
 from pathlib import Path
 
 
-DEFAULT_ALLOCATION = {
+TOTAL_INVESTMENT_MILLION_KRW = 150
+
+NEUTRAL_ALLOCATION = {
     "cash": 100,
     "gold": 22,
     "silver": 8,
@@ -402,7 +404,7 @@ def score_label(score: float) -> str:
 
 
 def build_allocation(scores: dict[str, float]) -> dict[str, int]:
-    allocation = DEFAULT_ALLOCATION.copy()
+    allocation = NEUTRAL_ALLOCATION.copy()
     if scores["Inflation Risk"] >= 6.5 or scores["FX Risk"] >= 6.5:
         allocation["cash"] -= 5
         allocation["gold"] += 4
@@ -428,22 +430,21 @@ def build_allocation(scores: dict[str, float]) -> dict[str, int]:
     allocation["silver"] = max(5, min(20, allocation["silver"]))
 
     total = sum(allocation.values())
-    allocation["cash"] += 150 - total
+    allocation["cash"] += TOTAL_INVESTMENT_MILLION_KRW - total
     return allocation
 
 
-def portfolio_eval(scores: dict[str, float], allocation: dict[str, int]) -> tuple[str, str, str]:
-    keep = "주식/ETF 기본 20만원은 기회 상실 방지용으로 유지 가능"
-    reduce = "현금성/단기채는 큰 폭 축소보다 일부만 헤지 자산으로 이동"
-    expand = "FX·인플레 리스크가 높으면 금 중심 헤지 비중을 소폭 확대"
-    if allocation["cash"] >= DEFAULT_ALLOCATION["cash"]:
-        keep = "현금성/단기채 100만원 안팎의 방어 축은 유지"
-        reduce = "금/은 또는 주식의 무리한 확대는 보류"
-    if allocation["equity"] < DEFAULT_ALLOCATION["equity"]:
-        reduce = "주식/ETF는 성장 둔화 또는 신용 리스크 확인 전까지 소폭 축소"
+def allocation_eval(scores: dict[str, float], allocation: dict[str, int]) -> tuple[str, str, str]:
+    core = f"신규 150만원 중 {allocation['cash']}만원은 현금성/3개월 이하 단기채로 두어 변동성 방어와 추가 매수 여력을 확보"
+    hedge = f"금 {allocation['gold']}만원, 은/원자재 {allocation['silver']}만원으로 인플레·환율·공급충격 헤지를 분리"
+    growth = f"주식/ETF {allocation['equity']}만원은 전면 배제하지 않고 장기 성장 노출만 제한적으로 확보"
+    if scores["Inflation Risk"] >= 6 or scores["FX Risk"] >= 6:
+        hedge = f"인플레·환율 리스크가 높아 금 {allocation['gold']}만원과 은/원자재 {allocation['silver']}만원을 방어 헤지로 우선 배치"
+    if scores["Credit Stress Risk"] >= 6.5 or scores["Growth Slowdown Risk"] >= 6.5:
+        growth = f"신용 또는 성장 둔화 리스크가 커질 때까지 주식/ETF는 {allocation['equity']}만원으로 제한"
     if scores["Liquidity Bubble Risk"] >= 7 and scores["Credit Stress Risk"] < 5:
-        keep = "주식/ETF는 완전 배제보다 최소 성장 노출 유지"
-    return keep, reduce, expand
+        growth = f"유동성 장세 가능성도 남아 있어 주식/ETF {allocation['equity']}만원의 최소 성장 노출은 유지"
+    return core, hedge, growth
 
 
 def risk_interpretation(name: str, score: float) -> str:
@@ -472,25 +473,21 @@ def stale_items(metrics: dict[str, Metric]) -> list[str]:
 def build_report(metrics: dict[str, Metric], scores: dict[str, float], report_date: str) -> str:
     current_regime, sub_regime, summary = determine_regime(scores)
     allocation = build_allocation(scores)
-    keep, reduce, expand = portfolio_eval(scores, allocation)
+    core, hedge, growth = allocation_eval(scores, allocation)
     stale = stale_items(metrics)
 
-    cash_delta = allocation["cash"] - 100
-    metals_delta = allocation["gold"] + allocation["silver"] - 30
-    equity_delta = allocation["equity"] - 20
-
-    if metals_delta > 0:
-        month_action = f"현금성/단기채에서 {metals_delta}만원을 줄이고 금/은 헤지를 {metals_delta}만원 늘리는 선택지가 합리적"
-    elif equity_delta > 0:
-        month_action = f"현금성/단기채에서 {equity_delta}만원을 줄이고 주식/ETF를 {equity_delta}만원 늘리는 선택지가 가능"
-    else:
-        month_action = "기본 방어 배분을 유지하면서 핵심 지표 확인"
-
+    cash_share = allocation["cash"] / TOTAL_INVESTMENT_MILLION_KRW
+    hedge_amount = allocation["gold"] + allocation["silver"]
+    hedge_share = hedge_amount / TOTAL_INVESTMENT_MILLION_KRW
+    equity_share = allocation["equity"] / TOTAL_INVESTMENT_MILLION_KRW
+    month_action = (
+        f"신규 150만원을 현금성/단기채 {allocation['cash']}만원, 금 {allocation['gold']}만원, "
+        f"은/원자재 {allocation['silver']}만원, 주식/ETF {allocation['equity']}만원으로 바로 배분"
+    )
     data_quality_note = " / ".join(stale[:4]) if stale else "핵심 자동 수집 지표는 최신성 기준 통과"
     conclusion_action = (
-        "현금성/단기채의 방어 축을 유지하되 금/은 헤지를 소폭 확대하는 것"
-        if metals_delta > 0
-        else "현금성/단기채의 방어 축과 기존 금/은 헤지를 유지하는 것"
+        f"정해진 기존 비중 없이 신규 150만원을 방어성 {cash_share:.1%}, "
+        f"금/은·원자재 헤지 {hedge_share:.1%}, 주식/ETF {equity_share:.1%}로 나누는 것"
     )
 
     lines = [
@@ -560,31 +557,32 @@ def build_report(metrics: dict[str, Metric], scores: dict[str, float], report_da
     lines.extend(
         [
             "",
-            "## 5. 현재 포트폴리오 평가",
-            "기존 배분:",
-            "- 현금성/3개월 이하 단기채: 100만원",
-            "- 금/은: 30만원",
-            "- 주식/ETF: 20만원",
+            "## 5. 신규 투자 가정",
+            "전제:",
+            "- 기존 보유 비중은 정해져 있지 않다고 가정",
+            "- 이번 달 새로 투자할 금액 150만원만 배분 대상으로 판단",
+            "- 시장 방향을 맞히기보다 손실 방어, 헤지, 최소 성장 노출을 동시에 고려",
             "",
-            "평가:",
-            f"- 유지: {keep}",
-            f"- 축소: {reduce}",
-            f"- 확대: {expand}",
+            "배분 판단:",
+            f"- 방어 축: {core}",
+            f"- 헤지 축: {hedge}",
+            f"- 성장 축: {growth}",
             "",
             "## 6. 제안 배분",
-            "월 ISA 150만원 기준:",
+            "신규 투자금 150만원 기준:",
             "",
             "| 자산 | 금액 | 비중 | 이유 |",
             "|---|---:|---:|---|",
-            f"| 현금성/3개월 이하 단기채 | {allocation['cash']}만원 | {allocation['cash'] / 150:.1%} | 변동성 방어와 폭락 시 매수 여력 보존 |",
-            f"| 금 | {allocation['gold']}만원 | {allocation['gold'] / 150:.1%} | 인플레, 환율, 정책실수 리스크 헤지 |",
-            f"| 은/원자재 | {allocation['silver']}만원 | {allocation['silver'] / 150:.1%} | 귀금속과 산업재 성격의 보조 헤지 |",
-            f"| 주식/ETF | {allocation['equity']}만원 | {allocation['equity'] / 150:.1%} | 장기 성장 엔진과 기회 상실 방지 |",
+            f"| 현금성/3개월 이하 단기채 | {allocation['cash']}만원 | {allocation['cash'] / TOTAL_INVESTMENT_MILLION_KRW:.1%} | 변동성 방어와 폭락 시 매수 여력 보존 |",
+            f"| 금 | {allocation['gold']}만원 | {allocation['gold'] / TOTAL_INVESTMENT_MILLION_KRW:.1%} | 인플레, 환율, 정책실수 리스크 헤지 |",
+            f"| 은/원자재 | {allocation['silver']}만원 | {allocation['silver'] / TOTAL_INVESTMENT_MILLION_KRW:.1%} | 귀금속과 산업재 성격의 보조 헤지 |",
+            f"| 주식/ETF | {allocation['equity']}만원 | {allocation['equity'] / TOTAL_INVESTMENT_MILLION_KRW:.1%} | 장기 성장 엔진과 기회 상실 방지 |",
             "",
-            "## 7. 조정 액션",
+            "## 7. 실행 액션",
             f"- 이번 달: {month_action}.",
-            f"- 다음 달: CPI/PCE, USD/KRW, WTI, 하이일드 스프레드가 완화되면 현금 {abs(cash_delta)}만원 조정 여부를 재검토.",
-            f"- 지표 변화 시: Core CPI 재가속, USD/KRW 추가 상승, WTI 급등이면 금/은 헤지를 유지하거나 소폭 확대하고, 신용스프레드 급등이면 주식/ETF 확대를 보류.",
+            "- 집행 방식: 한 번에 전액 매수하기보다 2~4회로 나누어 진입하면 환율·금리 변동 리스크를 줄일 수 있습니다.",
+            "- 다음 달: CPI/PCE, USD/KRW, WTI, 하이일드 스프레드가 완화되면 신규 투자분의 현금성 비중을 일부 낮추고 주식/ETF 또는 장기 성장 자산을 재검토합니다.",
+            "- 지표 변화 시: Core CPI 재가속, USD/KRW 추가 상승, WTI 급등이면 금/은 헤지를 유지하거나 소폭 확대하고, 신용스프레드 급등이면 주식/ETF 확대를 보류.",
             "",
             "## 8. 다음 체크포인트",
             "- 미국 CPI/Core CPI/PCE/Core PCE의 다음 발표에서 3개월 변화율이 둔화되는지 확인",
@@ -598,7 +596,7 @@ def build_report(metrics: dict[str, Metric], scores: dict[str, float], report_da
             "- 신용스프레드가 낮게 유지되고 고용이 견조해 주식/ETF의 기회비용이 더 커지는 경우",
             "",
             "## 10. 최종 결론",
-            f"요약: 현재 지표 조합상 합리적인 선택지는 {current_regime} 레짐을 기본으로 보고, {conclusion_action}입니다. 이는 시장 방향을 단정하는 판단이 아니라, 인플레·환율·공급충격 리스크가 완전히 해소되지 않은 상태에서 월 ISA 150만원의 방어적 대기 전략을 유지하는 접근입니다.",
+            f"요약: 현재 지표 조합상 합리적인 선택지는 {current_regime} 레짐을 기본으로 보고, {conclusion_action}입니다. 이는 시장 방향을 단정하는 판단이 아니라, 인플레·환율·공급충격 리스크가 완전히 해소되지 않은 상태에서 신규 투자금 150만원을 방어적으로 배분하는 접근입니다.",
             "",
             f"작성일: {report_date}",
         ]

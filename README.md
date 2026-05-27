@@ -148,7 +148,7 @@ The report uses the fixed Korean format for:
 - current regime and supporting regime
 - indicator-by-indicator interpretation
 - six risk scores
-- monthly ISA 150만원 allocation proposal
+- fresh 150만원 allocation proposal with no pre-set portfolio weights
 - adjustment actions, checkpoints, and opposite scenarios
 
 Typical refresh flow:
