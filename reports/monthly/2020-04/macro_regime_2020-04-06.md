@@ -57,12 +57,12 @@
 ## 4. Risk Score
 | 항목 | 점수 | 전회 대비 | 산정 방식 | 해석 |
 |---|---:|---:|---|---|
-| Inflation Risk | 1.0/10 | 이전 기록 없음 | CPI/Core CPI/PCE/Core PCE/Korea CPI/5Y breakeven/WTI threshold scores, simple average | 낮음: 미국 물가와 유가 레벨이 아직 2% 목표 복귀보다 재상승 경계를 요구 |
-| Liquidity Bubble Risk | 7.4/10 | 이전 기록 없음 | US M2 YoY, US M2 3M, Korea M2 YoY, Fed reserve balances 3M, NFCI, and DXY risk-appetite proxy | 중간 이상: M2와 금융여건 완화가 위험선호를 지지하지만 버블 가능성도 동반 |
-| Credit Stress Risk | 5.5/10 | 이전 기록 없음 | HY spread, BBB spread, lending standards, financial stress, and business-loan delinquency threshold scores | 중간 이상: 스프레드와 스트레스 지표 기준으로 급성 신용위기는 아직 제한적 |
-| FX Risk | 2.7/10 | 이전 기록 없음 | Weighted USD/KRW level, USD/KRW 3M, DXY, US-Korea policy-rate gap, foreign flows, and trade balance | 낮음: USD/KRW 레벨과 한미 금리차가 원화 방어 부담을 높임 |
-| Climate Supply Shock Risk | 1.3/10 | 이전 기록 없음 | WTI, natural gas 3M, food/commodity 3M, fertilizer 3M, and GDACS non-green event count | 낮음: 에너지 가격과 일부 원자재 변동성이 공급충격 리스크를 남김 |
-| Growth Slowdown Risk | 7.1/10 | 이전 기록 없음 | Unemployment, payroll change, jobless claims, 10Y-2Y spread, and lending standards | 중간 이상: 고용은 버티지만 둔화 신호를 계속 확인해야 하는 구간 |
+| Inflation Risk | 1.0/10 | -0.3 | CPI/Core CPI/PCE/Core PCE/Korea CPI/5Y breakeven/WTI threshold scores, simple average | 낮음: 미국 물가와 유가 레벨이 아직 2% 목표 복귀보다 재상승 경계를 요구 |
+| Liquidity Bubble Risk | 7.4/10 | +0.0 | US M2 YoY, US M2 3M, Korea M2 YoY, Fed reserve balances 3M, NFCI, and DXY risk-appetite proxy | 중간 이상: M2와 금융여건 완화가 위험선호를 지지하지만 버블 가능성도 동반 |
+| Credit Stress Risk | 5.5/10 | +2.3 | HY spread, BBB spread, lending standards, financial stress, and business-loan delinquency threshold scores | 중간 이상: 스프레드와 스트레스 지표 기준으로 급성 신용위기는 아직 제한적 |
+| FX Risk | 2.7/10 | +0.5 | Weighted USD/KRW level, USD/KRW 3M, DXY, US-Korea policy-rate gap, foreign flows, and trade balance | 낮음: USD/KRW 레벨과 한미 금리차가 원화 방어 부담을 높임 |
+| Climate Supply Shock Risk | 1.3/10 | -0.5 | WTI, natural gas 3M, food/commodity 3M, fertilizer 3M, and GDACS non-green event count | 낮음: 에너지 가격과 일부 원자재 변동성이 공급충격 리스크를 남김 |
+| Growth Slowdown Risk | 7.1/10 | +2.6 | Unemployment, payroll change, jobless claims, 10Y-2Y spread, and lending standards | 중간 이상: 고용은 버티지만 둔화 신호를 계속 확인해야 하는 구간 |
 
 ## 5. 신규 투자 가정
 전제:
