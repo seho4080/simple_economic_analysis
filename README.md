@@ -222,6 +222,10 @@ The report uses the fixed Korean format for:
 - risk-score history, previous-report deltas, and monthly archived reports
 - adjustment actions, checkpoints, and opposite scenarios
 
+The allocation rule is tuned for long-term monthly ISA contributions: cash and
+short-bond exposure stays lower in normal inflation/FX regimes, then rises more
+aggressively when credit stress or growth-shock risk becomes the dominant issue.
+
 Typical refresh flow:
 
 ```powershell

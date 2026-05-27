@@ -504,27 +504,27 @@ def allocation_raw_scores(scores: dict[str, float]) -> dict[str, float]:
     return {
         "cash": max(
             0.1,
-            1.8
-            + 0.25 * scores["Credit Stress Risk"]
-            + 0.22 * scores["Growth Slowdown Risk"]
-            + 0.16 * scores["FX Risk"]
-            + 0.08 * scores["Inflation Risk"],
+            0.6
+            + 0.55 * scores["Credit Stress Risk"]
+            + 0.36 * scores["Growth Slowdown Risk"]
+            + 0.04 * scores["FX Risk"]
+            - 0.08 * scores["Liquidity Bubble Risk"],
         ),
         "hedge": max(
             0.1,
-            1.2
-            + 0.35 * scores["Inflation Risk"]
-            + 0.30 * scores["FX Risk"]
-            + 0.25 * scores["Climate Supply Shock Risk"],
+            1.0
+            + 0.42 * scores["Inflation Risk"]
+            + 0.35 * scores["FX Risk"]
+            + 0.30 * scores["Climate Supply Shock Risk"],
         ),
         "equity": max(
             0.1,
-            1.0
-            + 0.30 * scores["Liquidity Bubble Risk"]
-            + 0.20 * (10 - scores["Credit Stress Risk"])
-            + 0.16 * (10 - scores["Growth Slowdown Risk"])
-            - 0.15 * scores["Inflation Risk"]
-            - 0.12 * scores["FX Risk"],
+            1.2
+            + 0.34 * scores["Liquidity Bubble Risk"]
+            + 0.25 * (10 - scores["Credit Stress Risk"])
+            + 0.20 * (10 - scores["Growth Slowdown Risk"])
+            - 0.05 * scores["Inflation Risk"]
+            + 0.08 * scores["FX Risk"],
         ),
     }
 
@@ -569,15 +569,16 @@ def build_allocation(scores: dict[str, float]) -> dict[str, int]:
 
 
 def allocation_eval(scores: dict[str, float], allocation: dict[str, int]) -> tuple[str, str, str]:
-    core = f"신규 150만원 중 {allocation['cash']}만원은 현금성/3개월 이하 단기채로 두어 변동성 방어와 추가 매수 여력을 확보"
+    core = f"신규 150만원 중 {allocation['cash']}만원은 현금성/3개월 이하 단기채로 두되, 평상시에는 장기 적립식의 기회비용을 낮추는 수준으로 제한"
     hedge = f"금 {allocation['gold']}만원, 은/원자재 {allocation['silver']}만원으로 인플레·환율·공급충격 헤지를 분리"
-    growth = f"주식/ETF {allocation['equity']}만원은 전면 배제하지 않고 장기 성장 노출만 제한적으로 확보"
+    growth = f"주식/ETF {allocation['equity']}만원은 월급 기반 장기 적립식의 성장 엔진으로 유지"
     if scores["Inflation Risk"] >= 6 or scores["FX Risk"] >= 6:
         hedge = f"인플레·환율 리스크가 높아 금 {allocation['gold']}만원과 은/원자재 {allocation['silver']}만원을 방어 헤지로 우선 배치"
     if scores["Credit Stress Risk"] >= 6.5 or scores["Growth Slowdown Risk"] >= 6.5:
-        growth = f"신용 또는 성장 둔화 리스크가 커질 때까지 주식/ETF는 {allocation['equity']}만원으로 제한"
+        core = f"신용 또는 성장 둔화 리스크가 커져 단기채/현금성 자산을 {allocation['cash']}만원까지 확대"
+        growth = f"주식/ETF는 {allocation['equity']}만원으로 낮춰 위기 구간의 추가 매수 여력을 보존"
     if scores["Liquidity Bubble Risk"] >= 7 and scores["Credit Stress Risk"] < 5:
-        growth = f"유동성 장세 가능성도 남아 있어 주식/ETF {allocation['equity']}만원의 최소 성장 노출은 유지"
+        growth = f"유동성 장세 가능성도 남아 있어 주식/ETF {allocation['equity']}만원의 성장 노출을 유지"
     return core, hedge, growth
 
 

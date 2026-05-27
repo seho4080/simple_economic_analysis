@@ -4,9 +4,9 @@ TOTAL_INVESTMENT_MILLION_KRW = 150
 ROUNDING_INCREMENT_MILLION_KRW = 5
 
 SLEEVE_BOUNDS = {
-    "cash": (0.35, 0.60),
-    "hedge": (0.20, 0.45),
-    "equity": (0.15, 0.40),
+    "cash": (0.10, 0.50),
+    "hedge": (0.15, 0.50),
+    "equity": (0.25, 0.65),
 }
 
 SLEEVE_LABELS = {
@@ -16,9 +16,9 @@ SLEEVE_LABELS = {
 }
 
 ALLOCATION_FORMULAS = {
-    "cash": "1.8 + 0.25*Credit + 0.22*Growth + 0.16*FX + 0.08*Inflation",
-    "hedge": "1.2 + 0.35*Inflation + 0.30*FX + 0.25*Climate",
-    "equity": "1.0 + 0.30*Liquidity + 0.20*(10-Credit) + 0.16*(10-Growth) - 0.15*Inflation - 0.12*FX",
+    "cash": "0.6 + 0.55*Credit + 0.36*Growth + 0.04*FX - 0.08*Liquidity",
+    "hedge": "1.0 + 0.42*Inflation + 0.35*FX + 0.30*Climate",
+    "equity": "1.2 + 0.34*Liquidity + 0.25*(10-Credit) + 0.20*(10-Growth) - 0.05*Inflation + 0.08*FX",
 }
 
 RISK_SCORE_FORMULAS = {
