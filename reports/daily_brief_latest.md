@@ -1,11 +1,13 @@
 # Daily Macro Decision Brief
 
-Generated at: 2026-06-22T09:22:34
+Generated at: 2026-06-22T10:48:19
 Report date: 2026-06-21
 
 ## Dashboard Links
 - [Sector dashboard](sector_dashboard.html)
 - [Decision engine](decision_engine.html)
+- [ETF universe](etf_universe.html)
+- [Stock watchlist](stock_watchlist.html)
 - [Rebalance orders](rebalance_orders.html)
 - [Scenario simulator](scenario_simulator.html)
 - [Scenario matrix](scenario_matrix.html)

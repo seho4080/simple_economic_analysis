@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stock Watchlist</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --surface: #ffffff;
+      --ink: #1f2933;
+      --muted: #66717f;
+      --line: #d9dee5;
+      --accent: #2563eb;
+      --good: #17803d;
+      --warn: #b7791f;
+      --shadow: 0 8px 22px rgba(28, 39, 49, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+    .wrap { max-width: 1220px; margin: 0 auto; padding: 22px 20px 36px; }
+    a { color: var(--accent); text-decoration: none; }
+    .topbar {
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr) auto;
+      gap: 14px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+    h1 { margin: 0; font-size: 28px; line-height: 1.12; }
+    .subtle, .label { color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 16px; }
+    .card, .panel, .note { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); }
+    .card { padding: 13px 14px; min-height: 76px; }
+    .value { font-weight: 760; font-size: 20px; line-height: 1.2; margin-top: 4px; overflow-wrap: anywhere; }
+    .note { padding: 12px 14px; margin-bottom: 16px; }
+    .risk-strip { display: flex; gap: 8px 14px; flex-wrap: wrap; color: var(--muted); font-size: 12px; }
+    .panel { overflow: hidden; }
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+    .panel-title { font-weight: 720; }
+    .controls { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    input, select {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      min-height: 38px;
+      padding: 8px 10px;
+      font: inherit;
+      color: var(--ink);
+    }
+    input { width: min(320px, 100%); }
+    .panel-body { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 960px; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; font-size: 13px; }
+    th { color: var(--muted); background: #fbfcfe; font-weight: 700; }
+    tbody tr:hover { background: #fbfcfe; }
+    .rank { color: var(--muted); font-variant-numeric: tabular-nums; }
+    .score { font-weight: 760; font-variant-numeric: tabular-nums; }
+    .score.high { color: var(--good); }
+    .score.mid { color: var(--accent); }
+    .score.low { color: var(--warn); }
+    .delta.positive { color: var(--good); font-weight: 720; }
+    .delta.negative { color: #b42318; font-weight: 720; }
+    .price { font-weight: 720; font-variant-numeric: tabular-nums; }
+    .band {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #eef3fb;
+      color: #38506f;
+      white-space: nowrap;
+    }
+    .band.high { background: #e9f7ef; color: var(--good); }
+    .band.watch { background: #fff7e6; color: var(--warn); }
+    .tagline { color: var(--muted); font-size: 12px; margin-top: 4px; line-height: 1.45; }
+    .empty { padding: 34px 16px; color: var(--muted); text-align: center; }
+    @media (max-width: 820px) {
+      .wrap { padding: 18px 12px 28px; }
+      .topbar { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: 1fr; }
+      .controls { justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <a href="decision_engine.html">Back to decision engine</a>
+      <h1>Stock Watchlist</h1>
+      <div class="subtle">Generated 2026-06-22T11:04:04 / Report 2026-06-21</div>
+    </div>
+    <div class="subtle"><a href="etf_universe.html">ETF universe</a> / <a href="rebalance_orders.html">Rebalance orders</a> / <a href="sector_dashboard.html">Sector dashboard</a></div>
+  </div>
+  <section class="cards"><div class="card"><div class="label">Action</div><div class="value">Confirm before adding risk</div></div><div class="card"><div class="label">Posture</div><div class="value">Watch</div></div><div class="card"><div class="label">Top Stock</div><div class="value">KO / 85.0</div></div><div class="card"><div class="label">Price Refresh</div><div class="value">2026-06-22T11:04:03</div></div><div class="card"><div class="label">History</div><div class="value">2016-06-21 ~ 2026-06-22</div></div></section>
+  <div class="note">
+    <div class="risk-strip"><span><strong>Inflation</strong> 5.6</span><span><strong>Liquidity</strong> 5.2</span><span><strong>Credit</strong> 1.5</span><span><strong>FX</strong> 5.4</span><span><strong>Climate</strong> 3.1</span><span><strong>Growth</strong> 3.5</span><span><strong>Market Stress</strong> 2.0</span><span><strong>Rate Divergence</strong> 4.5</span></div>
+  </div>
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <div class="panel-title">Candidates</div>
+        <div class="subtle" id="tableMeta"></div>
+      </div>
+      <div class="controls">
+        <input id="searchInput" type="search" placeholder="Search stock, tag, sector">
+        <select id="countrySelect" aria-label="Filter country">
+          <option value="all">All countries</option>
+          <option value="United States">United States</option>
+          <option value="Korea">Korea</option>
+        </select>
+        <select id="bandSelect" aria-label="Filter score band">
+          <option value="all">All score bands</option>
+          <option value="High fit">High fit</option>
+          <option value="Good fit">Good fit</option>
+          <option value="Watchlist">Watchlist</option>
+          <option value="Speculative">Speculative</option>
+        </select>
+      </div>
+    </div>
+    <div class="panel-body" id="tableWrap"></div>
+  </section>
+</div>
+<script id="stock-data" type="application/json">{"context": {"generated_at": "2026-06-22T11:04:04", "report_date": "2026-06-21", "action_level": "Confirm before adding risk", "risk_posture": "Watch", "decision_confidence": "Medium", "current_regime": "Defensive Waiting Mode", "risk_scores": {"inflation_risk": 5.6, "liquidity_bubble_risk": 5.2, "credit_stress_risk": 1.5, "fx_risk": 5.4, "climate_supply_shock_risk": 3.1, "growth_slowdown_risk": 3.5, "market_stress_risk": 2.0, "global_rate_divergence_risk": 4.5}}, "rows": [{"rank": 1, "score": 85.0, "recommendation_band": "High fit", "watch_rank": 3, "symbol": "KO", "label": "Coca-Cola", "company_name": "The Coca-Cola Company", "market": "NYSE", "country": "United States", "sector": "Consumer Staples", "industry": "Beverages", "style": "defensive_dividend", "score_drivers": "watchlist rank (+14); posture match (+9); watch/defensive fit (+12); quality scale (+5)", "risk_tags": "consumer_staples; defensive; dividend; quality; pricing_power; usd; global_revenue", "macro_fit": "Defensive; Watch; Balanced", "watch_reason": "Defensive global staples and dividend candidate", "source_url": "https://finance.yahoo.com/quote/KO/", "price_status": "ok", "currency": "USD", "latest_date": "2026-06-18", "latest_price": 79.38999938964844, "previous_date": "2026-06-17", "previous_close": 79.93000030517578, "price_change": -0.5400009155273438, "price_change_pct": -0.006755922850814459, "price_fetched_at": "2026-06-22T11:04:00", "price_source_url": "https://finance.yahoo.com/quote/KO/", "price_message": "", "history_start": "2016-06-21", "history_end": "2026-06-18", "history_rows": 2513, "return_1m": -0.02229061116526232, "return_3m": 0.04501774534674219, "return_6m": 0.1233904265832424, "return_1y": 0.14033318382116922, "return_3y": 0.28733584801087697, "return_5y": 0.4291629249327311, "return_10y": 0.7591402063080874, "max_drawdown": -0.3753533892217453}, {"rank": 2, "score": 83.0, "recommendation_band": "High fit", "watch_rank": 4, "symbol": "PG", "label": "P&G", "company_name": "The Procter & Gamble Company", "market": "NYSE", "country": "United States", "sector": "Consumer Staples", "industry": "Household Products", "style": "defensive_dividend", "score_drivers": "watchlist rank (+12); posture match (+9); watch/defensive fit (+12); quality scale (+5)", "risk_tags": "consumer_staples; defensive; dividend; quality; pricing_power; usd; global_revenue", "macro_fit": "Defensive; Watch; Balanced", "watch_reason": "Defensive household staples and dividend candidate", "source_url": "https://finance.yahoo.com/quote/PG/", "price_status": "ok", "currency": "USD", "latest_date": "2026-06-18", "latest_price": 150.3800048828125, "previous_date": "2026-06-17", "previous_close": 150.55999755859375, "price_change": -0.17999267578125, "price_change_pct": -0.001195488035998419, "price_fetched_at": "2026-06-22T11:04:00", "price_source_url": "https://finance.yahoo.com/quote/PG/", "price_message": "", "history_start": "2016-06-21", "history_end": "2026-06-18", "history_rows": 2513, "return_1m": 0.05611352993477792, "return_3m": 0.025015322752339753, "return_6m": 0.017387236091388036, "return_1y": -0.05134998214898845, "return_3y": 0.005617303961438447, "return_5y": 0.11466904455394378, "return_10y": 0.8029013101593419, "max_drawdown": -0.24851693543713882}, {"rank": 3, "score": 77.0, "recommendation_band": "High fit", "watch_rank": 7, "symbol": "MSFT", "label": "Microsoft", "company_name": "Microsoft Corporation", "market": "NASDAQ", "country": "United States", "sector": "Information Technology", "industry": "Software / Cloud / AI", "style": "quality_growth", "score_drivers": "watchlist rank (+6); posture match (+9); watch/defensive fit (+12); quality scale (+5)", "risk_tags": "mega_cap; quality; ai; cloud; software; usd; dividend; global_revenue", "macro_fit": "Balanced; Watch; Growth", "watch_reason": "Large-cap cloud/software quality growth candidate", "source_url": "https://www.nasdaq.com/market-activity/stocks/msft", "price_status": "ok", "currency": "USD", "latest_date": "2026-06-18", "latest_price": 379.3999938964844, "previous_date": "2026-06-17", "previous_close": 378.9100036621094, "price_change": 0.489990234375, "price_change_pct": 0.0012931572923367462, "price_fetched_at": "2026-06-22T11:04:02", "price_source_url": "https://finance.yahoo.com/quote/MSFT/", "price_message": "", "history_start": "2016-06-21", "history_end": "2026-06-18", "history_rows": 2513, "return_1m": -0.10421687150661674, "return_3m": -0.0316241210296635, "return_6m": -0.20314206967278792, "return_1y": -0.20634259243003972, "return_3y": 0.10828735073838858, "return_5y": 0.45984829163102825, "return_10y": 6.411603908473793, "max_drawdown": -0.3755646610503861}, {"rank": 4, "score": 76.0, "recommendation_band": "High fit", "watch_rank": 5, "symbol": "JNJ", "label": "Johnson & Johnson", "company_name": "Johnson & Johnson", "market": "NYSE", "country": "United States", "sector": "Health Care", "industry": "Pharmaceuticals / MedTech", "style": "defensive_dividend", "score_drivers": "watchlist rank (+10); posture match (+9); watch/defensive fit (+12)", "risk_tags": "healthcare; defensive; dividend; quality; cash_flow; usd; regulatory", "macro_fit": "Defensive; Watch; Balanced", "watch_reason": "Healthcare defensive and dividend candidate", "source_url": "https://finance.yahoo.com/quote/JNJ/", "price_status": "ok", "currency": "USD", "latest_date": "2026-06-18", "latest_price": 228.38999938964844, "previous_date": "2026-06-17", "previous_close": 234.1999969482422, "price_change": -5.80999755859375, "price_change_pct": -0.024807846431687826, "price_fetched_at": "2026-06-22T11:04:01", "price_source_url": "https://finance.yahoo.com/quote/JNJ/", "price_message": "", "history_start": "2016-06-21", "history_end": "2026-06-18", "history_rows": 2513, "return_1m": -0.0023152139766562385, "return_3m": -0.037466282178791444, "return_6m": 0.08586505682199475, "return_1y": 0.4988186905840517, "return_3y": 0.39067165153284256, "return_5y": 0.38108487714353845, "return_10y": 0.965828875793812, "max_drawdown": -0.2782648521005334}, {"rank": 5, "score": 67.0, "recommendation_band": "Good fit", "watch_rank": 6, "symbol": "GOOGL", "label": "Alphabet", "company_name": "Alphabet Inc Class A", "market": "NASDAQ", "country": "United States", "sector": "Communication Services", "industry": "Internet / Cloud / AI", "style": "quality_growth", "score_drivers": "watchlist rank (+8); watch/defensive fit (+12); quality scale (+5); growth sensitivity (-3)", "risk_tags": "mega_cap; quality; ai; cloud; advertising; usd; growth; global_revenue", "macro_fit": "Balanced; Growth", "watch_reason": "Large-cap AI/cloud/platform quality growth candidate", "source_url": "https://www.morningstar.com/stocks/xnas/googl/quote", "price_status": "ok", "currency": "USD", "latest_date": "2026-06-18", "latest_price": 368.0299987792969, "previous_date": "2026-06-17", "previous_close": 363.7900085449219, "price_change": 4.239990234375, "price_change_pct": 0.01165504861261585, "price_fetched_at": "2026-06-22T11:04:02", "price_source_url": "https://finance.yahoo.com/quote/GOOGL/", "price_message": "", "history_start": "2016-06-21", "history_end": "2026-06-18", "history_rows": 2513, "return_1m": -0.07283217484833082, "return_3m": 0.1961064573405542, "return_6m": 0.24032757234168622, "return_1y": 1.0916738002988278, "return_3y": 1.9792763087194105, "return_5y": 2.005663654902678, "return_10y": 9.383421629733716, "max_drawdown": -0.44320051414405326}, {"rank": 6, "score": 60.0, "recommendation_band": "Watchlist", "watch_rank": 1, "symbol": "035420.KS", "label": "NAVER", "company_name": "NAVER Corp", "market": "KOSPI", "country": "Korea", "sector": "Communication Services", "industry": "Internet Platform", "style": "growth", "score_drivers": "watchlist rank (+18); growth sensitivity (-3)", "risk_tags": "platform; korea; ai; commerce; advertising; growth; domestic_demand", "macro_fit": "Balanced; Growth; Korea recovery", "watch_reason": "Korean platform/AI/commerce recovery candidate", "source_url": "https://finance.naver.com/item/main.naver?code=035420", "price_status": "ok", "currency": "KRW", "latest_date": "2026-06-22", "latest_price": 226000.0, "previous_date": "2026-06-19", "previous_close": 229500.0, "price_change": -3500.0, "price_change_pct": -0.015250544662309368, "price_fetched_at": "2026-06-22T11:03:58", "price_source_url": "https://finance.yahoo.com/quote/035420.KS/", "price_message": "", "history_start": "2016-06-21", "history_end": "2026-06-22", "history_rows": 2448, "return_1m": 0.11330049261083741, "return_3m": 0.020316027088036037, "return_6m": -0.04033970276008492, "return_1y": -0.16141001855287573, "return_3y": 0.1385390428211586, "return_5y": -0.4321608040201005, "return_10y": 0.5290933694181326, "max_drawdown": -0.6585903083700441}, {"rank": 7, "score": 51.0, "recommendation_band": "Watchlist", "watch_rank": 8, "symbol": "005380.KS", "label": "현대차", "company_name": "Hyundai Motor Company", "market": "KOSPI", "country": "Korea", "sector": "Consumer Discretionary", "industry": "Automobiles", "style": "cyclical_value", "score_drivers": "watchlist rank (+4); watch/defensive fit (+12); watchlist beta penalty (-10)", "risk_tags": "auto; cyclical; korea; exporter; fx_sensitivity; value; dividend", "macro_fit": "Korea recovery; Risk-on; Inflation/FX hedge", "watch_reason": "Korean auto/exporter value candidate", "source_url": "https://finance.naver.com/item/main.naver?code=005380", "price_status": "ok", "currency": "KRW", "latest_date": "2026-06-22", "latest_price": 590000.0, "previous_date": "2026-06-19", "previous_close": 613000.0, "price_change": -23000.0, "price_change_pct": -0.037520391517128875, "price_fetched_at": "2026-06-22T11:04:03", "price_source_url": "https://finance.yahoo.com/quote/005380.KS/", "price_message": "", "history_start": "2016-06-21", "history_end": "2026-06-22", "history_rows": 2448, "return_1m": -0.0992366412213741, "return_3m": 0.14119922630560922, "return_6m": 1.0450606585788562, "return_1y": 1.8095238095238093, "return_3y": 1.9813036887316828, "return_5y": 1.5106382978723403, "return_10y": 3.2293906810035846, "max_drawdown": -0.6123529411764705}, {"rank": 8, "score": 48.0, "recommendation_band": "Watchlist", "watch_rank": 2, "symbol": "AMD", "label": "AMD", "company_name": "Advanced Micro Devices Inc", "market": "NASDAQ", "country": "United States", "sector": "Information Technology", "industry": "Semiconductors", "style": "high_beta_growth", "score_drivers": "watchlist rank (+16); watchlist beta penalty (-10); growth sensitivity (-3)", "risk_tags": "semiconductor; ai; datacenter; high_beta; cyclical; usd; growth", "macro_fit": "Growth; Risk-on", "watch_reason": "AI semiconductor growth candidate with high beta", "source_url": "https://www.nasdaq.com/market-activity/stocks/amd", "price_status": "ok", "currency": "USD", "latest_date": "2026-06-18", "latest_price": 537.3699951171875, "previous_date": "2026-06-17", "previous_close": 512.47998046875, "price_change": 24.8900146484375, "price_change_pct": 0.04856777941973724, "price_fetched_at": "2026-06-22T11:03:59", "price_source_url": "https://finance.yahoo.com/quote/AMD/", "price_message": "", "history_start": "2016-06-21", "history_end": "2026-06-18", "history_rows": 2513, "return_1m": 0.27644363899963764, "return_3m": 1.694124019999983, "return_6m": 1.7124829310061043, "return_1y": 3.227930775519259, "return_3y": 3.475099824475641, "return_5y": 5.589454016036416, "return_10y": 97.60000255479734, "max_drawdown": -0.6544994295506881}]}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('stock-data').textContent);
+const searchInput = document.getElementById('searchInput');
+const countrySelect = document.getElementById('countrySelect');
+const bandSelect = document.getElementById('bandSelect');
+
+function esc(value) {
+  return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+
+function scoreClass(score) {
+  if (score >= 76) return 'score high';
+  if (score >= 62) return 'score mid';
+  return 'score low';
+}
+
+function bandClass(band) {
+  if (band === 'High fit') return 'band high';
+  if (band === 'Watchlist' || band === 'Speculative') return 'band watch';
+  return 'band';
+}
+
+function numberOrNull(value) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function formatPrice(value, currency) {
+  const parsed = numberOrNull(value);
+  if (parsed === null) return 'NA';
+  const digits = currency === 'KRW' ? 0 : 2;
+  return `${parsed.toLocaleString(undefined, { maximumFractionDigits: digits, minimumFractionDigits: digits })} ${currency || ''}`.trim();
+}
+
+function formatPct(value) {
+  const parsed = numberOrNull(value);
+  if (parsed === null) return 'NA';
+  return `${(parsed * 100).toFixed(2)}%`;
+}
+
+function formatReturn(value) {
+  const parsed = numberOrNull(value);
+  if (parsed === null) return 'NA';
+  const sign = parsed > 0 ? '+' : '';
+  return `${sign}${(parsed * 100).toFixed(1)}%`;
+}
+
+function formatChange(value, currency) {
+  const parsed = numberOrNull(value);
+  if (parsed === null) return 'NA';
+  const digits = currency === 'KRW' ? 0 : 2;
+  const sign = parsed > 0 ? '+' : '';
+  return `${sign}${parsed.toLocaleString(undefined, { maximumFractionDigits: digits, minimumFractionDigits: digits })}`;
+}
+
+function deltaClass(value) {
+  const parsed = numberOrNull(value);
+  if (parsed === null || parsed === 0) return 'delta';
+  return parsed > 0 ? 'delta positive' : 'delta negative';
+}
+
+function matches(row, query) {
+  if (!query) return true;
+  const haystack = [row.symbol, row.label, row.company_name, row.country, row.sector, row.industry, row.style, row.risk_tags, row.macro_fit, row.watch_reason, row.price_status].join(' ').toLowerCase();
+  return haystack.includes(query.toLowerCase());
+}
+
+function filteredRows() {
+  const query = searchInput.value.trim();
+  const country = countrySelect.value;
+  const band = bandSelect.value;
+  return DATA.rows.filter(row => {
+    if (country !== 'all' && row.country !== country) return false;
+    if (band !== 'all' && row.recommendation_band !== band) return false;
+    return matches(row, query);
+  });
+}
+
+function renderTable() {
+  const rows = filteredRows();
+  document.getElementById('tableMeta').textContent = `${rows.length} of ${DATA.rows.length} stocks visible`;
+  const wrap = document.getElementById('tableWrap');
+  if (!rows.length) {
+    wrap.innerHTML = '<div class="empty">No stocks match the current filter.</div>';
+    return;
+  }
+  const html = rows.map(row => `
+    <tr>
+      <td class="rank">${esc(row.rank)}</td>
+      <td><span class="${scoreClass(Number(row.score))}">${esc(row.score)}</span><div><span class="${bandClass(row.recommendation_band)}">${esc(row.recommendation_band)}</span></div></td>
+      <td><strong><a href="${esc(row.source_url)}">${esc(row.label)}</a></strong><div class="tagline">${esc(row.symbol)} / ${esc(row.company_name)} / ${esc(row.market)}</div></td>
+      <td>${esc(row.country)}<div class="tagline">${esc(row.sector)} / ${esc(row.industry)}</div></td>
+      <td><span class="price">${formatPrice(row.latest_price, row.currency)}</span><div class="tagline">${esc(row.latest_date || row.price_status || 'NA')}</div></td>
+      <td><span class="${deltaClass(row.price_change)}">${formatChange(row.price_change, row.currency)} / ${formatPct(row.price_change_pct)}</span><div class="tagline">prev ${formatPrice(row.previous_close, row.currency)}</div></td>
+      <td>
+        <span class="${deltaClass(row.return_1y)}">1Y ${formatReturn(row.return_1y)}</span>
+        <div class="tagline">3Y ${formatReturn(row.return_3y)} / 5Y ${formatReturn(row.return_5y)}</div>
+        <div class="tagline">10Y ${formatReturn(row.return_10y)} / MDD ${formatReturn(row.max_drawdown)}</div>
+      </td>
+      <td>${esc(row.score_drivers)}</td>
+    </tr>
+  `).join('');
+  wrap.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 6%">Rank</th>
+          <th style="width: 11%">Score</th>
+          <th style="width: 20%">Stock</th>
+          <th style="width: 15%">Exposure</th>
+          <th style="width: 13%">Price</th>
+          <th style="width: 13%">1D</th>
+          <th style="width: 19%">Performance</th>
+          <th style="width: 19%">Score drivers</th>
+        </tr>
+      </thead>
+      <tbody>${html}</tbody>
+    </table>
+  `;
+}
+
+searchInput.addEventListener('input', renderTable);
+countrySelect.addEventListener('change', renderTable);
+bandSelect.addEventListener('change', renderTable);
+renderTable();
+</script>
+</body>
+</html>
