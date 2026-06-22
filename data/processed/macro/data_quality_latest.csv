@@ -1,0 +1,22 @@
+scope_type,scope,indicator_count,ok_count,stale_count,problem_count,freshness_score,fetch_score,coverage_score,overall_score,grade,notes
+overall,macro_pipeline,96,90,6,0,95.9,100.0,100.0,98.0,A,
+category,climate,2,2,0,0,100.0,100.0,100.0,100.0,A,Category score excludes attribution coverage.
+category,commodities,13,13,0,0,100.0,100.0,100.0,100.0,A,Category score excludes attribution coverage.
+category,credit,5,5,0,0,100.0,100.0,100.0,100.0,A,Category score excludes attribution coverage.
+category,employment,6,6,0,0,100.0,100.0,100.0,100.0,A,Category score excludes attribution coverage.
+category,fx,11,9,2,0,88.2,100.0,100.0,94.1,A,Category score excludes attribution coverage.
+category,inflation,15,12,3,0,87.0,100.0,100.0,93.5,A,Category score excludes attribution coverage.
+category,liquidity,8,7,1,0,91.9,100.0,100.0,96.0,A,Category score excludes attribution coverage.
+category,market,11,11,0,0,100.0,100.0,100.0,100.0,A,Category score excludes attribution coverage.
+category,market_derived,4,4,0,0,100.0,100.0,100.0,100.0,A,Category score excludes attribution coverage.
+category,market_stress,1,1,0,0,100.0,100.0,100.0,100.0,A,Category score excludes attribution coverage.
+category,rates,12,12,0,0,100.0,100.0,100.0,100.0,A,Category score excludes attribution coverage.
+category,rates_global,8,8,0,0,100.0,100.0,100.0,100.0,A,Category score excludes attribution coverage.
+risk,Climate Supply Shock Risk,11,11,0,0,100.0,100.0,100.0,100.0,A,Risk coverage uses mapped attribution drivers.
+risk,Credit Stress Risk,5,5,0,0,100.0,100.0,100.0,100.0,A,Risk coverage uses mapped attribution drivers.
+risk,FX Risk,7,7,0,0,100.0,100.0,100.0,100.0,A,Risk coverage uses mapped attribution drivers.
+risk,Global Rate Divergence Risk,9,9,0,0,100.0,100.0,100.0,100.0,A,Risk coverage uses mapped attribution drivers.
+risk,Growth Slowdown Risk,8,8,0,0,100.0,100.0,100.0,100.0,A,Risk coverage uses mapped attribution drivers.
+risk,Inflation Risk,13,13,0,0,100.0,100.0,100.0,100.0,A,Risk coverage uses mapped attribution drivers.
+risk,Liquidity Bubble Risk,7,7,0,0,100.0,100.0,100.0,100.0,A,Risk coverage uses mapped attribution drivers.
+risk,Market Stress Risk,5,5,0,0,100.0,100.0,100.0,100.0,A,Risk coverage uses mapped attribution drivers.

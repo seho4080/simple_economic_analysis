@@ -1,0 +1,25 @@
+alert_type,severity,category,item_id,item_label,latest_date,latest_value,previous_value,delta,pct_change_3m,pct_change_12m,detail
+regime_change,major,regime,current_regime,Current regime,2026-06-21,Defensive Waiting Mode,Inflation Rebound + Dollar/KRW Risk,,,,Regime changed from previous report.
+risk_score_change,major,risk_score,climate_supply_shock_risk,Climate Supply Shock Risk,2026-06-21,3.1,6.0,-2.9,,,Risk score changed versus previous report.
+risk_score_change,major,risk_score,fx_risk,FX Risk,2026-06-21,5.4,6.5,-1.0999999999999996,,,Risk score changed versus previous report.
+risk_score_change,major,risk_score,liquidity_bubble_risk,Liquidity Bubble Risk,2026-06-21,5.2,6.2,-1.0,,,Risk score changed versus previous report.
+indicator_mover,major,fx,korea_foreign_stock_flows,외국인 주식 자금흐름,2026-04-01,-1241.9,,,-665.0136487716105,-86.46474774666768,3M move crossed 15% threshold.
+indicator_mover,major,fx,korea_trade_balance,무역수지,2026-04-01,23754.887,,,172.33644688382222,394.5813777097743,3M move crossed 15% threshold.
+indicator_mover,major,market_derived,sox_vs_sp500,SOX / S&P 500,2026-06-18,1.9120898722156126,,,91.00387042735771,122.70816009148398,3M move crossed 15% threshold.
+indicator_mover,major,market,sox,SOX,2026-06-18,14341.783203125,,,89.00111797240704,158.57170600266883,3M move crossed 15% threshold.
+indicator_mover,major,credit,us_financial_stress,금융시장 스트레스 지표,2026-06-12,-0.7698,,,80.49237983587341,-4.206072672971617,3M move crossed 15% threshold.
+indicator_mover,major,market,kospi,KOSPI,2026-06-19,9052.419921875,,,79.16856327141075,194.70391202830336,3M move crossed 15% threshold.
+indicator_mover,major,market_derived,kospi_vs_sp500,KOSPI / S&P 500,2026-06-19,1.2068959770559413,,,64.31782777902455,132.27512196180825,3M move crossed 15% threshold.
+indicator_mover,major,liquidity,fed_reverse_repo,달러 유동성: 역레포,2026-06-18,0.251,,,-64.0401146131805,-99.87759083150452,3M move crossed 15% threshold.
+indicator_mover,major,credit,us_bank_lending_standards,은행 대출태도,2026-04-01,8.1,,,52.83018867924527,-56.21621621621622,3M move crossed 15% threshold.
+indicator_mover,major,rates_global,us_korea_10y_gap,US-Korea 10Y gap,2026-05-01,0.3149999999999995,,,-51.38888888888894,-79.54545454545458,3M move crossed 15% threshold.
+indicator_mover,major,rates,korea_10y_3m_spread,장단기 금리차(한국 10Y-3M),2026-05-01,1.2550000000000003,,,50.841346153846146,3037.499999999998,3M move crossed 15% threshold.
+indicator_mover,major,market,taiwan_weighted,Taiwan Weighted,2026-06-18,46465.19921875,,,46.471687805774245,108.77587366198856,3M move crossed 15% threshold.
+indicator_mover,major,rates,us_10y_2y_spread,장단기 금리차(미국 10Y-2Y),2026-06-18,0.27,,,-46.0,-38.63636363636363,3M move crossed 15% threshold.
+indicator_mover,major,market,nikkei_225,Nikkei 225,2026-06-19,71250.0625,,,39.531675804555455,75.98087058740897,3M move crossed 15% threshold.
+indicator_mover,major,market_stress,vix,VIX,2026-06-19,16.780000686645508,,,-33.54455173605739,0.29887116423970017,3M move crossed 15% threshold.
+indicator_mover,major,fx,korea_trade_exports,한국 통관수출,2026-04-01,85867478.0,,,30.413631578795485,47.95619148164636,3M move crossed 15% threshold.
+indicator_mover,watch,rates_global,japan_gov_bond_10y,Japan 10Y,2026-05-01,2.65,,,25.59241706161137,76.66666666666666,3M move crossed 15% threshold.
+indicator_mover,watch,commodities,coffee_futures,커피,2026-06-18,256.1000061035156,,,-22.91948650007054,-25.21536079003319,3M move crossed 15% threshold.
+indicator_mover,watch,market_derived,copper_gold_ratio,Copper / gold,2026-06-19,0.0015186081721321038,,,21.393371433540743,7.3519635726512655,3M move crossed 15% threshold.
+indicator_mover,watch,inflation,us_cpi_energy,미국 에너지 CPI,2026-05-01,338.639,,,19.566207546703485,22.972869920145843,3M move crossed 15% threshold.

@@ -1,0 +1,66 @@
+risk_name,risk_score,risk_score_delta,indicator_id,indicator_label,category,latest_date,latest_value,unit,pct_change_3m,pct_change_12m,direction,pressure,pressure_label,freshness_status,alert_severity
+Market Stress Risk,2.0,,sox_vs_sp500,SOX / S&P 500,market_derived,2026-06-18,1.9120898722156126,ratio,91.00387042735771,122.70816009148398,-1,-91.00387042735771,risk_down_major,ok,major
+Market Stress Risk,2.0,,kospi_vs_sp500,KOSPI / S&P 500,market_derived,2026-06-19,1.2068959770559413,ratio,64.31782777902455,132.27512196180825,-1,-64.31782777902455,risk_down_major,ok,major
+Market Stress Risk,2.0,,vix,VIX,market_stress,2026-06-19,16.780000686645508,index,-33.54455173605739,0.29887116423970017,1,-33.54455173605739,risk_down_major,ok,major
+Market Stress Risk,2.0,,copper_gold_ratio,Copper / gold,market_derived,2026-06-19,0.0015186081721321038,ratio,21.393371433540743,7.3519635726512655,-1,-21.393371433540743,risk_down_major,ok,watch
+Market Stress Risk,2.0,,russell_2000,Russell 2000,market,2026-06-18,2979.765380859375,index,2.069827123581569,25.918707551210908,-1,-2.069827123581569,neutral,ok,
+Liquidity Bubble Risk,5.2,-1.0,fed_reverse_repo,달러 유동성: 역레포,liquidity,2026-06-18,0.251,billions_usd,-64.0401146131805,-99.87759083150452,1,-64.0401146131805,risk_down_major,ok,major
+Liquidity Bubble Risk,5.2,-1.0,us_chicago_fed_nfci,금융여건지수,liquidity,2026-06-12,-0.505,index,4.123711340206193,6.765327695560264,-1,-4.123711340206193,neutral,ok,
+Liquidity Bubble Risk,5.2,-1.0,us_m2,미국 M2 3개월 변화율,liquidity,2026-04-01,22804.5,billions_usd,1.672811902288518,4.724532391610836,1,1.672811902288518,neutral,ok,
+Liquidity Bubble Risk,5.2,-1.0,fed_balance_sheet_assets,달러 유동성: 연준 총자산 3M,liquidity,2026-06-17,6736424.0,millions_usd,1.3553315928275689,0.8876385226941785,1,1.3553315928275689,neutral,ok,
+Liquidity Bubble Risk,5.2,-1.0,korea_m2,한국 M2 YoY,liquidity,2026-04-01,4153872.5,billions_krw,0.9809160387923566,5.693349297573103,1,0.9809160387923566,neutral,ok,
+Liquidity Bubble Risk,5.2,-1.0,dxy,DXY,fx,2026-06-19,100.76000213623047,index,0.8003231883603412,4.004959736593738,-1,-0.8003231883603412,neutral,ok,
+Liquidity Bubble Risk,5.2,-1.0,fed_reserve_balances,달러 유동성: 지급준비금 3M,liquidity,2026-06-17,3033444.0,millions_usd,-0.1389554147675942,-10.967189769153196,1,-0.1389554147675942,neutral,ok,
+Inflation Risk,5.6,-0.40000000000000036,us_cpi_energy,미국 에너지 CPI,inflation,2026-05-01,338.639,index,19.566207546703485,22.972869920145843,1,19.566207546703485,risk_up_major,ok,watch
+Inflation Risk,5.6,-0.40000000000000036,us_michigan_expected_inflation,미국 미시간대 1년 기대인플레,inflation,2026-04-01,4.7,percent,17.500000000000004,-27.692307692307693,1,17.500000000000004,risk_up_major,ok,
+Inflation Risk,5.6,-0.40000000000000036,us_5y_breakeven_inflation,기대인플레,inflation,2026-06-18,2.27,percent,-14.661654135338352,-3.813559322033888,1,-14.661654135338352,risk_down,ok,
+Inflation Risk,5.6,-0.40000000000000036,wti_spot,WTI,commodities,2026-06-15,84.65,usd_per_barrel,-14.04346060113728,14.639761646803894,1,-14.04346060113728,risk_down,ok,
+Inflation Risk,5.6,-0.40000000000000036,us_10y_breakeven_inflation,미국 10년 기대인플레,inflation,2026-06-18,2.25,percent,-6.25,-2.5974025974025983,1,-6.25,risk_down,ok,
+Inflation Risk,5.6,-0.40000000000000036,us_cpi_all_items,미국 CPI YoY,inflation,2026-05-01,333.979,index,1.9907774995419292,4.166614684049641,1,1.9907774995419292,neutral,ok,
+Inflation Risk,5.6,-0.40000000000000036,korea_cpi_food,식품 CPI YoY,inflation,2026-05-01,126.55,index,-1.8916195053880203,1.4835605453087375,1,-1.8916195053880203,neutral,ok,
+Inflation Risk,5.6,-0.40000000000000036,us_pce_price_index,미국 PCE YoY,inflation,2026-04-01,130.902,index,1.4728453822421272,3.7669441141498172,1,1.4728453822421272,neutral,ok,
+Inflation Risk,5.6,-0.40000000000000036,korea_cpi_energy,에너지 CPI YoY,inflation,2026-05-01,148.13,index,1.292396061269141,1.1402430697801336,1,1.292396061269141,neutral,ok,
+Inflation Risk,5.6,-0.40000000000000036,korea_cpi_all_items,한국 CPI YoY,inflation,2026-05-01,119.92,index,1.2837837837837762,3.1392448610991774,1,1.2837837837837762,neutral,ok,
+Inflation Risk,5.6,-0.40000000000000036,us_core_pce_price_index,미국 Core PCE YoY,inflation,2026-04-01,129.63,index,0.9327893359910355,3.289190610508208,1,0.9327893359910355,neutral,ok,
+Inflation Risk,5.6,-0.40000000000000036,us_core_cpi,미국 Core CPI YoY,inflation,2026-05-01,336.121,index,0.7822806975461116,2.8229420636110225,1,0.7822806975461116,neutral,ok,
+Inflation Risk,5.6,-0.40000000000000036,us_cpi_food,미국 식품 CPI,inflation,2026-05-01,348.892,index,0.6548920726324292,3.0779321306806384,1,0.6548920726324292,neutral,ok,
+Growth Slowdown Risk,3.5,-0.2999999999999998,us_bank_lending_standards,은행 대출태도,credit,2026-04-01,8.1,net_percent,52.83018867924527,-56.21621621621622,1,52.83018867924527,risk_up_major,ok,major
+Growth Slowdown Risk,3.5,-0.2999999999999998,us_10y_2y_spread,장단기 금리차(미국 10Y-2Y),rates,2026-06-18,0.27,percentage_point,-46.0,-38.63636363636363,-1,46.0,risk_up_major,ok,major
+Growth Slowdown Risk,3.5,-0.2999999999999998,us_10y_3m_spread,미국 10년-3개월 금리차,rates,2026-06-18,0.63,percentage_point,18.867924528301884,-1675.0,-1,-18.867924528301884,risk_down_major,ok,
+Growth Slowdown Risk,3.5,-0.2999999999999998,korea_employment_rate,한국 고용률,employment,2026-05-01,63.3,percent,-9.532411192770141,-9.450985446498915,-1,9.532411192770141,risk_up,ok,
+Growth Slowdown Risk,3.5,-0.2999999999999998,us_initial_jobless_claims,신규 실업수당 청구,employment,2026-06-13,226000.0,persons,6.103286384976525,-8.130081300813007,1,6.103286384976525,risk_up,ok,
+Growth Slowdown Risk,3.5,-0.2999999999999998,us_unemployment_rate,미국 실업률,employment,2026-05-01,4.3,percent,-2.272727272727282,0.0,1,-2.272727272727282,neutral,ok,
+Growth Slowdown Risk,3.5,-0.2999999999999998,korea_unemployment_rate,한국 실업률,employment,2026-05-01,2.9,percent,-0.4882936487511258,4.714159231961368,1,-0.4882936487511258,neutral,ok,
+Growth Slowdown Risk,3.5,-0.2999999999999998,us_nonfarm_payrolls,미국 비농업고용,employment,2026-05-01,159001.0,thousands_persons,0.35661087126663826,0.317354162197625,-1,-0.35661087126663826,neutral,ok,
+Global Rate Divergence Risk,4.5,,us_korea_10y_gap,US-Korea 10Y gap,rates_global,2026-05-01,0.3149999999999995,percentage_point,-51.38888888888894,-79.54545454545458,1,-51.38888888888894,risk_down_major,ok,major
+Global Rate Divergence Risk,4.5,,japan_gov_bond_10y,Japan 10Y,rates_global,2026-05-01,2.65,percent,25.59241706161137,76.66666666666666,1,25.59241706161137,risk_up_major,ok,watch
+Global Rate Divergence Risk,4.5,,us_japan_10y_gap,US-Japan 10Y gap,rates_global,2026-05-01,1.7399999999999998,percentage_point,-19.069767441860474,-36.727272727272734,1,-19.069767441860474,risk_down_major,ok,
+Global Rate Divergence Risk,4.5,,uk_gov_bond_10y,UK 10Y,rates_global,2026-05-01,4.9416,percent,11.48813283999639,7.4167463698809,1,11.48813283999639,risk_up,ok,
+Global Rate Divergence Risk,4.5,,us_germany_10y_gap,US-Germany 10Y gap,rates_global,2026-05-01,1.3434999999999997,percentage_point,-11.320132013201324,-20.36833192007711,1,-11.320132013201324,risk_down,ok,
+Global Rate Divergence Risk,4.5,,germany_gov_bond_10y,Germany 10Y,rates_global,2026-05-01,3.0465,percent,10.983606557377046,18.87123745620616,1,10.983606557377046,risk_up,ok,
+Global Rate Divergence Risk,4.5,,canada_gov_bond_10y,Canada 10Y,rates_global,2026-05-01,3.5415,percent,7.696062740076792,9.935698447893614,1,7.696062740076792,risk_up,ok,
+Global Rate Divergence Risk,4.5,,us_treasury_10y,미국 10년물,rates,2026-06-17,4.49,percent,6.904761904761902,2.277904328018243,1,6.904761904761902,risk_up,ok,
+Global Rate Divergence Risk,4.5,,australia_gov_bond_10y,Australia 10Y,rates_global,2026-05-01,4.99,percent,4.875998318621266,14.71264367816094,1,4.875998318621266,neutral,ok,
+FX Risk,5.4,-1.0999999999999996,korea_foreign_stock_flows,외국인 주식 자금흐름,fx,2026-04-01,-1241.9,million_usd,-665.0136487716105,-86.46474774666768,-1,665.0136487716105,risk_up_major,ok,major
+FX Risk,5.4,-1.0999999999999996,korea_trade_balance,무역수지,fx,2026-04-01,23754.887,million_usd,172.33644688382222,394.5813777097743,-1,-172.33644688382222,risk_down_major,ok,major
+FX Risk,5.4,-1.0999999999999996,korea_foreign_bond_flows,외국인 채권 자금흐름,fx,2026-04-01,4754.0,million_usd,6.417746737402896,-9.27307773049103,-1,-6.417746737402896,risk_down,ok,
+FX Risk,5.4,-1.0999999999999996,usd_krw,USD/KRW,fx,2026-06-19,1527.0,krw_per_usd,2.080380779206892,11.288453549642519,1,2.080380779206892,neutral,ok,
+FX Risk,5.4,-1.0999999999999996,dxy,DXY,fx,2026-06-19,100.76000213623047,index,0.8003231883603412,4.004959736593738,1,0.8003231883603412,neutral,ok,
+FX Risk,5.4,-1.0999999999999996,us_minus_korea_policy_rate_gap,한미 기준금리차,rates,2026-06-21,1.125,percentage_point,0.0,-40.0,1,0.0,neutral,ok,
+FX Risk,5.4,-1.0999999999999996,korea_current_account,경상수지,fx,2026-04-01,28292.3,million_usd,,,-1,,missing,ok,
+Credit Stress Risk,1.5,0.0,us_financial_stress,금융시장 스트레스 지표,credit,2026-06-12,-0.7698,index,80.49237983587341,-4.206072672971617,1,80.49237983587341,risk_up_major,ok,major
+Credit Stress Risk,1.5,0.0,us_bank_lending_standards,은행 대출태도,credit,2026-04-01,8.1,net_percent,52.83018867924527,-56.21621621621622,1,52.83018867924527,risk_up_major,ok,major
+Credit Stress Risk,1.5,0.0,us_bbb_spread,BBB 스프레드,credit,2026-06-17,0.92,percentage_point,-19.298245614035082,-16.36363636363637,1,-19.298245614035082,risk_down_major,ok,
+Credit Stress Risk,1.5,0.0,us_high_yield_spread,미국 하이일드 스프레드,credit,2026-06-17,2.63,percentage_point,-18.322981366459633,-17.034700315457417,1,-18.322981366459633,risk_down_major,ok,
+Credit Stress Risk,1.5,0.0,us_business_loan_delinquency_rate,부도율,credit,2026-01-01,1.34,percent,0.0,3.875968992248069,1,0.0,neutral,ok,
+Climate Supply Shock Risk,3.1,-2.9,coffee_futures,커피,commodities,2026-06-18,256.1000061035156,us_cents_per_lb,-22.91948650007054,-25.21536079003319,1,-22.91948650007054,risk_down_major,ok,watch
+Climate Supply Shock Risk,3.1,-2.9,fertilizer_ppi,비료 가격,commodities,2026-05-01,431.86,index,15.819284798618295,28.124035791422397,1,15.819284798618295,risk_up_major,ok,
+Climate Supply Shock Risk,3.1,-2.9,rough_rice_futures,쌀,commodities,2026-06-18,12.604999542236328,usd_per_cwt,14.279237057069928,-6.595037798222869,1,14.279237057069928,risk_up,ok,
+Climate Supply Shock Risk,3.1,-2.9,wti_spot,WTI,commodities,2026-06-15,84.65,usd_per_barrel,-14.04346060113728,14.639761646803894,1,-14.04346060113728,risk_down,ok,
+Climate Supply Shock Risk,3.1,-2.9,wheat_futures,밀,commodities,2026-06-18,613.25,us_cents_per_bushel,13.986988847583648,14.840823970037453,1,13.986988847583648,risk_up,ok,
+Climate Supply Shock Risk,3.1,-2.9,soybean_futures,대두,commodities,2026-06-18,1142.0,us_cents_per_bushel,7.305614282358475,9.623230141588678,1,7.305614282358475,risk_up,ok,
+Climate Supply Shock Risk,3.1,-2.9,cocoa_futures,코코아,commodities,2026-06-18,4362.0,usd_per_tonne,4.729891956782706,-55.44888162598305,1,4.729891956782706,neutral,ok,
+Climate Supply Shock Risk,3.1,-2.9,henry_hub_natural_gas,천연가스/LNG,commodities,2026-06-15,3.06,usd_per_mmbtu,-4.375000000000007,15.471698113207545,1,-4.375000000000007,neutral,ok,
+Climate Supply Shock Risk,3.1,-2.9,corn_futures,옥수수,commodities,2026-06-18,444.25,us_cents_per_bushel,3.7361354349095155,0.05630630630630851,1,3.7361354349095155,neutral,ok,
+Climate Supply Shock Risk,3.1,-2.9,sugar_futures,설탕,commodities,2026-06-18,14.140000343322754,us_cents_per_lb,-0.9110028750573096,-17.067442955730495,1,-0.9110028750573096,neutral,ok,
+Climate Supply Shock Risk,3.1,-2.9,gdacs_non_green_events_count,주요 이상기후 이벤트,climate,2026-06-21,0.0,events,,,1,,missing,ok,
