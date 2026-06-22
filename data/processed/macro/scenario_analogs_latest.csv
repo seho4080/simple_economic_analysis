@@ -1,0 +1,65 @@
+scenario_slug,scenario_title,analog_rank,analog_date,distance,historical_regime,historical_supporting_regime,historical_cash,historical_gold,historical_silver,historical_equity,scenario_cash,scenario_gold,scenario_silver,scenario_equity,forward_return_1m,forward_return_3m,forward_return_6m,forward_return_12m
+baseline,Baseline,1,2024-02-06,0.69,Defensive Waiting Mode,Defensive Waiting Mode,30,40,20,60,25,40,20,65,0.055577,0.12034,0.181212,0.328599
+baseline,Baseline,2,2024-03-06,0.785,Defensive Waiting Mode,Defensive Waiting Mode,30,40,20,60,25,40,20,65,0.029835,0.090352,0.120618,0.307881
+baseline,Baseline,3,2024-04-06,0.924,Defensive Waiting Mode,Defensive Waiting Mode,30,45,20,55,25,40,20,65,0.027827,0.077688,0.145806,0.287439
+baseline,Baseline,4,2023-12-06,0.948,Defensive Waiting Mode,Defensive Waiting Mode,35,35,20,60,25,40,20,65,-0.004129,0.056251,0.152231,0.279523
+baseline,Baseline,5,2024-05-06,1.0,Defensive Waiting Mode,Defensive Waiting Mode,35,40,20,55,25,40,20,65,0.031042,0.056665,0.133383,0.19399
+baseline,Baseline,6,2024-11-06,1.009,Goldilocks,Defensive Waiting Mode,25,40,20,65,25,40,20,65,0.008123,0.044705,0.052504,0.373875
+baseline,Baseline,7,2024-01-06,1.035,Defensive Waiting Mode,Defensive Waiting Mode,30,40,20,60,25,40,20,65,0.005021,0.093173,0.179387,0.347293
+baseline,Baseline,8,2023-04-06,1.048,Defensive Waiting Mode,Defensive Waiting Mode,35,40,20,55,25,40,20,65,-0.011621,0.02007,0.029138,0.192698
+inflation_fx_shock,Inflation/FX shock,1,2024-04-06,1.201,Defensive Waiting Mode,Defensive Waiting Mode,30,45,20,55,25,50,20,55,0.028748,0.076919,0.149262,0.310588
+inflation_fx_shock,Inflation/FX shock,2,2025-01-06,1.371,Goldilocks,Dollar/KRW Risk,25,45,20,60,25,50,20,55,-0.007818,0.057312,0.047628,0.467266
+inflation_fx_shock,Inflation/FX shock,3,2025-02-06,1.438,Defensive Waiting Mode,Defensive Waiting Mode,25,45,20,60,25,50,20,55,0.045347,0.01578,0.104593,0.497672
+inflation_fx_shock,Inflation/FX shock,4,2024-03-06,1.524,Defensive Waiting Mode,Defensive Waiting Mode,30,40,20,60,25,50,20,55,0.032091,0.088951,0.119391,0.328723
+inflation_fx_shock,Inflation/FX shock,5,2022-11-06,1.567,Inflation Rebound + Dollar/KRW Risk,Defensive Waiting Mode,35,50,20,45,25,50,20,55,-0.043589,-0.096618,-0.000706,0.04477
+inflation_fx_shock,Inflation/FX shock,6,2023-04-06,1.58,Defensive Waiting Mode,Defensive Waiting Mode,35,40,20,55,25,50,20,55,-0.012498,0.014266,0.017935,0.185096
+inflation_fx_shock,Inflation/FX shock,7,2024-02-06,1.639,Defensive Waiting Mode,Defensive Waiting Mode,30,40,20,60,25,50,20,55,0.058819,0.127163,0.188874,0.344472
+inflation_fx_shock,Inflation/FX shock,8,2022-07-06,1.644,Defensive Waiting Mode,Defensive Waiting Mode,35,50,20,45,25,50,20,55,-0.030462,0.041081,0.012735,0.121019
+credit_shock,Credit shock,1,2023-08-06,1.517,Defensive Waiting Mode,Defensive Waiting Mode,45,40,20,45,55,35,20,40,-0.008316,0.017668,0.053589,0.212197
+credit_shock,Credit shock,2,2023-07-06,1.54,Defensive Waiting Mode,Defensive Waiting Mode,45,40,20,45,55,35,20,40,-0.000558,0.001502,0.048823,0.20345
+credit_shock,Credit shock,3,2023-09-06,1.779,Defensive Waiting Mode,Defensive Waiting Mode,40,45,20,45,55,35,20,40,0.010299,0.061598,0.111953,0.222829
+credit_shock,Credit shock,4,2023-06-06,1.898,Defensive Waiting Mode,Defensive Waiting Mode,35,40,20,55,55,35,20,40,0.020524,0.010608,0.072954,0.209207
+credit_shock,Credit shock,5,2023-11-06,1.976,Defensive Waiting Mode,Defensive Waiting Mode,40,40,20,50,55,35,20,40,0.034843,0.035859,0.141764,0.263181
+credit_shock,Credit shock,6,2023-04-06,1.999,Defensive Waiting Mode,Defensive Waiting Mode,35,40,20,55,55,35,20,40,-0.010507,0.011993,0.014506,0.144587
+credit_shock,Credit shock,7,2023-10-06,2.027,Defensive Waiting Mode,Defensive Waiting Mode,40,40,20,50,55,35,20,40,0.017352,0.046741,0.130622,0.273457
+credit_shock,Credit shock,8,2023-12-06,2.029,Defensive Waiting Mode,Defensive Waiting Mode,35,35,20,60,55,35,20,40,-0.003657,0.046374,0.124814,0.22973
+stagflation,Stagflation risk,1,2023-09-06,1.499,Defensive Waiting Mode,Defensive Waiting Mode,40,45,20,45,45,50,15,40,0.011063,0.069137,0.127053,0.24585
+stagflation,Stagflation risk,2,2022-10-06,1.537,Inflation Rebound + Dollar/KRW Risk,Defensive Waiting Mode,40,50,15,45,45,50,15,40,0.047393,-0.014469,0.066834,0.073014
+stagflation,Stagflation risk,3,2023-10-06,1.691,Defensive Waiting Mode,Defensive Waiting Mode,40,40,20,50,45,50,15,40,0.020038,0.053772,0.147266,0.303351
+stagflation,Stagflation risk,4,2023-08-06,1.757,Defensive Waiting Mode,Defensive Waiting Mode,45,40,20,45,45,50,15,40,-0.009063,0.020467,0.061352,0.237231
+stagflation,Stagflation risk,5,2022-07-06,1.767,Defensive Waiting Mode,Defensive Waiting Mode,35,50,20,45,45,50,15,40,-0.025354,0.030605,0.012002,0.10323
+stagflation,Stagflation risk,6,2024-04-06,1.81,Defensive Waiting Mode,Defensive Waiting Mode,30,45,20,55,45,50,15,40,0.023563,0.065154,0.129857,0.283671
+stagflation,Stagflation risk,7,2023-04-06,1.817,Defensive Waiting Mode,Defensive Waiting Mode,35,40,20,55,45,50,15,40,-0.010016,0.009716,0.011384,0.157561
+stagflation,Stagflation risk,8,2025-02-06,1.891,Defensive Waiting Mode,Defensive Waiting Mode,25,45,20,60,45,50,15,40,0.042879,0.022153,0.094976,0.433663
+liquidity_bubble,Liquidity bubble,1,2021-03-06,1.323,Liquidity Bubble,Liquidity Bubble,30,25,15,80,30,35,20,65,0.009079,0.040254,0.052793,0.09482
+liquidity_bubble,Liquidity bubble,2,2021-04-06,1.33,Liquidity Bubble,Liquidity Bubble,25,35,15,75,30,35,20,65,0.032585,0.052534,0.086433,0.066372
+liquidity_bubble,Liquidity bubble,3,2021-09-06,1.339,Liquidity Bubble,Liquidity Bubble,20,40,15,75,30,35,20,65,0.041714,0.018251,0.044765,0.064722
+liquidity_bubble,Liquidity bubble,4,2021-08-06,1.443,Defensive Waiting Mode,Liquidity Bubble,25,40,15,70,30,35,20,65,-0.014814,0.010804,0.028567,-0.014229
+liquidity_bubble,Liquidity bubble,5,2021-10-06,1.443,Liquidity Bubble,Liquidity Bubble,20,40,20,70,30,35,20,65,-0.013809,-0.016769,-0.015812,0.03433
+liquidity_bubble,Liquidity bubble,6,2021-06-06,1.495,Liquidity Bubble,Liquidity Bubble,25,40,15,70,30,35,20,65,0.020507,0.01191,0.028627,0.012949
+liquidity_bubble,Liquidity bubble,7,2021-05-06,1.52,Liquidity Bubble,Liquidity Bubble,25,35,15,75,30,35,20,65,0.000955,0.027689,0.040936,0.074548
+liquidity_bubble,Liquidity bubble,8,2024-02-06,1.562,Defensive Waiting Mode,Defensive Waiting Mode,30,40,20,60,30,35,20,65,0.052681,0.11521,0.17297,0.312754
+goldilocks,Goldilocks,1,2017-01-06,0.744,Goldilocks,Defensive Waiting Mode,35,30,15,70,30,35,15,70,-0.007979,-0.005771,0.021579,0.012472
+goldilocks,Goldilocks,2,2016-12-06,0.883,Goldilocks,Defensive Waiting Mode,35,30,15,70,30,35,15,70,0.018937,0.032088,0.007076,0.05135
+goldilocks,Goldilocks,3,2018-07-06,0.897,Goldilocks,Defensive Waiting Mode,25,35,15,75,30,35,15,70,-0.011937,-0.029757,-0.003675,0.082962
+goldilocks,Goldilocks,4,2017-02-06,0.979,Goldilocks,Defensive Waiting Mode,30,25,15,80,30,35,15,70,0.021612,0.009286,0.024543,0.031339
+goldilocks,Goldilocks,5,2018-04-06,1.055,Goldilocks,Defensive Waiting Mode,35,25,15,75,30,35,15,70,0.001366,0.056834,0.02483,0.046712
+goldilocks,Goldilocks,6,2023-12-06,1.077,Defensive Waiting Mode,Defensive Waiting Mode,35,35,20,60,30,35,15,70,-0.002738,0.053351,0.143006,0.263355
+goldilocks,Goldilocks,7,2018-06-06,1.088,Goldilocks,Defensive Waiting Mode,30,30,15,75,30,35,15,70,0.037106,-0.002133,0.024905,0.119845
+goldilocks,Goldilocks,8,2018-09-06,1.089,Goldilocks,Defensive Waiting Mode,25,30,15,80,30,35,15,70,0.007967,0.027224,0.026622,0.21937
+market_stress,Market stress,1,2024-10-06,1.155,Goldilocks,Defensive Waiting Mode,30,35,20,65,25,40,20,65,0.015578,0.069574,0.119925,0.2974
+market_stress,Market stress,2,2024-12-06,1.215,Goldilocks,Defensive Waiting Mode,25,40,20,65,25,40,20,65,0.044915,0.077048,0.071387,0.455681
+market_stress,Market stress,3,2024-11-06,1.274,Goldilocks,Defensive Waiting Mode,25,40,20,65,25,40,20,65,0.008123,0.044705,0.052504,0.373875
+market_stress,Market stress,4,2025-03-06,1.376,Goldilocks,Defensive Waiting Mode,30,35,20,65,25,40,20,65,0.014561,-0.003515,0.134775,0.463565
+market_stress,Market stress,5,2023-04-06,1.387,Defensive Waiting Mode,Defensive Waiting Mode,35,40,20,55,25,40,20,65,-0.011621,0.02007,0.029138,0.192698
+market_stress,Market stress,6,2025-02-06,1.495,Defensive Waiting Mode,Defensive Waiting Mode,25,45,20,60,25,40,20,65,0.038145,0.005212,0.095689,0.463542
+market_stress,Market stress,7,2023-10-06,1.504,Defensive Waiting Mode,Defensive Waiting Mode,40,40,20,50,25,40,20,65,0.012271,0.062033,0.161136,0.335005
+market_stress,Market stress,8,2024-08-06,1.527,Goldilocks,Defensive Waiting Mode,35,35,20,60,25,40,20,65,0.003813,0.072008,0.120387,0.231663
+rate_divergence,Rate divergence,1,2025-01-06,1.097,Goldilocks,Dollar/KRW Risk,25,45,20,60,40,40,20,50,-0.007251,0.046785,0.042354,0.4214
+rate_divergence,Rate divergence,2,2025-02-06,1.129,Defensive Waiting Mode,Defensive Waiting Mode,25,45,20,60,40,40,20,50,0.039067,0.011438,0.093327,0.449715
+rate_divergence,Rate divergence,3,2023-10-06,1.175,Defensive Waiting Mode,Defensive Waiting Mode,40,40,20,50,40,40,20,50,0.016459,0.054268,0.14729,0.306912
+rate_divergence,Rate divergence,4,2024-11-06,1.207,Goldilocks,Defensive Waiting Mode,25,40,20,65,40,40,20,50,0.00811,0.043528,0.057784,0.359758
+rate_divergence,Rate divergence,5,2024-04-06,1.207,Defensive Waiting Mode,Defensive Waiting Mode,30,45,20,55,40,40,20,50,0.027655,0.069379,0.133601,0.270282
+rate_divergence,Rate divergence,6,2023-09-06,1.238,Defensive Waiting Mode,Defensive Waiting Mode,40,45,20,45,40,40,20,50,0.011445,0.070756,0.127389,0.252561
+rate_divergence,Rate divergence,7,2024-12-06,1.244,Goldilocks,Defensive Waiting Mode,25,40,20,65,40,40,20,50,0.042556,0.076842,0.069288,0.439411
+rate_divergence,Rate divergence,8,2023-04-06,1.28,Defensive Waiting Mode,Defensive Waiting Mode,35,40,20,55,40,40,20,50,-0.011283,0.014581,0.019021,0.166742

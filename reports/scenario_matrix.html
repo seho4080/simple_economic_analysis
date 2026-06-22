@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Macro Scenario Matrix</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --surface: #ffffff;
+      --ink: #1f2933;
+      --muted: #66717f;
+      --line: #d9dee5;
+      --accent: #2563eb;
+      --positive: #16835f;
+      --negative: #c2413a;
+      --shadow: 0 8px 22px rgba(28, 39, 49, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 22px 20px 36px; }
+    a { color: var(--accent); text-decoration: none; }
+    .topbar {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    h1 { margin: 0; font-size: 28px; line-height: 1.12; }
+    h2 { margin: 0; padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 16px; }
+    .subtle { color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .panel-body { padding: 0; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 920px; }
+    th, td { padding: 11px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; font-size: 13px; }
+    th { color: var(--muted); background: #fbfcfe; font-weight: 700; }
+    .positive { color: var(--positive); font-weight: 700; }
+    .negative { color: var(--negative); font-weight: 700; }
+    .neutral { color: var(--muted); }
+    .note {
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 760px) {
+      .wrap { padding: 18px 12px 28px; }
+      .topbar { display: block; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <a href="sector_dashboard.html">Back to sector dashboard</a>
+      <h1>Macro Scenario Matrix</h1>
+      <div class="subtle">Generated 2026-06-22T09:14:24 / scenarios 8 / analogs 64</div>
+    </div>
+    <div class="subtle"><a href="decision_engine.html">Decision engine</a> / <a href="scenario_etf_backtests.html">Scenario ETF backtests</a> / <a href="scenario_simulator.html">Scenario simulator</a> / <a href="daily_brief_latest.md">Daily brief</a></div>
+  </div>
+  <div class="note">Forward proxy returns use historical analog dates, the scenario allocation, S&amp;P 500, gold futures, silver futures, USD/KRW, and Korean short-rate observations. They are analog evidence, not a trade guarantee.</div>
+  <section class="panel">
+    <h2>Scenario Summary</h2>
+    <div class="panel-body">
+      <table>
+        <thead><tr><th>Scenario</th><th>Regime</th><th>Allocation</th><th>Delta vs baseline</th><th>Avg forward proxy return</th><th>Nearest analog</th></tr></thead>
+        <tbody><tr><td><strong>Baseline</strong><div class="subtle">Latest measured macro risk scores</div></td><td>Defensive Waiting Mode<div class="subtle">Defensive Waiting Mode</div></td><td>Cash/short bonds 25m / Gold 40m / Silver/commodities 20m / Equity/ETF 65m</td><td>Cash/short bonds <span class="neutral">+0m</span> / Gold <span class="neutral">+0m</span> / Silver/commodities <span class="neutral">+0m</span> / Equity/ETF <span class="neutral">+0m</span></td><td>1M 1.8% / 3M 7.0% / 6M 12.4% / 12M 28.9%</td><td>2024-02-06<div class="subtle">distance 0.69</div></td></tr><tr><td><strong>Inflation/FX shock</strong><div class="subtle">Inflation and USD/KRW pressure re-accelerate</div></td><td>Inflation Rebound + Dollar/KRW Risk<div class="subtle">Defensive Waiting Mode</div></td><td>Cash/short bonds 25m / Gold 50m / Silver/commodities 20m / Equity/ETF 55m</td><td>Cash/short bonds <span class="neutral">+0m</span> / Gold <span class="positive">+10m</span> / Silver/commodities <span class="neutral">+0m</span> / Equity/ETF <span class="negative">-10m</span></td><td>1M 0.9% / 3M 4.1% / 6M 8.0% / 12M 28.7%</td><td>2024-04-06<div class="subtle">distance 1.201</div></td></tr><tr><td><strong>Credit shock</strong><div class="subtle">Credit stress rises with growth slowdown</div></td><td>Credit Stress<div class="subtle">Growth Slowdown Risk</div></td><td>Cash/short bonds 55m / Gold 35m / Silver/commodities 20m / Equity/ETF 40m</td><td>Cash/short bonds <span class="positive">+30m</span> / Gold <span class="negative">-5m</span> / Silver/commodities <span class="neutral">+0m</span> / Equity/ETF <span class="negative">-25m</span></td><td>1M 0.7% / 3M 2.9% / 6M 8.7% / 12M 22.0%</td><td>2023-08-06<div class="subtle">distance 1.517</div></td></tr><tr><td><strong>Stagflation risk</strong><div class="subtle">Inflation stays high while growth slows</div></td><td>Stagflation Risk<div class="subtle">Growth Slowdown Risk</div></td><td>Cash/short bonds 45m / Gold 50m / Silver/commodities 15m / Equity/ETF 40m</td><td>Cash/short bonds <span class="positive">+20m</span> / Gold <span class="positive">+10m</span> / Silver/commodities <span class="negative">-5m</span> / Equity/ETF <span class="negative">-25m</span></td><td>1M 1.3% / 3M 3.2% / 6M 8.1% / 12M 23.0%</td><td>2023-09-06<div class="subtle">distance 1.499</div></td></tr><tr><td><strong>Liquidity bubble</strong><div class="subtle">Easing liquidity supports risk appetite without credit stress</div></td><td>Liquidity Bubble<div class="subtle">Liquidity Bubble</div></td><td>Cash/short bonds 30m / Gold 35m / Silver/commodities 20m / Equity/ETF 65m</td><td>Cash/short bonds <span class="positive">+5m</span> / Gold <span class="negative">-5m</span> / Silver/commodities <span class="neutral">+0m</span> / Equity/ETF <span class="neutral">+0m</span></td><td>1M 1.6% / 3M 3.2% / 6M 5.5% / 12M 8.1%</td><td>2021-03-06<div class="subtle">distance 1.323</div></td></tr><tr><td><strong>Goldilocks</strong><div class="subtle">Low inflation and low credit stress with resilient growth</div></td><td>Goldilocks<div class="subtle">Defensive Waiting Mode</div></td><td>Cash/short bonds 30m / Gold 35m / Silver/commodities 15m / Equity/ETF 70m</td><td>Cash/short bonds <span class="positive">+5m</span> / Gold <span class="negative">-5m</span> / Silver/commodities <span class="negative">-5m</span> / Equity/ETF <span class="positive">+5m</span></td><td>1M 0.8% / 3M 1.8% / 6M 3.4% / 12M 10.3%</td><td>2017-01-06<div class="subtle">distance 0.744</div></td></tr><tr><td><strong>Market stress</strong><div class="subtle">Market volatility jumps before macro stress fully confirms</div></td><td>Defensive Waiting Mode<div class="subtle">Defensive Waiting Mode</div></td><td>Cash/short bonds 25m / Gold 40m / Silver/commodities 20m / Equity/ETF 65m</td><td>Cash/short bonds <span class="neutral">+0m</span> / Gold <span class="neutral">+0m</span> / Silver/commodities <span class="neutral">+0m</span> / Equity/ETF <span class="neutral">+0m</span></td><td>1M 1.6% / 3M 4.3% / 6M 9.8% / 12M 35.2%</td><td>2024-10-06<div class="subtle">distance 1.155</div></td></tr><tr><td><strong>Rate divergence</strong><div class="subtle">Global rate divergence and FX pressure rise together</div></td><td>Defensive Waiting Mode<div class="subtle">Dollar/KRW Risk</div></td><td>Cash/short bonds 40m / Gold 40m / Silver/commodities 20m / Equity/ETF 50m</td><td>Cash/short bonds <span class="positive">+15m</span> / Gold <span class="neutral">+0m</span> / Silver/commodities <span class="neutral">+0m</span> / Equity/ETF <span class="negative">-15m</span></td><td>1M 1.6% / 3M 4.8% / 6M 8.6% / 12M 33.3%</td><td>2025-01-06<div class="subtle">distance 1.097</div></td></tr></tbody>
+      </table>
+    </div>
+  </section>
+  <section class="panel"><h2>Baseline</h2><div class="panel-body"><table><thead><tr><th>Rank</th><th>Analog date</th><th>Historical regime</th><th>Forward proxy return</th><th>Distance</th></tr></thead><tbody><tr><td>1</td><td>2024-02-06</td><td>Defensive Waiting Mode</td><td>1M 5.6% / 3M 12.0% / 6M 18.1% / 12M 32.9%</td><td>0.69</td></tr><tr><td>2</td><td>2024-03-06</td><td>Defensive Waiting Mode</td><td>1M 3.0% / 3M 9.0% / 6M 12.1% / 12M 30.8%</td><td>0.785</td></tr><tr><td>3</td><td>2024-04-06</td><td>Defensive Waiting Mode</td><td>1M 2.8% / 3M 7.8% / 6M 14.6% / 12M 28.7%</td><td>0.924</td></tr><tr><td>4</td><td>2023-12-06</td><td>Defensive Waiting Mode</td><td>1M -0.4% / 3M 5.6% / 6M 15.2% / 12M 28.0%</td><td>0.948</td></tr><tr><td>5</td><td>2024-05-06</td><td>Defensive Waiting Mode</td><td>1M 3.1% / 3M 5.7% / 6M 13.3% / 12M 19.4%</td><td>1.0</td></tr><tr><td>6</td><td>2024-11-06</td><td>Goldilocks</td><td>1M 0.8% / 3M 4.5% / 6M 5.3% / 12M 37.4%</td><td>1.009</td></tr><tr><td>7</td><td>2024-01-06</td><td>Defensive Waiting Mode</td><td>1M 0.5% / 3M 9.3% / 6M 17.9% / 12M 34.7%</td><td>1.035</td></tr><tr><td>8</td><td>2023-04-06</td><td>Defensive Waiting Mode</td><td>1M -1.2% / 3M 2.0% / 6M 2.9% / 12M 19.3%</td><td>1.048</td></tr></tbody></table></div></section><section class="panel"><h2>Inflation/FX shock</h2><div class="panel-body"><table><thead><tr><th>Rank</th><th>Analog date</th><th>Historical regime</th><th>Forward proxy return</th><th>Distance</th></tr></thead><tbody><tr><td>1</td><td>2024-04-06</td><td>Defensive Waiting Mode</td><td>1M 2.9% / 3M 7.7% / 6M 14.9% / 12M 31.1%</td><td>1.201</td></tr><tr><td>2</td><td>2025-01-06</td><td>Goldilocks</td><td>1M -0.8% / 3M 5.7% / 6M 4.8% / 12M 46.7%</td><td>1.371</td></tr><tr><td>3</td><td>2025-02-06</td><td>Defensive Waiting Mode</td><td>1M 4.5% / 3M 1.6% / 6M 10.5% / 12M 49.8%</td><td>1.438</td></tr><tr><td>4</td><td>2024-03-06</td><td>Defensive Waiting Mode</td><td>1M 3.2% / 3M 8.9% / 6M 11.9% / 12M 32.9%</td><td>1.524</td></tr><tr><td>5</td><td>2022-11-06</td><td>Inflation Rebound + Dollar/KRW Risk</td><td>1M -4.4% / 3M -9.7% / 6M -0.1% / 12M 4.5%</td><td>1.567</td></tr><tr><td>6</td><td>2023-04-06</td><td>Defensive Waiting Mode</td><td>1M -1.2% / 3M 1.4% / 6M 1.8% / 12M 18.5%</td><td>1.58</td></tr><tr><td>7</td><td>2024-02-06</td><td>Defensive Waiting Mode</td><td>1M 5.9% / 3M 12.7% / 6M 18.9% / 12M 34.4%</td><td>1.639</td></tr><tr><td>8</td><td>2022-07-06</td><td>Defensive Waiting Mode</td><td>1M -3.0% / 3M 4.1% / 6M 1.3% / 12M 12.1%</td><td>1.644</td></tr></tbody></table></div></section><section class="panel"><h2>Credit shock</h2><div class="panel-body"><table><thead><tr><th>Rank</th><th>Analog date</th><th>Historical regime</th><th>Forward proxy return</th><th>Distance</th></tr></thead><tbody><tr><td>1</td><td>2023-08-06</td><td>Defensive Waiting Mode</td><td>1M -0.8% / 3M 1.8% / 6M 5.4% / 12M 21.2%</td><td>1.517</td></tr><tr><td>2</td><td>2023-07-06</td><td>Defensive Waiting Mode</td><td>1M -0.1% / 3M 0.2% / 6M 4.9% / 12M 20.3%</td><td>1.54</td></tr><tr><td>3</td><td>2023-09-06</td><td>Defensive Waiting Mode</td><td>1M 1.0% / 3M 6.2% / 6M 11.2% / 12M 22.3%</td><td>1.779</td></tr><tr><td>4</td><td>2023-06-06</td><td>Defensive Waiting Mode</td><td>1M 2.1% / 3M 1.1% / 6M 7.3% / 12M 20.9%</td><td>1.898</td></tr><tr><td>5</td><td>2023-11-06</td><td>Defensive Waiting Mode</td><td>1M 3.5% / 3M 3.6% / 6M 14.2% / 12M 26.3%</td><td>1.976</td></tr><tr><td>6</td><td>2023-04-06</td><td>Defensive Waiting Mode</td><td>1M -1.1% / 3M 1.2% / 6M 1.5% / 12M 14.5%</td><td>1.999</td></tr><tr><td>7</td><td>2023-10-06</td><td>Defensive Waiting Mode</td><td>1M 1.7% / 3M 4.7% / 6M 13.1% / 12M 27.3%</td><td>2.027</td></tr><tr><td>8</td><td>2023-12-06</td><td>Defensive Waiting Mode</td><td>1M -0.4% / 3M 4.6% / 6M 12.5% / 12M 23.0%</td><td>2.029</td></tr></tbody></table></div></section><section class="panel"><h2>Stagflation risk</h2><div class="panel-body"><table><thead><tr><th>Rank</th><th>Analog date</th><th>Historical regime</th><th>Forward proxy return</th><th>Distance</th></tr></thead><tbody><tr><td>1</td><td>2023-09-06</td><td>Defensive Waiting Mode</td><td>1M 1.1% / 3M 6.9% / 6M 12.7% / 12M 24.6%</td><td>1.499</td></tr><tr><td>2</td><td>2022-10-06</td><td>Inflation Rebound + Dollar/KRW Risk</td><td>1M 4.7% / 3M -1.4% / 6M 6.7% / 12M 7.3%</td><td>1.537</td></tr><tr><td>3</td><td>2023-10-06</td><td>Defensive Waiting Mode</td><td>1M 2.0% / 3M 5.4% / 6M 14.7% / 12M 30.3%</td><td>1.691</td></tr><tr><td>4</td><td>2023-08-06</td><td>Defensive Waiting Mode</td><td>1M -0.9% / 3M 2.0% / 6M 6.1% / 12M 23.7%</td><td>1.757</td></tr><tr><td>5</td><td>2022-07-06</td><td>Defensive Waiting Mode</td><td>1M -2.5% / 3M 3.1% / 6M 1.2% / 12M 10.3%</td><td>1.767</td></tr><tr><td>6</td><td>2024-04-06</td><td>Defensive Waiting Mode</td><td>1M 2.4% / 3M 6.5% / 6M 13.0% / 12M 28.4%</td><td>1.81</td></tr><tr><td>7</td><td>2023-04-06</td><td>Defensive Waiting Mode</td><td>1M -1.0% / 3M 1.0% / 6M 1.1% / 12M 15.8%</td><td>1.817</td></tr><tr><td>8</td><td>2025-02-06</td><td>Defensive Waiting Mode</td><td>1M 4.3% / 3M 2.2% / 6M 9.5% / 12M 43.4%</td><td>1.891</td></tr></tbody></table></div></section><section class="panel"><h2>Liquidity bubble</h2><div class="panel-body"><table><thead><tr><th>Rank</th><th>Analog date</th><th>Historical regime</th><th>Forward proxy return</th><th>Distance</th></tr></thead><tbody><tr><td>1</td><td>2021-03-06</td><td>Liquidity Bubble</td><td>1M 0.9% / 3M 4.0% / 6M 5.3% / 12M 9.5%</td><td>1.323</td></tr><tr><td>2</td><td>2021-04-06</td><td>Liquidity Bubble</td><td>1M 3.3% / 3M 5.3% / 6M 8.6% / 12M 6.6%</td><td>1.33</td></tr><tr><td>3</td><td>2021-09-06</td><td>Liquidity Bubble</td><td>1M 4.2% / 3M 1.8% / 6M 4.5% / 12M 6.5%</td><td>1.339</td></tr><tr><td>4</td><td>2021-08-06</td><td>Defensive Waiting Mode</td><td>1M -1.5% / 3M 1.1% / 6M 2.9% / 12M -1.4%</td><td>1.443</td></tr><tr><td>5</td><td>2021-10-06</td><td>Liquidity Bubble</td><td>1M -1.4% / 3M -1.7% / 6M -1.6% / 12M 3.4%</td><td>1.443</td></tr><tr><td>6</td><td>2021-06-06</td><td>Liquidity Bubble</td><td>1M 2.1% / 3M 1.2% / 6M 2.9% / 12M 1.3%</td><td>1.495</td></tr><tr><td>7</td><td>2021-05-06</td><td>Liquidity Bubble</td><td>1M 0.1% / 3M 2.8% / 6M 4.1% / 12M 7.5%</td><td>1.52</td></tr><tr><td>8</td><td>2024-02-06</td><td>Defensive Waiting Mode</td><td>1M 5.3% / 3M 11.5% / 6M 17.3% / 12M 31.3%</td><td>1.562</td></tr></tbody></table></div></section><section class="panel"><h2>Goldilocks</h2><div class="panel-body"><table><thead><tr><th>Rank</th><th>Analog date</th><th>Historical regime</th><th>Forward proxy return</th><th>Distance</th></tr></thead><tbody><tr><td>1</td><td>2017-01-06</td><td>Goldilocks</td><td>1M -0.8% / 3M -0.6% / 6M 2.2% / 12M 1.2%</td><td>0.744</td></tr><tr><td>2</td><td>2016-12-06</td><td>Goldilocks</td><td>1M 1.9% / 3M 3.2% / 6M 0.7% / 12M 5.1%</td><td>0.883</td></tr><tr><td>3</td><td>2018-07-06</td><td>Goldilocks</td><td>1M -1.2% / 3M -3.0% / 6M -0.4% / 12M 8.3%</td><td>0.897</td></tr><tr><td>4</td><td>2017-02-06</td><td>Goldilocks</td><td>1M 2.2% / 3M 0.9% / 6M 2.5% / 12M 3.1%</td><td>0.979</td></tr><tr><td>5</td><td>2018-04-06</td><td>Goldilocks</td><td>1M 0.1% / 3M 5.7% / 6M 2.5% / 12M 4.7%</td><td>1.055</td></tr><tr><td>6</td><td>2023-12-06</td><td>Defensive Waiting Mode</td><td>1M -0.3% / 3M 5.3% / 6M 14.3% / 12M 26.3%</td><td>1.077</td></tr><tr><td>7</td><td>2018-06-06</td><td>Goldilocks</td><td>1M 3.7% / 3M -0.2% / 6M 2.5% / 12M 12.0%</td><td>1.088</td></tr><tr><td>8</td><td>2018-09-06</td><td>Goldilocks</td><td>1M 0.8% / 3M 2.7% / 6M 2.7% / 12M 21.9%</td><td>1.089</td></tr></tbody></table></div></section><section class="panel"><h2>Market stress</h2><div class="panel-body"><table><thead><tr><th>Rank</th><th>Analog date</th><th>Historical regime</th><th>Forward proxy return</th><th>Distance</th></tr></thead><tbody><tr><td>1</td><td>2024-10-06</td><td>Goldilocks</td><td>1M 1.6% / 3M 7.0% / 6M 12.0% / 12M 29.7%</td><td>1.155</td></tr><tr><td>2</td><td>2024-12-06</td><td>Goldilocks</td><td>1M 4.5% / 3M 7.7% / 6M 7.1% / 12M 45.6%</td><td>1.215</td></tr><tr><td>3</td><td>2024-11-06</td><td>Goldilocks</td><td>1M 0.8% / 3M 4.5% / 6M 5.3% / 12M 37.4%</td><td>1.274</td></tr><tr><td>4</td><td>2025-03-06</td><td>Goldilocks</td><td>1M 1.5% / 3M -0.4% / 6M 13.5% / 12M 46.4%</td><td>1.376</td></tr><tr><td>5</td><td>2023-04-06</td><td>Defensive Waiting Mode</td><td>1M -1.2% / 3M 2.0% / 6M 2.9% / 12M 19.3%</td><td>1.387</td></tr><tr><td>6</td><td>2025-02-06</td><td>Defensive Waiting Mode</td><td>1M 3.8% / 3M 0.5% / 6M 9.6% / 12M 46.4%</td><td>1.495</td></tr><tr><td>7</td><td>2023-10-06</td><td>Defensive Waiting Mode</td><td>1M 1.2% / 3M 6.2% / 6M 16.1% / 12M 33.5%</td><td>1.504</td></tr><tr><td>8</td><td>2024-08-06</td><td>Goldilocks</td><td>1M 0.4% / 3M 7.2% / 6M 12.0% / 12M 23.2%</td><td>1.527</td></tr></tbody></table></div></section><section class="panel"><h2>Rate divergence</h2><div class="panel-body"><table><thead><tr><th>Rank</th><th>Analog date</th><th>Historical regime</th><th>Forward proxy return</th><th>Distance</th></tr></thead><tbody><tr><td>1</td><td>2025-01-06</td><td>Goldilocks</td><td>1M -0.7% / 3M 4.7% / 6M 4.2% / 12M 42.1%</td><td>1.097</td></tr><tr><td>2</td><td>2025-02-06</td><td>Defensive Waiting Mode</td><td>1M 3.9% / 3M 1.1% / 6M 9.3% / 12M 45.0%</td><td>1.129</td></tr><tr><td>3</td><td>2023-10-06</td><td>Defensive Waiting Mode</td><td>1M 1.6% / 3M 5.4% / 6M 14.7% / 12M 30.7%</td><td>1.175</td></tr><tr><td>4</td><td>2024-11-06</td><td>Goldilocks</td><td>1M 0.8% / 3M 4.4% / 6M 5.8% / 12M 36.0%</td><td>1.207</td></tr><tr><td>5</td><td>2024-04-06</td><td>Defensive Waiting Mode</td><td>1M 2.8% / 3M 6.9% / 6M 13.4% / 12M 27.0%</td><td>1.207</td></tr><tr><td>6</td><td>2023-09-06</td><td>Defensive Waiting Mode</td><td>1M 1.1% / 3M 7.1% / 6M 12.7% / 12M 25.3%</td><td>1.238</td></tr><tr><td>7</td><td>2024-12-06</td><td>Goldilocks</td><td>1M 4.3% / 3M 7.7% / 6M 6.9% / 12M 43.9%</td><td>1.244</td></tr><tr><td>8</td><td>2023-04-06</td><td>Defensive Waiting Mode</td><td>1M -1.1% / 3M 1.5% / 6M 1.9% / 12M 16.7%</td><td>1.28</td></tr></tbody></table></div></section>
+</div>
+</body>
+</html>

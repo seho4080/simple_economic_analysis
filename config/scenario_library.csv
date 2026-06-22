@@ -1,0 +1,9 @@
+slug,title,description,inflation_risk,liquidity_bubble_risk,credit_stress_risk,fx_risk,climate_supply_shock_risk,growth_slowdown_risk,market_stress_risk,global_rate_divergence_risk
+baseline,Baseline,Latest measured macro risk scores,,,,,,,,
+inflation_fx_shock,Inflation/FX shock,Inflation and USD/KRW pressure re-accelerate,7.2,, ,7.0,5.8,,,
+credit_shock,Credit shock,Credit stress rises with growth slowdown,,4.0,7.2,, ,6.4,,
+stagflation,Stagflation risk,Inflation stays high while growth slows,7.0,4.5,5.0,6.3,6.0,6.6,5.5,6.0
+liquidity_bubble,Liquidity bubble,Easing liquidity supports risk appetite without credit stress,4.8,8.0,3.0,4.2,3.5,3.8,3.0,3.5
+goldilocks,Goldilocks,Low inflation and low credit stress with resilient growth,3.8,5.0,2.0,3.8,2.5,3.2,2.0,3.0
+market_stress,Market stress,Market volatility jumps before macro stress fully confirms,,,,,, ,7.5,
+rate_divergence,Rate divergence,Global rate divergence and FX pressure rise together,5.8,5.0,3.5,6.8,3.8,4.8,4.8,7.2
