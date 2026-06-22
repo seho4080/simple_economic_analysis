@@ -12,6 +12,7 @@ from types import SimpleNamespace
 import backtest_actual_etfs
 from backtest_monthly_allocation import pct, read_csv, write_csv, xirr
 from date_defaults import latest_report_date_iso, latest_report_month, today_iso
+from variant_config import read_variant_config
 
 
 DEFAULT_END_DATE = latest_report_date_iso()
@@ -101,6 +102,12 @@ def build_variant_args(args: argparse.Namespace, variant: Variant) -> SimpleName
         equity_symbol=variant.equity_symbol,
         equity_label=variant.equity_label,
     )
+
+
+def load_variants(args: argparse.Namespace) -> list[Variant]:
+    if args.variants_csv:
+        return read_variant_config(Path(args.variants_csv), Variant, DEFAULT_END_DATE)
+    return DEFAULT_VARIANTS
 
 
 def max_drawdown(curve_rows: list[dict]) -> float:
@@ -202,13 +209,18 @@ def build_parser() -> argparse.ArgumentParser:
         default=f"reports/backtests/actual_kr_etf_variants_2022-01_to_{latest_report_month()}.md",
     )
     parser.add_argument("--summary-csv", default="data/processed/backtests/actual_kr_etf_variants/variant_summary.csv")
+    parser.add_argument(
+        "--variants-csv",
+        default=None,
+        help="Optional CSV file with variant definitions. If omitted, built-in variants are used.",
+    )
     return parser
 
 
 def main() -> int:
     args = build_parser().parse_args()
     summary_rows: list[dict] = []
-    for variant in DEFAULT_VARIANTS:
+    for variant in load_variants(args):
         variant_args = build_variant_args(args, variant)
         report_path, _, _ = backtest_actual_etfs.run_backtest(variant_args)
         summary_rows.append(

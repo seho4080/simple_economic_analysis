@@ -1,0 +1,121 @@
+{
+  "state_path": "data/processed/refresh_state.json",
+  "log_path": "data/processed/refresh_runs.jsonl",
+  "lock_path": "data/processed/refresh.lock",
+  "status_report": "reports/data_refresh_status.md",
+  "lock_stale_hours": 12,
+  "tasks": [
+    {
+      "name": "macro",
+      "description": "Fetch macro datasets, generate the current report, and update charts.",
+      "enabled": true,
+      "cadence_hours": 24,
+      "timeout_seconds": 3600,
+      "command": ["{python}", "scripts/update_macro.py"]
+    },
+    {
+      "name": "change_alerts",
+      "description": "Generate macro change alerts from the latest score history and indicator snapshot.",
+      "enabled": true,
+      "cadence_hours": 24,
+      "timeout_seconds": 300,
+      "command": ["{python}", "scripts/generate_change_alerts.py"]
+    },
+    {
+      "name": "risk_attribution",
+      "description": "Explain score and regime changes through mapped indicator drivers.",
+      "enabled": true,
+      "cadence_hours": 24,
+      "timeout_seconds": 300,
+      "command": ["{python}", "scripts/generate_risk_attribution.py"]
+    },
+    {
+      "name": "data_quality",
+      "description": "Score data freshness, fetch health, and risk-driver coverage.",
+      "enabled": true,
+      "cadence_hours": 24,
+      "timeout_seconds": 300,
+      "command": ["{python}", "scripts/generate_data_quality_report.py"]
+    },
+    {
+      "name": "daily_brief",
+      "description": "Generate a concise decision brief that links regime, alerts, attribution, quality, and allocation.",
+      "enabled": true,
+      "cadence_hours": 24,
+      "timeout_seconds": 300,
+      "command": ["{python}", "scripts/generate_daily_brief.py"]
+    },
+    {
+      "name": "scenario_simulator",
+      "description": "Generate the static what-if macro score and allocation simulator.",
+      "enabled": true,
+      "cadence_hours": 24,
+      "timeout_seconds": 300,
+      "command": ["{python}", "scripts/generate_scenario_simulator.py"]
+    },
+    {
+      "name": "scenario_matrix",
+      "description": "Generate saved scenario comparisons with historical analog forward returns.",
+      "enabled": true,
+      "cadence_hours": 24,
+      "timeout_seconds": 300,
+      "command": ["{python}", "scripts/generate_scenario_matrix.py"]
+    },
+    {
+      "name": "scenario_etf_backtests",
+      "description": "Apply saved scenario allocations to existing ISA ETF backtest return paths.",
+      "enabled": true,
+      "cadence_hours": 24,
+      "timeout_seconds": 300,
+      "command": ["{python}", "scripts/generate_scenario_etf_backtests.py"]
+    },
+    {
+      "name": "decision_engine",
+      "description": "Generate the consolidated macro decision engine report and action queue.",
+      "enabled": true,
+      "cadence_hours": 24,
+      "timeout_seconds": 300,
+      "command": ["{python}", "scripts/generate_decision_engine.py"]
+    },
+    {
+      "name": "rebalance_orders",
+      "description": "Generate buy-only portfolio rebalance order guidance from current holdings.",
+      "enabled": true,
+      "cadence_hours": 24,
+      "timeout_seconds": 300,
+      "command": ["{python}", "scripts/generate_rebalance_orders.py"]
+    },
+    {
+      "name": "monthly_history",
+      "description": "Rebuild historical monthly score/allocation history without rewriting every markdown report.",
+      "enabled": true,
+      "cadence_hours": 24,
+      "timeout_seconds": 1200,
+      "command": ["{python}", "scripts/generate_monthly_reports.py", "--history-only", "--start", "2012-03"]
+    },
+    {
+      "name": "monthly_dashboard",
+      "description": "Refresh the long-term monthly dashboard from monthly history.",
+      "enabled": true,
+      "cadence_hours": 24,
+      "timeout_seconds": 900,
+      "command": ["{python}", "scripts/visualize_monthly_history.py"]
+    },
+    {
+      "name": "sector_dashboard",
+      "description": "Generate the static HTML sector dashboard from the latest macro outputs.",
+      "enabled": true,
+      "cadence_hours": 24,
+      "timeout_seconds": 300,
+      "command": ["{python}", "scripts/generate_sector_dashboard.py"]
+    },
+    {
+      "name": "isa_backtests",
+      "description": "Refresh ISA ETF backtest reports. Disabled by default because it fetches ETF prices and is slower.",
+      "enabled": false,
+      "cadence_hours": 168,
+      "timeout_seconds": 3600,
+      "command": ["{python}", "scripts/run_isa_etf_max_backtests.py"]
+    }
+  ]
+}

@@ -10,6 +10,7 @@ import backtest_actual_etfs
 from backtest_monthly_allocation import pct, write_csv
 from date_defaults import latest_report_date_iso, today_iso
 from run_actual_etf_variants import Variant, build_variant_args, summarize_variant
+from variant_config import read_variant_config
 
 
 DEFAULT_END_DATE = latest_report_date_iso()
@@ -94,6 +95,12 @@ ISA_MAX_VARIANTS = [
 ]
 
 
+def load_variants(args: argparse.Namespace) -> list[Variant]:
+    if args.variants_csv:
+        return read_variant_config(Path(args.variants_csv), Variant, DEFAULT_END_DATE)
+    return ISA_MAX_VARIANTS
+
+
 def write_summary_report(path: Path, summary_rows: list[dict]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     lines = [
@@ -141,13 +148,18 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--report-dir", default="reports/backtests/isa_etf_max")
     parser.add_argument("--summary-report", default="reports/backtests/isa_etf_max_summary.md")
     parser.add_argument("--summary-csv", default="data/processed/backtests/isa_etf_max/variant_summary.csv")
+    parser.add_argument(
+        "--variants-csv",
+        default=None,
+        help="Optional CSV file with variant definitions. If omitted, built-in variants are used.",
+    )
     return parser
 
 
 def main() -> int:
     args = build_parser().parse_args()
     summary_rows: list[dict] = []
-    for variant in ISA_MAX_VARIANTS:
+    for variant in load_variants(args):
         variant_args = build_variant_args(args, variant)
         report_path, _, _ = backtest_actual_etfs.run_backtest(variant_args)
         summary_rows.append(summarize_variant(variant, Path(variant_args.output_dir), report_path))

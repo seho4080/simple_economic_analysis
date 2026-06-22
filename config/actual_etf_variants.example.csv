@@ -1,0 +1,4 @@
+slug,title,start,end,cash_symbol,cash_label,gold_symbol,gold_label,silver_symbol,silver_label,equity_symbol,equity_label,note
+hedged_sp500_2022,Hedged S&P500,2022-01-06,latest,153130.KS,KODEX Short-term Bond,132030.KS,KODEX Gold Futures(H),144600.KS,KODEX Silver Futures(H),219480.KS,KODEX US S&P500 Futures(H),Built-in style hedged S&P500 comparison.
+unhedged_sp500_2022,Unhedged S&P500,2022-01-06,latest,153130.KS,KODEX Short-term Bond,411060.KS,ACE KRX Gold Spot,144600.KS,KODEX Silver Futures(H),360750.KS,TIGER US S&P500,Gold and equity are unhedged where local ETF history allows.
+unhedged_nasdaq_2022,Unhedged Nasdaq100,2022-01-06,latest,153130.KS,KODEX Short-term Bond,411060.KS,ACE KRX Gold Spot,144600.KS,KODEX Silver Futures(H),133690.KS,TIGER US Nasdaq100,Equity sleeve uses Nasdaq100 instead of S&P500.

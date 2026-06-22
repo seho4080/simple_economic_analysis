@@ -3,3 +3,7 @@ __pycache__/
 .venv/
 venv/
 .env
+data/processed/refresh.lock
+data/processed/refresh_runs.jsonl
+data/processed/refresh_state.json
+reports/data_refresh_status.md
