@@ -1,0 +1,6 @@
+priority,severity,title,detail
+1,primary,Confirm before adding risk,"Use current baseline allocation: cash 25m, gold 40m, silver/resources 20m, equity/ETF 65m."
+2,implementation,Implementation candidate,"ISA 금+나스닥100 환노출: scenario XIRR 30.7%, gap vs dynamic baseline 1.3%."
+3,stress,Stress check,Most negative saved stress scenario is Inflation/FX shock; 3M worst analog return -9.7%.
+4,alert,Review major alerts,20 major alerts are active; confirm the top movers before increasing risk.
+5,data,Data confidence,Quality score is 98/100 (A).
