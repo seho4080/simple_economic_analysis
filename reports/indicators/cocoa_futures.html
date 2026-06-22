@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>코코아 Detail</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --ink: #1f2933;
+      --muted: #64707d;
+      --line: #d9dee5;
+      --accent: #1f6feb;
+      --good: #198754;
+      --warn: #b7791f;
+      --bad: #c2413a;
+      --shadow: 0 8px 22px rgba(28, 39, 49, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      letter-spacing: 0;
+    }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 22px 20px 36px; }
+    a { color: var(--accent); text-decoration: none; }
+    .back { display: inline-flex; margin-bottom: 16px; font-size: 13px; }
+    .head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+    h1 { margin: 0; font-size: 28px; line-height: 1.1; }
+    .meta { color: var(--muted); font-size: 13px; margin-top: 7px; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(130px, 1fr)); gap: 10px; margin-bottom: 16px; }
+    .card, .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .card { padding: 13px 14px; }
+    .label { color: var(--muted); font-size: 12px; }
+    .value { font-weight: 760; font-size: 22px; margin-top: 4px; line-height: 1.2; }
+    .main { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.8fr); gap: 16px; align-items: start; }
+    .panel h2 { margin: 0; padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 16px; }
+    .panel-body { padding: 14px 16px; }
+    canvas { display: block; width: 100%; height: 280px; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid var(--line); text-align: left; font-size: 13px; vertical-align: middle; }
+    th { color: var(--muted); background: #fbfcfe; }
+    .pill {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #eef3fb;
+      color: #475569;
+    }
+    .pill.bad { background: #ffefef; color: var(--bad); }
+    .pill.warn { background: #fff7e6; color: var(--warn); }
+    .empty { color: var(--muted); padding: 18px 0; }
+    .notes { color: var(--muted); line-height: 1.55; }
+    @media (max-width: 840px) {
+      .head, .main { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 560px) {
+      .wrap { padding: 18px 12px 28px; }
+      .grid { grid-template-columns: 1fr; }
+      h1 { font-size: 23px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../sector_dashboard.html">Back to sector dashboard</a>
+  <div class="head">
+    <div>
+      <h1>코코아</h1>
+      <div class="meta">cocoa_futures / Commodities / Global</div>
+    </div>
+    <div class="meta">Generated 2026-06-22T09:22:36</div>
+  </div>
+  <section class="grid">
+    <div class="card"><div class="label">Latest</div><div class="value">4,362 usd_per_tonne</div></div>
+    <div class="card"><div class="label">Latest date</div><div class="value">2026-06-18</div></div>
+    <div class="card"><div class="label">3M change</div><div class="value">+4.7%</div></div>
+    <div class="card"><div class="label">12M change</div><div class="value">-55.4%</div></div>
+  </section>
+  <section class="main">
+    <div class="panel">
+      <h2>Recent Trend</h2>
+      <div class="panel-body"><canvas id="trendCanvas" width="920" height="320"></canvas></div>
+    </div>
+    <div class="panel">
+      <h2>Alerts</h2>
+      <div class="panel-body"><div class="empty">No active alert for this indicator.</div></div>
+    </div>
+    <div class="panel">
+      <h2>Recent Observations</h2>
+      <div class="panel-body"><table>
+<thead><tr><th>Date</th><th>Value</th></tr></thead>
+<tbody>
+<tr><td>2026-06-18</td><td>4,362</td></tr>
+<tr><td>2026-06-01</td><td>4,143</td></tr>
+<tr><td>2026-05-01</td><td>3,923</td></tr>
+<tr><td>2026-04-01</td><td>3,494</td></tr>
+<tr><td>2026-01-01</td><td>4,165</td></tr>
+<tr><td>2025-12-01</td><td>6,065</td></tr>
+<tr><td>2025-11-01</td><td>5,404</td></tr>
+<tr><td>2025-10-01</td><td>6,151</td></tr>
+<tr><td>2025-09-01</td><td>6,749</td></tr>
+<tr><td>2025-08-01</td><td>7,635</td></tr>
+<tr><td>2025-07-01</td><td>8,506</td></tr>
+<tr><td>2025-05-01</td><td>9,791</td></tr>
+<tr><td>2025-04-01</td><td>9,127</td></tr>
+<tr><td>2025-03-01</td><td>7,902</td></tr>
+<tr><td>2025-02-01</td><td>9,014</td></tr>
+<tr><td>2025-01-01</td><td>10,987</td></tr>
+<tr><td>2024-11-01</td><td>9,220</td></tr>
+<tr><td>2024-10-01</td><td>7,334</td></tr>
+<tr><td>2024-08-01</td><td>9,666</td></tr>
+<tr><td>2024-07-01</td><td>8,092</td></tr>
+<tr><td>2024-06-01</td><td>7,729</td></tr>
+<tr><td>2024-05-01</td><td>9,331</td></tr>
+<tr><td>2024-04-01</td><td>10,133</td></tr>
+<tr><td>2024-03-01</td><td>9,766</td></tr>
+</tbody></table></div>
+    </div>
+    <div class="panel">
+      <h2>Source</h2>
+      <div class="panel-body notes">
+        <div>Freshness: ok</div>
+        <div>Source: <a href="https://query1.finance.yahoo.com/v8/finance/chart/CC%3DF">Yahoo Finance</a></div>
+        <div>Series: CC=F</div>
+        <div>Notes: None</div>
+      </div>
+    </div>
+  </section>
+</div>
+<script id="detail-data" type="application/json">{"series": [{"date": "2020-10-01", "value": 2293.0, "display": "2,293"}, {"date": "2020-12-01", "value": 2603.0, "display": "2,603"}, {"date": "2021-01-01", "value": 2531.0, "display": "2,531"}, {"date": "2021-02-01", "value": 2701.0, "display": "2,701"}, {"date": "2021-03-01", "value": 2348.0, "display": "2,348"}, {"date": "2021-04-01", "value": 2342.0, "display": "2,342"}, {"date": "2021-05-01", "value": 2412.0, "display": "2,412"}, {"date": "2021-06-01", "value": 2360.0, "display": "2,360"}, {"date": "2021-07-01", "value": 2366.0, "display": "2,366"}, {"date": "2021-09-01", "value": 2652.0, "display": "2,652"}, {"date": "2021-10-01", "value": 2544.0, "display": "2,544"}, {"date": "2021-11-01", "value": 2314.0, "display": "2,314"}, {"date": "2021-12-01", "value": 2520.0, "display": "2,520"}, {"date": "2022-01-01", "value": 2528.0, "display": "2,528"}, {"date": "2022-02-01", "value": 2491.0, "display": "2,491"}, {"date": "2022-03-01", "value": 2650.0, "display": "2,650"}, {"date": "2022-04-01", "value": 2597.0, "display": "2,597"}, {"date": "2022-06-01", "value": 2291.0, "display": "2,291"}, {"date": "2022-07-01", "value": 2323.0, "display": "2,323"}, {"date": "2022-08-01", "value": 2427.0, "display": "2,427"}, {"date": "2022-09-01", "value": 2354.0, "display": "2,354"}, {"date": "2022-10-01", "value": 2335.0, "display": "2,335"}, {"date": "2022-11-01", "value": 2451.0, "display": "2,451"}, {"date": "2022-12-01", "value": 2600.0, "display": "2,600"}, {"date": "2023-02-01", "value": 2748.0, "display": "2,748"}, {"date": "2023-03-01", "value": 2933.0, "display": "2,933"}, {"date": "2023-04-01", "value": 3174.0, "display": "3,174"}, {"date": "2023-05-01", "value": 3007.0, "display": "3,007"}, {"date": "2023-06-01", "value": 3318.0, "display": "3,318"}, {"date": "2023-07-01", "value": 3548.0, "display": "3,548"}, {"date": "2023-08-01", "value": 3602.0, "display": "3,602"}, {"date": "2023-09-01", "value": 3418.0, "display": "3,418"}, {"date": "2023-11-01", "value": 4475.0, "display": "4,475"}, {"date": "2023-12-01", "value": 4196.0, "display": "4,196"}, {"date": "2024-01-01", "value": 4822.0, "display": "4,822"}, {"date": "2024-02-01", "value": 6510.0, "display": "6,510"}, {"date": "2024-03-01", "value": 9766.0, "display": "9,766"}, {"date": "2024-04-01", "value": 10133.0, "display": "10,133"}, {"date": "2024-05-01", "value": 9331.0, "display": "9,331"}, {"date": "2024-06-01", "value": 7729.0, "display": "7,729"}, {"date": "2024-07-01", "value": 8092.0, "display": "8,092"}, {"date": "2024-08-01", "value": 9666.0, "display": "9,666"}, {"date": "2024-10-01", "value": 7334.0, "display": "7,334"}, {"date": "2024-11-01", "value": 9220.0, "display": "9,220"}, {"date": "2025-01-01", "value": 10987.0, "display": "10,987"}, {"date": "2025-02-01", "value": 9014.0, "display": "9,014"}, {"date": "2025-03-01", "value": 7902.0, "display": "7,902"}, {"date": "2025-04-01", "value": 9127.0, "display": "9,127"}, {"date": "2025-05-01", "value": 9791.0, "display": "9,791"}, {"date": "2025-07-01", "value": 8506.0, "display": "8,506"}, {"date": "2025-08-01", "value": 7635.0, "display": "7,635"}, {"date": "2025-09-01", "value": 6749.0, "display": "6,749"}, {"date": "2025-10-01", "value": 6151.0, "display": "6,151"}, {"date": "2025-11-01", "value": 5404.0, "display": "5,404"}, {"date": "2025-12-01", "value": 6065.0, "display": "6,065"}, {"date": "2026-01-01", "value": 4165.0, "display": "4,165"}, {"date": "2026-04-01", "value": 3494.0, "display": "3,494"}, {"date": "2026-05-01", "value": 3923.0, "display": "3,923"}, {"date": "2026-06-01", "value": 4143.0, "display": "4,143"}, {"date": "2026-06-18", "value": 4362.0, "display": "4,362"}]}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('detail-data').textContent);
+const canvas = document.getElementById('trendCanvas');
+const ctx = canvas.getContext('2d');
+const rows = DATA.series || [];
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (!rows.length) {
+    ctx.fillStyle = '#64707d';
+    ctx.font = '16px system-ui';
+    ctx.fillText('No observation history available.', 24, 54);
+    return;
+  }
+  const pad = { left: 64, right: 22, top: 24, bottom: 56 };
+  const values = rows.map(row => row.value).filter(value => typeof value === 'number');
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const span = max === min ? 1 : max - min;
+  const w = canvas.width - pad.left - pad.right;
+  const h = canvas.height - pad.top - pad.bottom;
+  ctx.strokeStyle = '#d9dee5';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad.left, pad.top);
+  ctx.lineTo(pad.left, pad.top + h);
+  ctx.lineTo(canvas.width - pad.right, pad.top + h);
+  ctx.stroke();
+  ctx.strokeStyle = '#1f6feb';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  rows.forEach((row, index) => {
+    const x = pad.left + (rows.length === 1 ? 0 : index / (rows.length - 1) * w);
+    const y = pad.top + h - ((row.value - min) / span * h);
+    if (index === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  const last = rows[rows.length - 1];
+  ctx.fillStyle = '#1f2933';
+  ctx.font = '12px system-ui';
+  ctx.fillText(`${last.date} / ${last.display}`, pad.left, 18);
+  ctx.fillStyle = '#64707d';
+  ctx.fillText(String(rows[0].date), pad.left, canvas.height - 18);
+  ctx.textAlign = 'right';
+  ctx.fillText(String(last.date), canvas.width - pad.right, canvas.height - 18);
+}
+draw();
+</script>
+</body>
+</html>

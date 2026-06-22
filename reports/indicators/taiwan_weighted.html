@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Taiwan Weighted Detail</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --ink: #1f2933;
+      --muted: #64707d;
+      --line: #d9dee5;
+      --accent: #1f6feb;
+      --good: #198754;
+      --warn: #b7791f;
+      --bad: #c2413a;
+      --shadow: 0 8px 22px rgba(28, 39, 49, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      letter-spacing: 0;
+    }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 22px 20px 36px; }
+    a { color: var(--accent); text-decoration: none; }
+    .back { display: inline-flex; margin-bottom: 16px; font-size: 13px; }
+    .head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+    h1 { margin: 0; font-size: 28px; line-height: 1.1; }
+    .meta { color: var(--muted); font-size: 13px; margin-top: 7px; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(130px, 1fr)); gap: 10px; margin-bottom: 16px; }
+    .card, .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .card { padding: 13px 14px; }
+    .label { color: var(--muted); font-size: 12px; }
+    .value { font-weight: 760; font-size: 22px; margin-top: 4px; line-height: 1.2; }
+    .main { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.8fr); gap: 16px; align-items: start; }
+    .panel h2 { margin: 0; padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 16px; }
+    .panel-body { padding: 14px 16px; }
+    canvas { display: block; width: 100%; height: 280px; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid var(--line); text-align: left; font-size: 13px; vertical-align: middle; }
+    th { color: var(--muted); background: #fbfcfe; }
+    .pill {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #eef3fb;
+      color: #475569;
+    }
+    .pill.bad { background: #ffefef; color: var(--bad); }
+    .pill.warn { background: #fff7e6; color: var(--warn); }
+    .empty { color: var(--muted); padding: 18px 0; }
+    .notes { color: var(--muted); line-height: 1.55; }
+    @media (max-width: 840px) {
+      .head, .main { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 560px) {
+      .wrap { padding: 18px 12px 28px; }
+      .grid { grid-template-columns: 1fr; }
+      h1 { font-size: 23px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../sector_dashboard.html">Back to sector dashboard</a>
+  <div class="head">
+    <div>
+      <h1>Taiwan Weighted</h1>
+      <div class="meta">taiwan_weighted / Market / Taiwan</div>
+    </div>
+    <div class="meta">Generated 2026-06-22T09:22:36</div>
+  </div>
+  <section class="grid">
+    <div class="card"><div class="label">Latest</div><div class="value">46,465 index</div></div>
+    <div class="card"><div class="label">Latest date</div><div class="value">2026-06-18</div></div>
+    <div class="card"><div class="label">3M change</div><div class="value">+46.5%</div></div>
+    <div class="card"><div class="label">12M change</div><div class="value">+108.8%</div></div>
+  </section>
+  <section class="main">
+    <div class="panel">
+      <h2>Recent Trend</h2>
+      <div class="panel-body"><canvas id="trendCanvas" width="920" height="320"></canvas></div>
+    </div>
+    <div class="panel">
+      <h2>Alerts</h2>
+      <div class="panel-body"><table>
+<thead><tr><th>Severity</th><th>Type</th><th>Detail</th><th>Move</th></tr></thead>
+<tbody>
+<tr><td><span class="pill bad">major</span></td><td>indicator_mover</td><td>3M move crossed 15% threshold.</td><td>46.5</td></tr>
+</tbody></table></div>
+    </div>
+    <div class="panel">
+      <h2>Recent Observations</h2>
+      <div class="panel-body"><table>
+<thead><tr><th>Date</th><th>Value</th></tr></thead>
+<tbody>
+<tr><td>2026-06-18</td><td>46,465</td></tr>
+<tr><td>2026-05-31</td><td>46,465</td></tr>
+<tr><td>2026-04-30</td><td>44,733</td></tr>
+<tr><td>2026-03-31</td><td>38,927</td></tr>
+<tr><td>2026-02-28</td><td>31,723</td></tr>
+<tr><td>2026-01-31</td><td>35,414</td></tr>
+<tr><td>2025-12-31</td><td>32,064</td></tr>
+<tr><td>2025-11-30</td><td>28,964</td></tr>
+<tr><td>2025-10-31</td><td>27,626</td></tr>
+<tr><td>2025-09-30</td><td>28,233</td></tr>
+<tr><td>2025-08-31</td><td>25,821</td></tr>
+<tr><td>2025-07-31</td><td>24,233</td></tr>
+<tr><td>2025-06-30</td><td>23,543</td></tr>
+<tr><td>2025-05-31</td><td>22,256</td></tr>
+<tr><td>2025-04-30</td><td>21,347</td></tr>
+<tr><td>2025-03-31</td><td>20,235</td></tr>
+<tr><td>2025-02-28</td><td>20,696</td></tr>
+<tr><td>2025-01-31</td><td>23,053</td></tr>
+<tr><td>2024-12-31</td><td>23,525</td></tr>
+<tr><td>2024-11-30</td><td>23,035</td></tr>
+<tr><td>2024-10-31</td><td>22,262</td></tr>
+<tr><td>2024-09-30</td><td>22,820</td></tr>
+<tr><td>2024-08-31</td><td>22,225</td></tr>
+<tr><td>2024-07-31</td><td>22,268</td></tr>
+</tbody></table></div>
+    </div>
+    <div class="panel">
+      <h2>Source</h2>
+      <div class="panel-body notes">
+        <div>Freshness: ok</div>
+        <div>Source: <a href="https://query1.finance.yahoo.com/v8/finance/chart/%5ETWII">Yahoo Finance</a></div>
+        <div>Series: ^TWII</div>
+        <div>Notes: None</div>
+      </div>
+    </div>
+  </section>
+</div>
+<script id="detail-data" type="application/json">{"series": [{"date": "2021-07-31", "value": 17490.2890625, "display": "17,490"}, {"date": "2021-08-31", "value": 16934.76953125, "display": "16,935"}, {"date": "2021-09-30", "value": 16987.41015625, "display": "16,987"}, {"date": "2021-10-31", "value": 17427.759765625, "display": "17,428"}, {"date": "2021-11-30", "value": 18218.83984375, "display": "18,219"}, {"date": "2021-12-31", "value": 17674.400390625, "display": "17,674"}, {"date": "2022-01-31", "value": 17652.1796875, "display": "17,652"}, {"date": "2022-02-28", "value": 17693.470703125, "display": "17,693"}, {"date": "2022-03-31", "value": 16592.1796875, "display": "16,592"}, {"date": "2022-04-30", "value": 16807.76953125, "display": "16,808"}, {"date": "2022-05-31", "value": 14825.73046875, "display": "14,826"}, {"date": "2022-06-30", "value": 15000.0703125, "display": "15,000"}, {"date": "2022-07-31", "value": 15095.4404296875, "display": "15,095"}, {"date": "2022-08-31", "value": 13424.580078125, "display": "13,425"}, {"date": "2022-09-30", "value": 12949.75, "display": "12,950"}, {"date": "2022-10-31", "value": 14879.5498046875, "display": "14,880"}, {"date": "2022-11-30", "value": 14137.6904296875, "display": "14,138"}, {"date": "2022-12-31", "value": 15265.2001953125, "display": "15,265"}, {"date": "2023-01-31", "value": 15503.7900390625, "display": "15,504"}, {"date": "2023-02-28", "value": 15868.0595703125, "display": "15,868"}, {"date": "2023-03-31", "value": 15579.1796875, "display": "15,579"}, {"date": "2023-04-30", "value": 16578.9609375, "display": "16,579"}, {"date": "2023-05-31", "value": 16915.5390625, "display": "16,916"}, {"date": "2023-06-30", "value": 17145.4296875, "display": "17,145"}, {"date": "2023-07-31", "value": 16634.509765625, "display": "16,635"}, {"date": "2023-08-31", "value": 16353.740234375, "display": "16,354"}, {"date": "2023-09-30", "value": 16001.26953125, "display": "16,001"}, {"date": "2023-10-31", "value": 17433.849609375, "display": "17,434"}, {"date": "2023-11-30", "value": 17930.810546875, "display": "17,931"}, {"date": "2023-12-31", "value": 17889.560546875, "display": "17,890"}, {"date": "2024-01-31", "value": 18966.76953125, "display": "18,967"}, {"date": "2024-02-29", "value": 20294.44921875, "display": "20,294"}, {"date": "2024-03-31", "value": 20396.599609375, "display": "20,397"}, {"date": "2024-04-30", "value": 21174.220703125, "display": "21,174"}, {"date": "2024-05-31", "value": 23032.25, "display": "23,032"}, {"date": "2024-06-30", "value": 22199.349609375, "display": "22,199"}, {"date": "2024-07-31", "value": 22268.08984375, "display": "22,268"}, {"date": "2024-08-31", "value": 22224.5390625, "display": "22,225"}, {"date": "2024-09-30", "value": 22820.4296875, "display": "22,820"}, {"date": "2024-10-31", "value": 22262.5, "display": "22,262"}, {"date": "2024-11-30", "value": 23035.099609375, "display": "23,035"}, {"date": "2024-12-31", "value": 23525.41015625, "display": "23,525"}, {"date": "2025-01-31", "value": 23053.1796875, "display": "23,053"}, {"date": "2025-02-28", "value": 20695.900390625, "display": "20,696"}, {"date": "2025-03-31", "value": 20235.029296875, "display": "20,235"}, {"date": "2025-04-30", "value": 21347.30078125, "display": "21,347"}, {"date": "2025-05-31", "value": 22256.01953125, "display": "22,256"}, {"date": "2025-06-30", "value": 23542.51953125, "display": "23,543"}, {"date": "2025-07-31", "value": 24233.099609375, "display": "24,233"}, {"date": "2025-08-31", "value": 25820.5390625, "display": "25,821"}, {"date": "2025-09-30", "value": 28233.349609375, "display": "28,233"}, {"date": "2025-10-31", "value": 27626.48046875, "display": "27,626"}, {"date": "2025-11-30", "value": 28963.599609375, "display": "28,964"}, {"date": "2025-12-31", "value": 32063.75, "display": "32,064"}, {"date": "2026-01-31", "value": 35414.48828125, "display": "35,414"}, {"date": "2026-02-28", "value": 31722.990234375, "display": "31,723"}, {"date": "2026-03-31", "value": 38926.62890625, "display": "38,927"}, {"date": "2026-04-30", "value": 44732.94140625, "display": "44,733"}, {"date": "2026-05-31", "value": 46465.19921875, "display": "46,465"}, {"date": "2026-06-18", "value": 46465.19921875, "display": "46,465"}]}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('detail-data').textContent);
+const canvas = document.getElementById('trendCanvas');
+const ctx = canvas.getContext('2d');
+const rows = DATA.series || [];
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (!rows.length) {
+    ctx.fillStyle = '#64707d';
+    ctx.font = '16px system-ui';
+    ctx.fillText('No observation history available.', 24, 54);
+    return;
+  }
+  const pad = { left: 64, right: 22, top: 24, bottom: 56 };
+  const values = rows.map(row => row.value).filter(value => typeof value === 'number');
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const span = max === min ? 1 : max - min;
+  const w = canvas.width - pad.left - pad.right;
+  const h = canvas.height - pad.top - pad.bottom;
+  ctx.strokeStyle = '#d9dee5';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad.left, pad.top);
+  ctx.lineTo(pad.left, pad.top + h);
+  ctx.lineTo(canvas.width - pad.right, pad.top + h);
+  ctx.stroke();
+  ctx.strokeStyle = '#1f6feb';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  rows.forEach((row, index) => {
+    const x = pad.left + (rows.length === 1 ? 0 : index / (rows.length - 1) * w);
+    const y = pad.top + h - ((row.value - min) / span * h);
+    if (index === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  const last = rows[rows.length - 1];
+  ctx.fillStyle = '#1f2933';
+  ctx.font = '12px system-ui';
+  ctx.fillText(`${last.date} / ${last.display}`, pad.left, 18);
+  ctx.fillStyle = '#64707d';
+  ctx.fillText(String(rows[0].date), pad.left, canvas.height - 18);
+  ctx.textAlign = 'right';
+  ctx.fillText(String(last.date), canvas.width - pad.right, canvas.height - 18);
+}
+draw();
+</script>
+</body>
+</html>

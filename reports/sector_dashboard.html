@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Macro Sector Dashboard</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --ink: #1f2933;
+      --muted: #64707d;
+      --line: #d9dee5;
+      --accent: #1f6feb;
+      --accent-soft: #e6f0ff;
+      --good: #198754;
+      --warn: #b7791f;
+      --bad: #c2413a;
+      --shadow: 0 8px 22px rgba(28, 39, 49, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      letter-spacing: 0;
+    }
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(230px, 290px) 1fr;
+    }
+    aside {
+      background: #111827;
+      color: white;
+      padding: 22px 18px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+    }
+    .brand {
+      font-size: 20px;
+      font-weight: 760;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .stamp {
+      color: #aeb8c4;
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+    .nav {
+      display: grid;
+      gap: 6px;
+    }
+    .nav button {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: transparent;
+      color: #dbe4ef;
+      min-height: 38px;
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font: inherit;
+      text-align: left;
+    }
+    .nav button.active {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: white;
+    }
+    .count {
+      min-width: 26px;
+      text-align: center;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.13);
+      padding: 2px 7px;
+      font-size: 12px;
+    }
+    main {
+      min-width: 0;
+      padding: 20px 24px 32px;
+    }
+    .topbar {
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.15;
+    }
+    .controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    input, select {
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--ink);
+      border-radius: 7px;
+      min-height: 38px;
+      padding: 8px 10px;
+      font: inherit;
+    }
+    input { width: min(340px, 100%); }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(130px, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 13px 14px;
+      box-shadow: var(--shadow);
+    }
+    .card .label {
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card .value {
+      font-size: 23px;
+      line-height: 1.2;
+      font-weight: 760;
+      margin-top: 5px;
+    }
+    .card.supplemental {
+      border-left: 4px solid #264653;
+    }
+    .alert-strip {
+      display: grid;
+      grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1.3fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .alert-panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px 14px;
+      box-shadow: var(--shadow);
+    }
+    .alert-panel strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 7px;
+    }
+    .alert-list {
+      display: grid;
+      gap: 6px;
+    }
+    .mini-alert {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      min-width: 0;
+    }
+    .mini-alert span:first-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 720;
+      background: #eef3fb;
+      color: #475569;
+      white-space: nowrap;
+    }
+    .badge.bad { background: #ffefef; color: var(--bad); }
+    .badge.warn { background: #fff7e6; color: var(--warn); }
+    .detail-link {
+      color: var(--ink);
+      text-decoration: none;
+    }
+    a {
+      color: var(--accent);
+    }
+    .detail-link:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+    .content-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.8fr);
+      gap: 16px;
+      align-items: start;
+    }
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .panel-head {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+    .panel-title {
+      font-weight: 720;
+    }
+    .subtle {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .chart-box {
+      padding: 12px 16px 16px;
+    }
+    canvas {
+      width: 100%;
+      height: 260px;
+      display: block;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: middle;
+      font-size: 13px;
+    }
+    th {
+      color: var(--muted);
+      font-weight: 680;
+      background: #fbfcfe;
+    }
+    tbody tr:hover {
+      background: #fbfcfe;
+    }
+    td strong {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      background: #edf7f1;
+      color: var(--good);
+      font-weight: 650;
+    }
+    .status.warn {
+      background: #fff7e6;
+      color: var(--warn);
+    }
+    .status.bad {
+      background: #ffefef;
+      color: var(--bad);
+    }
+    .delta.positive { color: #0f7a45; font-weight: 680; }
+    .delta.negative { color: #b42318; font-weight: 680; }
+    .gallery {
+      display: grid;
+      gap: 12px;
+      padding: 12px;
+    }
+    .gallery figure {
+      margin: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .gallery img {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #fff;
+    }
+    figcaption {
+      padding: 8px 10px;
+      color: var(--muted);
+      font-size: 12px;
+      border-top: 1px solid var(--line);
+    }
+    .empty {
+      padding: 30px;
+      color: var(--muted);
+      text-align: center;
+    }
+    @media (max-width: 980px) {
+      .app { grid-template-columns: 1fr; }
+      aside { position: static; height: auto; }
+      .nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .topbar { grid-template-columns: 1fr; }
+      .controls { justify-content: flex-start; }
+      .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .alert-strip { grid-template-columns: 1fr; }
+      .content-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 620px) {
+      main { padding: 16px 12px 24px; }
+      .nav { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: 1fr; }
+      th:nth-child(3), td:nth-child(3), th:nth-child(5), td:nth-child(5) { display: none; }
+      th, td { padding: 9px 8px; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="brand">Macro Sector Dashboard</div>
+    <div class="stamp">Generated 2026-06-22T09:22:34</div>
+    <nav class="nav" id="categoryNav"></nav>
+  </aside>
+  <main>
+    <div class="topbar">
+      <div>
+        <h1 id="pageTitle">All Sectors</h1>
+        <div class="subtle" id="pageMeta"></div>
+      </div>
+      <div class="controls">
+        <input id="searchInput" type="search" placeholder="Search indicator, source, country">
+        <select id="sortSelect" aria-label="Sort indicators">
+          <option value="label">Name</option>
+          <option value="change3m">3M change</option>
+          <option value="change12m">12M change</option>
+          <option value="alert">Alert severity</option>
+          <option value="freshness">Freshness</option>
+        </select>
+      </div>
+    </div>
+    <section class="cards" id="scoreCards"></section>
+    <section class="alert-strip">
+      <div class="alert-panel">
+        <strong>Change Alerts</strong>
+        <div class="subtle" id="alertSummary"></div>
+        <div class="subtle"><a href="daily_brief_latest.md">Daily brief</a> / <a href="decision_engine.html">Decision engine</a> / <a href="rebalance_orders.html">Rebalance orders</a> / <a href="scenario_simulator.html">Scenario simulator</a> / <a href="scenario_matrix.html">Scenario matrix</a> / <a href="scenario_etf_backtests.html">Scenario ETF backtests</a> / <a href="alerts_latest.md">Alerts report</a> / <a href="risk_attribution_latest.md">Risk attribution</a> / <a href="data_quality_latest.md">Data quality</a></div>
+      </div>
+      <div class="alert-panel">
+        <strong>Top Alerts</strong>
+        <div class="alert-list" id="topAlerts"></div>
+      </div>
+    </section>
+    <section class="content-grid">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title" id="tableTitle">Indicators</div>
+            <div class="subtle" id="tableMeta"></div>
+          </div>
+          <div class="subtle" id="healthMeta"></div>
+        </div>
+        <div class="chart-box">
+          <canvas id="sectorCanvas" width="960" height="300"></canvas>
+        </div>
+        <div id="tableWrap"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Charts</div>
+            <div class="subtle">Sector-linked report assets</div>
+          </div>
+        </div>
+        <div class="gallery" id="chartGallery"></div>
+      </div>
+    </section>
+  </main>
+</div>
+<script id="dashboard-data" type="application/json">{"generated_at": "2026-06-22T09:22:34", "indicators": [{"id": "dow_jones", "label": "Dow Jones", "category": "market", "categoryLabel": "Market", "country": "United States", "latestDate": "2026-06-18", "latestValue": 51564.69921875, "latestDisplay": "51,565", "unit": "index", "ageDays": 3.0, "freshness": "ok", "change3m": 11.271077067360057, "change3mDisplay": "+11.3%", "change12m": 16.940625309779776, "change12mDisplay": "+16.9%", "source": "Yahoo Finance", "series": "^DJI", "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EDJI", "notes": "", "detailPath": "indicators/dow_jones.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "hang_seng", "label": "Hang Seng", "category": "market", "categoryLabel": "Market", "country": "Hong Kong", "latestDate": "2026-06-18", "latestValue": 23924.810546875, "latestDisplay": "23,925", "unit": "index", "ageDays": 3.0, "freshness": "ok", "change3m": -4.99388678720808, "change3mDisplay": "-5.0%", "change12m": -4.596961885757667, "change12mDisplay": "-4.6%", "source": "Yahoo Finance", "series": "^HSI", "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EHSI", "notes": "", "detailPath": "indicators/hang_seng.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "kosdaq", "label": "KOSDAQ", "category": "market", "categoryLabel": "Market", "country": "Korea", "latestDate": "2026-06-19", "latestValue": 966.5900268554688, "latestDisplay": "966.6", "unit": "index", "ageDays": 2.0, "freshness": "ok", "change3m": -8.152869810498075, "change3mDisplay": "-8.2%", "change12m": 23.683944575235927, "change12mDisplay": "+23.7%", "source": "Yahoo Finance", "series": "^KQ11", "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EKQ11", "notes": "", "detailPath": "indicators/kosdaq.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "kospi", "label": "KOSPI", "category": "market", "categoryLabel": "Market", "country": "Korea", "latestDate": "2026-06-19", "latestValue": 9052.419921875, "latestDisplay": "9,052", "unit": "index", "ageDays": 2.0, "freshness": "ok", "change3m": 79.16856327141075, "change3mDisplay": "+79.2%", "change12m": 194.70391202830336, "change12mDisplay": "+194.7%", "source": "Yahoo Finance", "series": "^KS11", "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EKS11", "notes": "", "detailPath": "indicators/kospi.html", "alertCount": 1, "alertSeverity": "major", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "nasdaq_composite", "label": "NASDAQ Composite", "category": "market", "categoryLabel": "Market", "country": "United States", "latestDate": "2026-06-18", "latestValue": 26517.931640625, "latestDisplay": "26,518", "unit": "index", "ageDays": 3.0, "freshness": "ok", "change3m": 6.53061551152021, "change3mDisplay": "+6.5%", "change12m": 25.543829534150486, "change12mDisplay": "+25.5%", "source": "Yahoo Finance", "series": "^IXIC", "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EIXIC", "notes": "", "detailPath": "indicators/nasdaq_composite.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "nikkei_225", "label": "Nikkei 225", "category": "market", "categoryLabel": "Market", "country": "Japan", "latestDate": "2026-06-19", "latestValue": 71250.0625, "latestDisplay": "71,250", "unit": "index", "ageDays": 2.0, "freshness": "ok", "change3m": 39.531675804555455, "change3mDisplay": "+39.5%", "change12m": 75.98087058740897, "change12mDisplay": "+76.0%", "source": "Yahoo Finance", "series": "^N225", "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EN225", "notes": "", "detailPath": "indicators/nikkei_225.html", "alertCount": 1, "alertSeverity": "major", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "russell_2000", "label": "Russell 2000", "category": "market", "categoryLabel": "Market", "country": "United States", "latestDate": "2026-06-18", "latestValue": 2979.765380859375, "latestDisplay": "2,980", "unit": "index", "ageDays": 3.0, "freshness": "ok", "change3m": 2.069827123581569, "change3mDisplay": "+2.1%", "change12m": 25.918707551210908, "change12mDisplay": "+25.9%", "source": "Yahoo Finance", "series": "^RUT", "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5ERUT", "notes": "", "detailPath": "indicators/russell_2000.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "sp500", "label": "S&P 500", "category": "market", "categoryLabel": "Market", "country": "United States", "latestDate": "2026-06-18", "latestValue": 7500.580078125, "latestDisplay": "7,501", "unit": "index", "ageDays": 3.0, "freshness": "ok", "change3m": -1.04854024710056, "change3mDisplay": "-1.0%", "change12m": 16.10338206577293, "change12mDisplay": "+16.1%", "source": "Yahoo Finance", "series": "^GSPC", "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC", "notes": "", "detailPath": "indicators/sp500.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "sox", "label": "SOX", "category": "market", "categoryLabel": "Market", "country": "United States", "latestDate": "2026-06-18", "latestValue": 14341.783203125, "latestDisplay": "14,342", "unit": "index", "ageDays": 3.0, "freshness": "ok", "change3m": 89.00111797240704, "change3mDisplay": "+89.0%", "change12m": 158.57170600266883, "change12mDisplay": "+158.6%", "source": "Yahoo Finance", "series": "^SOX", "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5ESOX", "notes": "", "detailPath": "indicators/sox.html", "alertCount": 1, "alertSeverity": "major", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "shanghai_composite", "label": "Shanghai Composite", "category": "market", "categoryLabel": "Market", "country": "China", "latestDate": "2026-06-18", "latestValue": 4090.481201171875, "latestDisplay": "4,090", "unit": "index", "ageDays": 3.0, "freshness": "ok", "change3m": 5.103473965318384, "change3mDisplay": "+5.1%", "change12m": 18.75654088718548, "change12mDisplay": "+18.8%", "source": "Yahoo Finance", "series": "000001.SS", "url": "https://query1.finance.yahoo.com/v8/finance/chart/000001.SS", "notes": "", "detailPath": "indicators/shanghai_composite.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "taiwan_weighted", "label": "Taiwan Weighted", "category": "market", "categoryLabel": "Market", "country": "Taiwan", "latestDate": "2026-06-18", "latestValue": 46465.19921875, "latestDisplay": "46,465", "unit": "index", "ageDays": 3.0, "freshness": "ok", "change3m": 46.471687805774245, "change3mDisplay": "+46.5%", "change12m": 108.77587366198856, "change12mDisplay": "+108.8%", "source": "Yahoo Finance", "series": "^TWII", "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5ETWII", "notes": "", "detailPath": "indicators/taiwan_weighted.html", "alertCount": 1, "alertSeverity": "major", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "copper_gold_ratio", "label": "Copper / gold", "category": "market_derived", "categoryLabel": "Relative Strength", "country": "Global", "latestDate": "2026-06-19", "latestValue": 0.0015186081721321038, "latestDisplay": "0.0015", "unit": "ratio", "ageDays": 2.0, "freshness": "ok", "change3m": 21.393371433540743, "change3mDisplay": "+21.4%", "change12m": 7.3519635726512655, "change12mDisplay": "+7.4%", "source": "Derived", "series": "copper_futures/gold_futures", "url": "derived", "notes": "", "detailPath": "indicators/copper_gold_ratio.html", "alertCount": 1, "alertSeverity": "watch", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "kospi_vs_sp500", "label": "KOSPI / S&P 500", "category": "market_derived", "categoryLabel": "Relative Strength", "country": "Korea/United States", "latestDate": "2026-06-19", "latestValue": 1.2068959770559413, "latestDisplay": "1.21", "unit": "ratio", "ageDays": 2.0, "freshness": "ok", "change3m": 64.31782777902455, "change3mDisplay": "+64.3%", "change12m": 132.27512196180825, "change12mDisplay": "+132.3%", "source": "Derived", "series": "kospi/sp500", "url": "derived", "notes": "", "detailPath": "indicators/kospi_vs_sp500.html", "alertCount": 1, "alertSeverity": "major", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "nasdaq_vs_sp500", "label": "NASDAQ / S&P 500", "category": "market_derived", "categoryLabel": "Relative Strength", "country": "United States", "latestDate": "2026-06-18", "latestValue": 3.5354507737292193, "latestDisplay": "3.54", "unit": "ratio", "ageDays": 3.0, "freshness": "ok", "change3m": -2.299382139385364, "change3mDisplay": "-2.3%", "change12m": -1.0508271983960982, "change12mDisplay": "-1.1%", "source": "Derived", "series": "nasdaq_composite/sp500", "url": "derived", "notes": "", "detailPath": "indicators/nasdaq_vs_sp500.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "sox_vs_sp500", "label": "SOX / S&P 500", "category": "market_derived", "categoryLabel": "Relative Strength", "country": "United States", "latestDate": "2026-06-18", "latestValue": 1.9120898722156126, "latestDisplay": "1.91", "unit": "ratio", "ageDays": 3.0, "freshness": "ok", "change3m": 91.00387042735771, "change3mDisplay": "+91.0%", "change12m": 122.70816009148398, "change12mDisplay": "+122.7%", "source": "Derived", "series": "sox/sp500", "url": "derived", "notes": "", "detailPath": "indicators/sox_vs_sp500.html", "alertCount": 1, "alertSeverity": "major", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "vix", "label": "VIX", "category": "market_stress", "categoryLabel": "Market Stress", "country": "United States", "latestDate": "2026-06-19", "latestValue": 16.780000686645508, "latestDisplay": "16.78", "unit": "index", "ageDays": 2.0, "freshness": "ok", "change3m": -33.54455173605739, "change3mDisplay": "-33.5%", "change12m": 0.29887116423970017, "change12mDisplay": "+0.3%", "source": "Yahoo Finance", "series": "^VIX", "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX", "notes": "", "detailPath": "indicators/vix.html", "alertCount": 1, "alertSeverity": "major", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "australia_gov_bond_10y", "label": "Australia 10Y", "category": "rates_global", "categoryLabel": "Global Rates", "country": "Australia", "latestDate": "2026-05-01", "latestValue": 4.99, "latestDisplay": "4.99", "unit": "percent", "ageDays": 51.0, "freshness": "ok", "change3m": 4.875998318621266, "change3mDisplay": "+4.9%", "change12m": 14.71264367816094, "change12mDisplay": "+14.7%", "source": "FRED", "series": "IRLTLT01AUM156N", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRLTLT01AUM156N", "notes": "", "detailPath": "indicators/australia_gov_bond_10y.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "canada_gov_bond_10y", "label": "Canada 10Y", "category": "rates_global", "categoryLabel": "Global Rates", "country": "Canada", "latestDate": "2026-05-01", "latestValue": 3.5415, "latestDisplay": "3.54", "unit": "percent", "ageDays": 51.0, "freshness": "ok", "change3m": 7.696062740076792, "change3mDisplay": "+7.7%", "change12m": 9.935698447893614, "change12mDisplay": "+9.9%", "source": "FRED", "series": "IRLTLT01CAM156N", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRLTLT01CAM156N", "notes": "", "detailPath": "indicators/canada_gov_bond_10y.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "germany_gov_bond_10y", "label": "Germany 10Y", "category": "rates_global", "categoryLabel": "Global Rates", "country": "Germany", "latestDate": "2026-05-01", "latestValue": 3.0465, "latestDisplay": "3.05", "unit": "percent", "ageDays": 51.0, "freshness": "ok", "change3m": 10.983606557377046, "change3mDisplay": "+11.0%", "change12m": 18.87123745620616, "change12mDisplay": "+18.9%", "source": "FRED", "series": "IRLTLT01DEM156N", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRLTLT01DEM156N", "notes": "", "detailPath": "indicators/germany_gov_bond_10y.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "japan_gov_bond_10y", "label": "Japan 10Y", "category": "rates_global", "categoryLabel": "Global Rates", "country": "Japan", "latestDate": "2026-05-01", "latestValue": 2.65, "latestDisplay": "2.65", "unit": "percent", "ageDays": 51.0, "freshness": "ok", "change3m": 25.59241706161137, "change3mDisplay": "+25.6%", "change12m": 76.66666666666666, "change12mDisplay": "+76.7%", "source": "FRED", "series": "IRLTLT01JPM156N", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRLTLT01JPM156N", "notes": "", "detailPath": "indicators/japan_gov_bond_10y.html", "alertCount": 1, "alertSeverity": "watch", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "uk_gov_bond_10y", "label": "UK 10Y", "category": "rates_global", "categoryLabel": "Global Rates", "country": "United Kingdom", "latestDate": "2026-05-01", "latestValue": 4.9416, "latestDisplay": "4.94", "unit": "percent", "ageDays": 51.0, "freshness": "ok", "change3m": 11.48813283999639, "change3mDisplay": "+11.5%", "change12m": 7.4167463698809, "change12mDisplay": "+7.4%", "source": "FRED", "series": "IRLTLT01GBM156N", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRLTLT01GBM156N", "notes": "", "detailPath": "indicators/uk_gov_bond_10y.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_germany_10y_gap", "label": "US-Germany 10Y gap", "category": "rates_global", "categoryLabel": "Global Rates", "country": "United States/Germany", "latestDate": "2026-05-01", "latestValue": 1.3434999999999997, "latestDisplay": "1.34", "unit": "percentage_point", "ageDays": 51.0, "freshness": "ok", "change3m": -11.320132013201324, "change3mDisplay": "-11.3%", "change12m": -20.36833192007711, "change12mDisplay": "-20.4%", "source": "Derived", "series": "us_treasury_10y-germany_gov_bond_10y", "url": "derived", "notes": "", "detailPath": "indicators/us_germany_10y_gap.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_japan_10y_gap", "label": "US-Japan 10Y gap", "category": "rates_global", "categoryLabel": "Global Rates", "country": "United States/Japan", "latestDate": "2026-05-01", "latestValue": 1.7399999999999998, "latestDisplay": "1.74", "unit": "percentage_point", "ageDays": 51.0, "freshness": "ok", "change3m": -19.069767441860474, "change3mDisplay": "-19.1%", "change12m": -36.727272727272734, "change12mDisplay": "-36.7%", "source": "Derived", "series": "us_treasury_10y-japan_gov_bond_10y", "url": "derived", "notes": "", "detailPath": "indicators/us_japan_10y_gap.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_korea_10y_gap", "label": "US-Korea 10Y gap", "category": "rates_global", "categoryLabel": "Global Rates", "country": "United States/Korea", "latestDate": "2026-05-01", "latestValue": 0.3149999999999995, "latestDisplay": "0.31", "unit": "percentage_point", "ageDays": 51.0, "freshness": "ok", "change3m": -51.38888888888894, "change3mDisplay": "-51.4%", "change12m": -79.54545454545458, "change12mDisplay": "-79.5%", "source": "Derived", "series": "us_treasury_10y-korea_gov_bond_10y", "url": "derived", "notes": "", "detailPath": "indicators/us_korea_10y_gap.html", "alertCount": 1, "alertSeverity": "major", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "fed_policy_rate_mid", "label": "Fed 기준금리", "category": "rates", "categoryLabel": "Rates", "country": "United States", "latestDate": "2026-06-21", "latestValue": 3.625, "latestDisplay": "3.62", "unit": "percent", "ageDays": 0.0, "freshness": "ok", "change3m": 0.0, "change3mDisplay": "+0.0%", "change12m": -17.14285714285714, "change12mDisplay": "-17.1%", "source": "Federal Reserve Open Market Operations", "series": "fed_funds_target_daily.csv", "url": "derived", "notes": "", "detailPath": "indicators/fed_policy_rate_mid.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "fed_funds_effective", "label": "Fed 유효연방기금금리", "category": "rates", "categoryLabel": "Rates", "country": "United States", "latestDate": "2026-06-17", "latestValue": 3.63, "latestDisplay": "3.63", "unit": "percent", "ageDays": 4.0, "freshness": "ok", "change3m": -0.27472527472528485, "change3mDisplay": "-0.3%", "change12m": -16.16628175519631, "change12mDisplay": "-16.2%", "source": "Federal Reserve H.15", "series": "fed_funds_effective_daily.csv", "url": "derived", "notes": "", "detailPath": "indicators/fed_funds_effective.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_10y_3m_spread", "label": "미국 10년-3개월 금리차", "category": "rates", "categoryLabel": "Rates", "country": "United States", "latestDate": "2026-06-18", "latestValue": 0.63, "latestDisplay": "0.63", "unit": "percentage_point", "ageDays": 3.0, "freshness": "ok", "change3m": 18.867924528301884, "change3mDisplay": "+18.9%", "change12m": -1675.0, "change12mDisplay": "-1675.0%", "source": "FRED", "series": "T10Y3M", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=T10Y3M", "notes": "", "detailPath": "indicators/us_10y_3m_spread.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_treasury_10y", "label": "미국 10년물", "category": "rates", "categoryLabel": "Rates", "country": "United States", "latestDate": "2026-06-17", "latestValue": 4.49, "latestDisplay": "4.49", "unit": "percent", "ageDays": 4.0, "freshness": "ok", "change3m": 6.904761904761902, "change3mDisplay": "+6.9%", "change12m": 2.277904328018243, "change12mDisplay": "+2.3%", "source": "FRED", "series": "DGS10", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10", "notes": "", "detailPath": "indicators/us_treasury_10y.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_treasury_2y", "label": "미국 2년물", "category": "rates", "categoryLabel": "Rates", "country": "United States", "latestDate": "2026-06-17", "latestValue": 4.2, "latestDisplay": "4.2", "unit": "percent", "ageDays": 4.0, "freshness": "ok", "change3m": 14.130434782608692, "change3mDisplay": "+14.1%", "change12m": 6.598984771573613, "change12mDisplay": "+6.6%", "source": "FRED", "series": "DGS2", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS2", "notes": "", "detailPath": "indicators/us_treasury_2y.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_treasury_3m", "label": "미국 3개월물", "category": "rates", "categoryLabel": "Rates", "country": "United States", "latestDate": "2026-06-17", "latestValue": 3.83, "latestDisplay": "3.83", "unit": "percent", "ageDays": 4.0, "freshness": "ok", "change3m": 2.9569892473118253, "change3mDisplay": "+3.0%", "change12m": -13.348416289592757, "change12mDisplay": "-13.3%", "source": "FRED", "series": "DGS3MO", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS3MO", "notes": "", "detailPath": "indicators/us_treasury_3m.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_10y_2y_spread", "label": "장단기 금리차(미국 10Y-2Y)", "category": "rates", "categoryLabel": "Rates", "country": "United States", "latestDate": "2026-06-18", "latestValue": 0.27, "latestDisplay": "0.27", "unit": "percentage_point", "ageDays": 3.0, "freshness": "ok", "change3m": -46.0, "change3mDisplay": "-46.0%", "change12m": -38.63636363636363, "change12mDisplay": "-38.6%", "source": "FRED", "series": "T10Y2Y", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=T10Y2Y", "notes": "", "detailPath": "indicators/us_10y_2y_spread.html", "alertCount": 1, "alertSeverity": "major", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "korea_10y_3m_spread", "label": "장단기 금리차(한국 10Y-3M)", "category": "rates", "categoryLabel": "Rates", "country": "Korea", "latestDate": "2026-05-01", "latestValue": 1.2550000000000003, "latestDisplay": "1.26", "unit": "percentage_point", "ageDays": 51.0, "freshness": "ok", "change3m": 50.841346153846146, "change3mDisplay": "+50.8%", "change12m": 3037.499999999998, "change12mDisplay": "+3037.5%", "source": "Derived", "series": "korea_gov_bond_10y-korea_short_rate_3m", "url": "derived", "notes": "", "detailPath": "indicators/korea_10y_3m_spread.html", "alertCount": 1, "alertSeverity": "major", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "korea_gov_bond_10y", "label": "한국 10년물", "category": "rates", "categoryLabel": "Rates", "country": "Korea", "latestDate": "2026-05-01", "latestValue": 4.075, "latestDisplay": "4.08", "unit": "percent", "ageDays": 51.0, "freshness": "ok", "change3m": 12.818383167220372, "change3mDisplay": "+12.8%", "change12m": 50.36900369003692, "change12mDisplay": "+50.4%", "source": "FRED", "series": "IRLTLT01KRM156N", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRLTLT01KRM156N", "notes": "", "detailPath": "indicators/korea_gov_bond_10y.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "korea_short_rate_3m", "label": "한국 3개월물/CD91일", "category": "rates", "categoryLabel": "Rates", "country": "Korea", "latestDate": "2026-06-19", "latestValue": 2.92, "latestDisplay": "2.92", "unit": "percent", "ageDays": 2.0, "freshness": "ok", "change3m": 3.546099290780136, "change3mDisplay": "+3.5%", "change12m": 13.618677042801552, "change12mDisplay": "+13.6%", "source": "Bank of Korea ECOS KeyStatisticList", "series": "CD수익률(91일)", "url": "https://ecos.bok.or.kr/api/KeyStatisticList/", "notes": "", "detailPath": "indicators/korea_short_rate_3m.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "bok_base_rate", "label": "한국은행 기준금리", "category": "rates", "categoryLabel": "Rates", "country": "Korea", "latestDate": "2026-06-21", "latestValue": 2.5, "latestDisplay": "2.5", "unit": "percent", "ageDays": 0.0, "freshness": "ok", "change3m": 0.0, "change3mDisplay": "+0.0%", "change12m": 0.0, "change12mDisplay": "+0.0%", "source": "Bank of Korea", "series": "bok_base_rate_daily.csv", "url": "derived", "notes": "", "detailPath": "indicators/bok_base_rate.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_minus_korea_policy_rate_gap", "label": "한미 기준금리차", "category": "rates", "categoryLabel": "Rates", "country": "United States/Korea", "latestDate": "2026-06-21", "latestValue": 1.125, "latestDisplay": "1.12", "unit": "percentage_point", "ageDays": 0.0, "freshness": "ok", "change3m": 0.0, "change3mDisplay": "+0.0%", "change12m": -40.0, "change12mDisplay": "-40.0%", "source": "Derived", "series": "fed_policy_rate_mid-bok_base_rate", "url": "derived", "notes": "", "detailPath": "indicators/us_minus_korea_policy_rate_gap.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "dxy", "label": "DXY", "category": "fx", "categoryLabel": "FX", "country": "United States", "latestDate": "2026-06-19", "latestValue": 100.76000213623047, "latestDisplay": "100.8", "unit": "index", "ageDays": 2.0, "freshness": "ok", "change3m": 0.8003231883603412, "change3mDisplay": "+0.8%", "change12m": 4.004959736593738, "change12mDisplay": "+4.0%", "source": "Yahoo Finance", "series": "DX-Y.NYB", "url": "https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB", "notes": "", "detailPath": "indicators/dxy.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "usd_krw", "label": "USD/KRW", "category": "fx", "categoryLabel": "FX", "country": "Korea", "latestDate": "2026-06-19", "latestValue": 1527.0, "latestDisplay": "1,527", "unit": "krw_per_usd", "ageDays": 2.0, "freshness": "ok", "change3m": 2.080380779206892, "change3mDisplay": "+2.1%", "change12m": 11.288453549642519, "change12mDisplay": "+11.3%", "source": "Bank of Korea ECOS KeyStatisticList", "series": "원/달러 환율(종가)", "url": "https://ecos.bok.or.kr/api/KeyStatisticList/", "notes": "", "detailPath": "indicators/usd_krw.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "korea_current_account", "label": "경상수지", "category": "fx", "categoryLabel": "FX", "country": "Korea", "latestDate": "2026-04-01", "latestValue": 28292.3, "latestDisplay": "28,292", "unit": "million_usd", "ageDays": 81.0, "freshness": "ok", "change3m": null, "change3mDisplay": "NA", "change12m": null, "change12mDisplay": "NA", "source": "Bank of Korea ECOS KeyStatisticList", "series": "경상수지", "url": "https://ecos.bok.or.kr/api/KeyStatisticList/", "notes": "", "detailPath": "indicators/korea_current_account.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "korea_trade_balance", "label": "무역수지", "category": "fx", "categoryLabel": "FX", "country": "Korea", "latestDate": "2026-04-01", "latestValue": 23754.887, "latestDisplay": "23,755", "unit": "million_usd", "ageDays": 81.0, "freshness": "ok", "change3m": 172.33644688382222, "change3mDisplay": "+172.3%", "change12m": 394.5813777097743, "change12mDisplay": "+394.6%", "source": "Derived from Bank of Korea ECOS", "series": "korea_trade_exports-korea_trade_imports", "url": "derived", "notes": "", "detailPath": "indicators/korea_trade_balance.html", "alertCount": 1, "alertSeverity": "major", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "us_broad_dollar_index", "label": "미국 광의 달러지수", "category": "fx", "categoryLabel": "FX", "country": "United States", "latestDate": "2026-06-12", "latestValue": 119.5073, "latestDisplay": "119.5", "unit": "index", "ageDays": 9.0, "freshness": "ok", "change3m": -0.263222244199135, "change3mDisplay": "-0.3%", "change12m": -0.5533721165360106, "change12mDisplay": "-0.6%", "source": "FRED", "series": "DTWEXBGS", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DTWEXBGS", "notes": "", "detailPath": "indicators/us_broad_dollar_index.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "korea_foreign_stock_flows", "label": "외국인 주식 자금흐름", "category": "fx", "categoryLabel": "FX", "country": "Korea", "latestDate": "2026-04-01", "latestValue": -1241.9, "latestDisplay": "-1,242", "unit": "million_usd", "ageDays": 81.0, "freshness": "ok", "change3m": -665.0136487716105, "change3mDisplay": "-665.0%", "change12m": -86.46474774666768, "change12mDisplay": "-86.5%", "source": "Bank of Korea ECOS", "series": "301Y013:BOPF22100000", "url": "https://ecos.bok.or.kr/api/", "notes": "Balance of payments portfolio investment liabilities, equity securities.", "detailPath": "indicators/korea_foreign_stock_flows.html", "alertCount": 1, "alertSeverity": "major", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "korea_foreign_bond_flows", "label": "외국인 채권 자금흐름", "category": "fx", "categoryLabel": "FX", "country": "Korea", "latestDate": "2026-04-01", "latestValue": 4754.0, "latestDisplay": "4,754", "unit": "million_usd", "ageDays": 81.0, "freshness": "ok", "change3m": 6.417746737402896, "change3mDisplay": "+6.4%", "change12m": -9.27307773049103, "change12mDisplay": "-9.3%", "source": "Bank of Korea ECOS", "series": "301Y013:BOPF22200000", "url": "https://ecos.bok.or.kr/api/", "notes": "Balance of payments portfolio investment liabilities, debt securities.", "detailPath": "indicators/korea_foreign_bond_flows.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "korea_current_account_fred", "label": "한국 경상수지(FRED fallback)", "category": "fx", "categoryLabel": "FX", "country": "Korea", "latestDate": "2024-01-01", "latestValue": 58114053095.5, "latestDisplay": "58,114,053,096", "unit": "usd", "ageDays": 902.0, "freshness": "stale", "change3m": 5.6792738886789484, "change3mDisplay": "+5.7%", "change12m": 5.6792738886789484, "change12mDisplay": "+5.7%", "source": "FRED", "series": "KORBCABP6USD", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=KORBCABP6USD", "notes": "Annual IMF/FRED fallback; primary latest feed is Bank of Korea KeyStatisticList.", "detailPath": "indicators/korea_current_account_fred.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "korea_trade_balance_fred", "label": "한국 무역수지(FRED fallback)", "category": "fx", "categoryLabel": "FX", "country": "Korea", "latestDate": "2024-12-01", "latestValue": 8429514000000.002, "latestDisplay": "8,429,514,000,000", "unit": "usd", "ageDays": 567.0, "freshness": "stale", "change3m": 91.12940637633582, "change3mDisplay": "+91.1%", "change12m": 140.77522094471027, "change12mDisplay": "+140.8%", "source": "FRED", "series": "XTNTVA01KRM664S", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=XTNTVA01KRM664S", "notes": "Fallback only; primary feed is derived from BOK ECOS customs exports minus imports.", "detailPath": "indicators/korea_trade_balance_fred.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "korea_trade_imports", "label": "한국 통관수입", "category": "fx", "categoryLabel": "FX", "country": "Korea", "latestDate": "2026-04-01", "latestValue": 62112591.0, "latestDisplay": "62,112,591", "unit": "thousand_usd", "ageDays": 81.0, "freshness": "ok", "change3m": 8.740939763691348, "change3mDisplay": "+8.7%", "change12m": 16.68123602785925, "change12mDisplay": "+16.7%", "source": "Bank of Korea ECOS", "series": "901Y118:T004", "url": "https://ecos.bok.or.kr/api/", "notes": "", "detailPath": "indicators/korea_trade_imports.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "korea_trade_exports", "label": "한국 통관수출", "category": "fx", "categoryLabel": "FX", "country": "Korea", "latestDate": "2026-04-01", "latestValue": 85867478.0, "latestDisplay": "85,867,478", "unit": "thousand_usd", "ageDays": 81.0, "freshness": "ok", "change3m": 30.413631578795485, "change3mDisplay": "+30.4%", "change12m": 47.95619148164636, "change12mDisplay": "+48.0%", "source": "Bank of Korea ECOS", "series": "901Y118:T002", "url": "https://ecos.bok.or.kr/api/", "notes": "", "detailPath": "indicators/korea_trade_exports.html", "alertCount": 1, "alertSeverity": "major", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "us_bbb_spread", "label": "BBB 스프레드", "category": "credit", "categoryLabel": "Credit", "country": "United States", "latestDate": "2026-06-17", "latestValue": 0.92, "latestDisplay": "0.92", "unit": "percentage_point", "ageDays": 4.0, "freshness": "ok", "change3m": -19.298245614035082, "change3mDisplay": "-19.3%", "change12m": -16.36363636363637, "change12mDisplay": "-16.4%", "source": "FRED", "series": "BAMLC0A4CBBB", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=BAMLC0A4CBBB", "notes": "", "detailPath": "indicators/us_bbb_spread.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_financial_stress", "label": "금융시장 스트레스 지표", "category": "credit", "categoryLabel": "Credit", "country": "United States", "latestDate": "2026-06-12", "latestValue": -0.7698, "latestDisplay": "-0.77", "unit": "index", "ageDays": 9.0, "freshness": "ok", "change3m": 80.49237983587341, "change3mDisplay": "+80.5%", "change12m": -4.206072672971617, "change12mDisplay": "-4.2%", "source": "FRED", "series": "STLFSI4", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=STLFSI4", "notes": "", "detailPath": "indicators/us_financial_stress.html", "alertCount": 1, "alertSeverity": "major", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "us_high_yield_spread", "label": "미국 하이일드 스프레드", "category": "credit", "categoryLabel": "Credit", "country": "United States", "latestDate": "2026-06-17", "latestValue": 2.63, "latestDisplay": "2.63", "unit": "percentage_point", "ageDays": 4.0, "freshness": "ok", "change3m": -18.322981366459633, "change3mDisplay": "-18.3%", "change12m": -17.034700315457417, "change12mDisplay": "-17.0%", "source": "FRED", "series": "BAMLH0A0HYM2", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=BAMLH0A0HYM2", "notes": "", "detailPath": "indicators/us_high_yield_spread.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_business_loan_delinquency_rate", "label": "부도율", "category": "credit", "categoryLabel": "Credit", "country": "United States", "latestDate": "2026-01-01", "latestValue": 1.34, "latestDisplay": "1.34", "unit": "percent", "ageDays": 171.0, "freshness": "ok", "change3m": 0.0, "change3mDisplay": "+0.0%", "change12m": 3.875968992248069, "change12mDisplay": "+3.9%", "source": "FRED", "series": "DRBLACBS", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DRBLACBS", "notes": "Proxy for default stress; exact US corporate default-rate series is usually proprietary or report-based.", "detailPath": "indicators/us_business_loan_delinquency_rate.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_bank_lending_standards", "label": "은행 대출태도", "category": "credit", "categoryLabel": "Credit", "country": "United States", "latestDate": "2026-04-01", "latestValue": 8.1, "latestDisplay": "8.1", "unit": "net_percent", "ageDays": 81.0, "freshness": "ok", "change3m": 52.83018867924527, "change3mDisplay": "+52.8%", "change12m": -56.21621621621622, "change12mDisplay": "-56.2%", "source": "FRED", "series": "DRTSCILM", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DRTSCILM", "notes": "", "detailPath": "indicators/us_bank_lending_standards.html", "alertCount": 1, "alertSeverity": "major", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "us_chicago_fed_nfci", "label": "금융여건지수", "category": "liquidity", "categoryLabel": "Liquidity", "country": "United States", "latestDate": "2026-06-12", "latestValue": -0.505, "latestDisplay": "-0.51", "unit": "index", "ageDays": 9.0, "freshness": "ok", "change3m": 4.123711340206193, "change3mDisplay": "+4.1%", "change12m": 6.765327695560264, "change12mDisplay": "+6.8%", "source": "FRED", "series": "NFCI", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=NFCI", "notes": "", "detailPath": "indicators/us_chicago_fed_nfci.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "fed_reverse_repo", "label": "달러 유동성: 역레포", "category": "liquidity", "categoryLabel": "Liquidity", "country": "United States", "latestDate": "2026-06-18", "latestValue": 0.251, "latestDisplay": "0.25", "unit": "billions_usd", "ageDays": 3.0, "freshness": "ok", "change3m": -64.0401146131805, "change3mDisplay": "-64.0%", "change12m": -99.87759083150452, "change12mDisplay": "-99.9%", "source": "FRED", "series": "RRPONTSYD", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=RRPONTSYD", "notes": "", "detailPath": "indicators/fed_reverse_repo.html", "alertCount": 1, "alertSeverity": "major", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "fed_balance_sheet_assets", "label": "달러 유동성: 연준 총자산 3M", "category": "liquidity", "categoryLabel": "Liquidity", "country": "United States", "latestDate": "2026-06-17", "latestValue": 6736424.0, "latestDisplay": "6,736,424", "unit": "millions_usd", "ageDays": 4.0, "freshness": "ok", "change3m": 1.3553315928275689, "change3mDisplay": "+1.4%", "change12m": 0.8876385226941785, "change12mDisplay": "+0.9%", "source": "FRED", "series": "WALCL", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=WALCL", "notes": "", "detailPath": "indicators/fed_balance_sheet_assets.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "fed_reserve_balances", "label": "달러 유동성: 지급준비금 3M", "category": "liquidity", "categoryLabel": "Liquidity", "country": "United States", "latestDate": "2026-06-17", "latestValue": 3033444.0, "latestDisplay": "3,033,444", "unit": "millions_usd", "ageDays": 4.0, "freshness": "ok", "change3m": -0.1389554147675942, "change3mDisplay": "-0.1%", "change12m": -10.967189769153196, "change12mDisplay": "-11.0%", "source": "FRED", "series": "WRESBAL", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=WRESBAL", "notes": "", "detailPath": "indicators/fed_reserve_balances.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_m2", "label": "미국 M2 3개월 변화율", "category": "liquidity", "categoryLabel": "Liquidity", "country": "United States", "latestDate": "2026-04-01", "latestValue": 22804.5, "latestDisplay": "22,804", "unit": "billions_usd", "ageDays": 81.0, "freshness": "ok", "change3m": 1.672811902288518, "change3mDisplay": "+1.7%", "change12m": 4.724532391610836, "change12mDisplay": "+4.7%", "source": "FRED", "series": "M2SL", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=M2SL", "notes": "", "detailPath": "indicators/us_m2.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_sofr", "label": "미국 SOFR", "category": "liquidity", "categoryLabel": "Liquidity", "country": "United States", "latestDate": "2026-06-17", "latestValue": 3.63, "latestDisplay": "3.63", "unit": "percent", "ageDays": 4.0, "freshness": "ok", "change3m": -0.5479452054794498, "change3mDisplay": "-0.5%", "change12m": -15.777262180974471, "change12mDisplay": "-15.8%", "source": "FRED", "series": "SOFR", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=SOFR", "notes": "", "detailPath": "indicators/us_sofr.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "korea_m2", "label": "한국 M2 YoY", "category": "liquidity", "categoryLabel": "Liquidity", "country": "Korea", "latestDate": "2026-04-01", "latestValue": 4153872.5, "latestDisplay": "4,153,872", "unit": "billions_krw", "ageDays": 81.0, "freshness": "ok", "change3m": 0.9809160387923566, "change3mDisplay": "+1.0%", "change12m": 5.693349297573103, "change12mDisplay": "+5.7%", "source": "Bank of Korea ECOS", "series": "161Y005:BBHS00", "url": "https://ecos.bok.or.kr/api/", "notes": "", "detailPath": "indicators/korea_m2.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "korea_m2_fred", "label": "한국 M2(FRED fallback)", "category": "liquidity", "categoryLabel": "Liquidity", "country": "Korea", "latestDate": "2017-05-01", "latestValue": 2457795500000000.0, "latestDisplay": "2,457,795,500,000,000", "unit": "krw", "ageDays": 3338.0, "freshness": "stale", "change3m": 1.4604754004544196, "change3mDisplay": "+1.5%", "change12m": 5.727350267635489, "change12mDisplay": "+5.7%", "source": "FRED", "series": "MYAGM2KRM189S", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MYAGM2KRM189S", "notes": "FRED fallback; primary feed is Bank of Korea ECOS.", "detailPath": "indicators/korea_m2_fred.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_5y_breakeven_inflation", "label": "기대인플레", "category": "inflation", "categoryLabel": "Inflation", "country": "United States", "latestDate": "2026-06-18", "latestValue": 2.27, "latestDisplay": "2.27", "unit": "percent", "ageDays": 3.0, "freshness": "ok", "change3m": -14.661654135338352, "change3mDisplay": "-14.7%", "change12m": -3.813559322033888, "change12mDisplay": "-3.8%", "source": "FRED", "series": "T5YIE", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=T5YIE", "notes": "", "detailPath": "indicators/us_5y_breakeven_inflation.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_10y_breakeven_inflation", "label": "미국 10년 기대인플레", "category": "inflation", "categoryLabel": "Inflation", "country": "United States", "latestDate": "2026-06-18", "latestValue": 2.25, "latestDisplay": "2.25", "unit": "percent", "ageDays": 3.0, "freshness": "ok", "change3m": -6.25, "change3mDisplay": "-6.2%", "change12m": -2.5974025974025983, "change12mDisplay": "-2.6%", "source": "FRED", "series": "T10YIE", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=T10YIE", "notes": "", "detailPath": "indicators/us_10y_breakeven_inflation.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_cpi_all_items", "label": "미국 CPI YoY", "category": "inflation", "categoryLabel": "Inflation", "country": "United States", "latestDate": "2026-05-01", "latestValue": 333.979, "latestDisplay": "334.0", "unit": "index", "ageDays": 51.0, "freshness": "ok", "change3m": 1.9907774995419292, "change3mDisplay": "+2.0%", "change12m": 4.166614684049641, "change12mDisplay": "+4.2%", "source": "FRED", "series": "CPIAUCSL", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL", "notes": "", "detailPath": "indicators/us_cpi_all_items.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_core_cpi", "label": "미국 Core CPI YoY", "category": "inflation", "categoryLabel": "Inflation", "country": "United States", "latestDate": "2026-05-01", "latestValue": 336.121, "latestDisplay": "336.1", "unit": "index", "ageDays": 51.0, "freshness": "ok", "change3m": 0.7822806975461116, "change3mDisplay": "+0.8%", "change12m": 2.8229420636110225, "change12mDisplay": "+2.8%", "source": "FRED", "series": "CPILFESL", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPILFESL", "notes": "", "detailPath": "indicators/us_core_cpi.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_core_pce_price_index", "label": "미국 Core PCE YoY", "category": "inflation", "categoryLabel": "Inflation", "country": "United States", "latestDate": "2026-04-01", "latestValue": 129.63, "latestDisplay": "129.6", "unit": "index", "ageDays": 81.0, "freshness": "ok", "change3m": 0.9327893359910355, "change3mDisplay": "+0.9%", "change12m": 3.289190610508208, "change12mDisplay": "+3.3%", "source": "FRED", "series": "PCEPILFE", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=PCEPILFE", "notes": "", "detailPath": "indicators/us_core_pce_price_index.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_pce_price_index", "label": "미국 PCE YoY", "category": "inflation", "categoryLabel": "Inflation", "country": "United States", "latestDate": "2026-04-01", "latestValue": 130.902, "latestDisplay": "130.9", "unit": "index", "ageDays": 81.0, "freshness": "ok", "change3m": 1.4728453822421272, "change3mDisplay": "+1.5%", "change12m": 3.7669441141498172, "change12mDisplay": "+3.8%", "source": "FRED", "series": "PCEPI", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=PCEPI", "notes": "", "detailPath": "indicators/us_pce_price_index.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_michigan_expected_inflation", "label": "미국 미시간대 1년 기대인플레", "category": "inflation", "categoryLabel": "Inflation", "country": "United States", "latestDate": "2026-04-01", "latestValue": 4.7, "latestDisplay": "4.7", "unit": "percent", "ageDays": 81.0, "freshness": "ok", "change3m": 17.500000000000004, "change3mDisplay": "+17.5%", "change12m": -27.692307692307693, "change12mDisplay": "-27.7%", "source": "FRED", "series": "MICH", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MICH", "notes": "", "detailPath": "indicators/us_michigan_expected_inflation.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_cpi_food", "label": "미국 식품 CPI", "category": "inflation", "categoryLabel": "Inflation", "country": "United States", "latestDate": "2026-05-01", "latestValue": 348.892, "latestDisplay": "348.9", "unit": "index", "ageDays": 51.0, "freshness": "ok", "change3m": 0.6548920726324292, "change3mDisplay": "+0.7%", "change12m": 3.0779321306806384, "change12mDisplay": "+3.1%", "source": "FRED", "series": "CPIUFDSL", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIUFDSL", "notes": "", "detailPath": "indicators/us_cpi_food.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_cpi_energy", "label": "미국 에너지 CPI", "category": "inflation", "categoryLabel": "Inflation", "country": "United States", "latestDate": "2026-05-01", "latestValue": 338.639, "latestDisplay": "338.6", "unit": "index", "ageDays": 51.0, "freshness": "ok", "change3m": 19.566207546703485, "change3mDisplay": "+19.6%", "change12m": 22.972869920145843, "change12mDisplay": "+23.0%", "source": "FRED", "series": "CPIENGSL", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIENGSL", "notes": "", "detailPath": "indicators/us_cpi_energy.html", "alertCount": 1, "alertSeverity": "watch", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "korea_cpi_food", "label": "식품 CPI YoY", "category": "inflation", "categoryLabel": "Inflation", "country": "Korea", "latestDate": "2026-05-01", "latestValue": 126.55, "latestDisplay": "126.5", "unit": "index", "ageDays": 51.0, "freshness": "ok", "change3m": -1.8916195053880203, "change3mDisplay": "-1.9%", "change12m": 1.4835605453087375, "change12mDisplay": "+1.5%", "source": "Bank of Korea ECOS", "series": "901Y009:A01", "url": "https://ecos.bok.or.kr/api/", "notes": "", "detailPath": "indicators/korea_cpi_food.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "korea_cpi_energy", "label": "에너지 CPI YoY", "category": "inflation", "categoryLabel": "Inflation", "country": "Korea", "latestDate": "2026-05-01", "latestValue": 148.13, "latestDisplay": "148.1", "unit": "index", "ageDays": 51.0, "freshness": "ok", "change3m": 1.292396061269141, "change3mDisplay": "+1.3%", "change12m": 1.1402430697801336, "change12mDisplay": "+1.1%", "source": "Bank of Korea ECOS", "series": "901Y009:D05", "url": "https://ecos.bok.or.kr/api/", "notes": "Electricity, gas, and other fuels CPI proxy.", "detailPath": "indicators/korea_cpi_energy.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "korea_cpi_all_items", "label": "한국 CPI YoY", "category": "inflation", "categoryLabel": "Inflation", "country": "Korea", "latestDate": "2026-05-01", "latestValue": 119.92, "latestDisplay": "119.9", "unit": "index", "ageDays": 51.0, "freshness": "ok", "change3m": 1.2837837837837762, "change3mDisplay": "+1.3%", "change12m": 3.1392448610991774, "change12mDisplay": "+3.1%", "source": "Bank of Korea ECOS", "series": "901Y009:0", "url": "https://ecos.bok.or.kr/api/", "notes": "", "detailPath": "indicators/korea_cpi_all_items.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "korea_cpi_all_items_fred", "label": "한국 CPI(FRED fallback)", "category": "inflation", "categoryLabel": "Inflation", "country": "Korea", "latestDate": "2023-11-01", "latestValue": 118.84768138617, "latestDisplay": "118.8", "unit": "index", "ageDays": 963.0, "freshness": "stale", "change3m": 0.36499599394679283, "change3mDisplay": "+0.4%", "change12m": 3.336388634281029, "change12mDisplay": "+3.3%", "source": "FRED", "series": "KORCPIALLMINMEI", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=KORCPIALLMINMEI", "notes": "OECD/FRED fallback; primary feed is Bank of Korea ECOS.", "detailPath": "indicators/korea_cpi_all_items_fred.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "korea_cpi_food_fred", "label": "한국 식품 CPI(FRED fallback)", "category": "inflation", "categoryLabel": "Inflation", "country": "Korea", "latestDate": "2018-05-01", "latestValue": 124.082444195267, "latestDisplay": "124.1", "unit": "index", "ageDays": 2973.0, "freshness": "stale", "change3m": -1.3147007446907444, "change3mDisplay": "-1.3%", "change12m": 2.521489971346025, "change12mDisplay": "+2.5%", "source": "FRED", "series": "KORCPIFODMINMEI", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=KORCPIFODMINMEI", "notes": "OECD/FRED fallback; primary feed is Bank of Korea ECOS.", "detailPath": "indicators/korea_cpi_food_fred.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "korea_cpi_energy_fred", "label": "한국 에너지 CPI(FRED fallback)", "category": "inflation", "categoryLabel": "Inflation", "country": "Korea", "latestDate": "2025-04-01", "latestValue": 119.0472, "latestDisplay": "119.0", "unit": "index", "ageDays": 446.0, "freshness": "stale", "change3m": -1.6525730373836423, "change3mDisplay": "-1.7%", "change12m": 0.5331209744637411, "change12mDisplay": "+0.5%", "source": "FRED", "series": "KORCPIENGMINMEI", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=KORCPIENGMINMEI", "notes": "OECD/FRED fallback; primary feed is Bank of Korea ECOS.", "detailPath": "indicators/korea_cpi_energy_fred.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_nonfarm_payrolls", "label": "미국 비농업고용", "category": "employment", "categoryLabel": "Employment", "country": "United States", "latestDate": "2026-05-01", "latestValue": 159001.0, "latestDisplay": "159,001", "unit": "thousands_persons", "ageDays": 51.0, "freshness": "ok", "change3m": 0.35661087126663826, "change3mDisplay": "+0.4%", "change12m": 0.317354162197625, "change12mDisplay": "+0.3%", "source": "FRED", "series": "PAYEMS", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=PAYEMS", "notes": "", "detailPath": "indicators/us_nonfarm_payrolls.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_unemployment_rate", "label": "미국 실업률", "category": "employment", "categoryLabel": "Employment", "country": "United States", "latestDate": "2026-05-01", "latestValue": 4.3, "latestDisplay": "4.3", "unit": "percent", "ageDays": 51.0, "freshness": "ok", "change3m": -2.272727272727282, "change3mDisplay": "-2.3%", "change12m": 0.0, "change12mDisplay": "+0.0%", "source": "FRED", "series": "UNRATE", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=UNRATE", "notes": "", "detailPath": "indicators/us_unemployment_rate.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_initial_jobless_claims", "label": "신규 실업수당 청구", "category": "employment", "categoryLabel": "Employment", "country": "United States", "latestDate": "2026-06-13", "latestValue": 226000.0, "latestDisplay": "226,000", "unit": "persons", "ageDays": 8.0, "freshness": "ok", "change3m": 6.103286384976525, "change3mDisplay": "+6.1%", "change12m": -8.130081300813007, "change12mDisplay": "-8.1%", "source": "FRED", "series": "ICSA", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=ICSA", "notes": "", "detailPath": "indicators/us_initial_jobless_claims.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "us_avg_hourly_earnings", "label": "임금상승률", "category": "employment", "categoryLabel": "Employment", "country": "United States", "latestDate": "2026-05-01", "latestValue": 37.53, "latestDisplay": "37.53", "unit": "usd_per_hour", "ageDays": 51.0, "freshness": "ok", "change3m": 0.6976120203917358, "change3mDisplay": "+0.7%", "change12m": 3.4454244762954778, "change12mDisplay": "+3.4%", "source": "FRED", "series": "CES0500000003", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CES0500000003", "notes": "", "detailPath": "indicators/us_avg_hourly_earnings.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "korea_employment_rate", "label": "한국 고용률", "category": "employment", "categoryLabel": "Employment", "country": "Korea", "latestDate": "2026-05-01", "latestValue": 63.3, "latestDisplay": "63.3", "unit": "percent", "ageDays": 51.0, "freshness": "ok", "change3m": -9.532411192770141, "change3mDisplay": "-9.5%", "change12m": -9.450985446498915, "change12mDisplay": "-9.5%", "source": "Bank of Korea ECOS KeyStatisticList", "series": "고용률", "url": "https://ecos.bok.or.kr/api/KeyStatisticList/", "notes": "", "detailPath": "indicators/korea_employment_rate.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "korea_unemployment_rate", "label": "한국 실업률", "category": "employment", "categoryLabel": "Employment", "country": "Korea", "latestDate": "2026-05-01", "latestValue": 2.9, "latestDisplay": "2.9", "unit": "percent", "ageDays": 51.0, "freshness": "ok", "change3m": -0.4882936487511258, "change3mDisplay": "-0.5%", "change12m": 4.714159231961368, "change12mDisplay": "+4.7%", "source": "Bank of Korea ECOS KeyStatisticList", "series": "실업률", "url": "https://ecos.bok.or.kr/api/KeyStatisticList/", "notes": "", "detailPath": "indicators/korea_unemployment_rate.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "copper_futures", "label": "Copper futures", "category": "commodities", "categoryLabel": "Commodities", "country": "Global", "latestDate": "2026-06-19", "latestValue": 6.336999893188477, "latestDisplay": "6.34", "unit": "usd_per_lb", "ageDays": 2.0, "freshness": "ok", "change3m": 7.461422239436621, "change3mDisplay": "+7.5%", "change12m": 36.206333914112946, "change12mDisplay": "+36.2%", "source": "Yahoo Finance", "series": "HG=F", "url": "https://query1.finance.yahoo.com/v8/finance/chart/HG%3DF", "notes": "", "detailPath": "indicators/copper_futures.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "wti_spot", "label": "WTI", "category": "commodities", "categoryLabel": "Commodities", "country": "United States", "latestDate": "2026-06-15", "latestValue": 84.65, "latestDisplay": "84.65", "unit": "usd_per_barrel", "ageDays": 6.0, "freshness": "ok", "change3m": -14.04346060113728, "change3mDisplay": "-14.0%", "change12m": 14.639761646803894, "change12mDisplay": "+14.6%", "source": "FRED", "series": "DCOILWTICO", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILWTICO", "notes": "", "detailPath": "indicators/wti_spot.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "gold_futures", "label": "금 가격", "category": "commodities", "categoryLabel": "Commodities", "country": "Global", "latestDate": "2026-06-19", "latestValue": 4172.89990234375, "latestDisplay": "4,173", "unit": "usd_per_oz", "ageDays": 2.0, "freshness": "ok", "change3m": -11.476696815963672, "change3mDisplay": "-11.5%", "change12m": 26.878288371441172, "change12mDisplay": "+26.9%", "source": "Yahoo Finance", "series": "GC=F", "url": "https://query1.finance.yahoo.com/v8/finance/chart/GC%3DF", "notes": "", "detailPath": "indicators/gold_futures.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "soybean_futures", "label": "대두", "category": "commodities", "categoryLabel": "Commodities", "country": "Global", "latestDate": "2026-06-18", "latestValue": 1142.0, "latestDisplay": "1,142", "unit": "us_cents_per_bushel", "ageDays": 3.0, "freshness": "ok", "change3m": 7.305614282358475, "change3mDisplay": "+7.3%", "change12m": 9.623230141588678, "change12mDisplay": "+9.6%", "source": "Yahoo Finance", "series": "ZS=F", "url": "https://query1.finance.yahoo.com/v8/finance/chart/ZS%3DF", "notes": "", "detailPath": "indicators/soybean_futures.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "wheat_futures", "label": "밀", "category": "commodities", "categoryLabel": "Commodities", "country": "Global", "latestDate": "2026-06-18", "latestValue": 613.25, "latestDisplay": "613.2", "unit": "us_cents_per_bushel", "ageDays": 3.0, "freshness": "ok", "change3m": 13.986988847583648, "change3mDisplay": "+14.0%", "change12m": 14.840823970037453, "change12mDisplay": "+14.8%", "source": "Yahoo Finance", "series": "ZW=F", "url": "https://query1.finance.yahoo.com/v8/finance/chart/ZW%3DF", "notes": "", "detailPath": "indicators/wheat_futures.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "fertilizer_ppi", "label": "비료 가격", "category": "commodities", "categoryLabel": "Commodities", "country": "United States", "latestDate": "2026-05-01", "latestValue": 431.86, "latestDisplay": "431.9", "unit": "index", "ageDays": 51.0, "freshness": "ok", "change3m": 15.819284798618295, "change3mDisplay": "+15.8%", "change12m": 28.124035791422397, "change12mDisplay": "+28.1%", "source": "FRED", "series": "WPS0652", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=WPS0652", "notes": "", "detailPath": "indicators/fertilizer_ppi.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "sugar_futures", "label": "설탕", "category": "commodities", "categoryLabel": "Commodities", "country": "Global", "latestDate": "2026-06-18", "latestValue": 14.140000343322754, "latestDisplay": "14.14", "unit": "us_cents_per_lb", "ageDays": 3.0, "freshness": "ok", "change3m": -0.9110028750573096, "change3mDisplay": "-0.9%", "change12m": -17.067442955730495, "change12mDisplay": "-17.1%", "source": "Yahoo Finance", "series": "SB=F", "url": "https://query1.finance.yahoo.com/v8/finance/chart/SB%3DF", "notes": "", "detailPath": "indicators/sugar_futures.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "rough_rice_futures", "label": "쌀", "category": "commodities", "categoryLabel": "Commodities", "country": "Global", "latestDate": "2026-06-18", "latestValue": 12.604999542236328, "latestDisplay": "12.6", "unit": "usd_per_cwt", "ageDays": 3.0, "freshness": "ok", "change3m": 14.279237057069928, "change3mDisplay": "+14.3%", "change12m": -6.595037798222869, "change12mDisplay": "-6.6%", "source": "Yahoo Finance", "series": "ZR=F", "url": "https://query1.finance.yahoo.com/v8/finance/chart/ZR%3DF", "notes": "", "detailPath": "indicators/rough_rice_futures.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "corn_futures", "label": "옥수수", "category": "commodities", "categoryLabel": "Commodities", "country": "Global", "latestDate": "2026-06-18", "latestValue": 444.25, "latestDisplay": "444.2", "unit": "us_cents_per_bushel", "ageDays": 3.0, "freshness": "ok", "change3m": 3.7361354349095155, "change3mDisplay": "+3.7%", "change12m": 0.05630630630630851, "change12mDisplay": "+0.1%", "source": "Yahoo Finance", "series": "ZC=F", "url": "https://query1.finance.yahoo.com/v8/finance/chart/ZC%3DF", "notes": "", "detailPath": "indicators/corn_futures.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "silver_futures", "label": "은 가격", "category": "commodities", "categoryLabel": "Commodities", "country": "Global", "latestDate": "2026-06-19", "latestValue": 64.91000366210938, "latestDisplay": "64.91", "unit": "usd_per_oz", "ageDays": 2.0, "freshness": "ok", "change3m": -17.090301567188128, "change3mDisplay": "-17.1%", "change12m": 97.34284030970353, "change12mDisplay": "+97.3%", "source": "Yahoo Finance", "series": "SI=F", "url": "https://query1.finance.yahoo.com/v8/finance/chart/SI%3DF", "notes": "", "detailPath": "indicators/silver_futures.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "henry_hub_natural_gas", "label": "천연가스/LNG", "category": "commodities", "categoryLabel": "Commodities", "country": "United States", "latestDate": "2026-06-15", "latestValue": 3.06, "latestDisplay": "3.06", "unit": "usd_per_mmbtu", "ageDays": 6.0, "freshness": "ok", "change3m": -4.375000000000007, "change3mDisplay": "-4.4%", "change12m": 15.471698113207545, "change12mDisplay": "+15.5%", "source": "FRED", "series": "DHHNGSP", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DHHNGSP", "notes": "", "detailPath": "indicators/henry_hub_natural_gas.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "coffee_futures", "label": "커피", "category": "commodities", "categoryLabel": "Commodities", "country": "Global", "latestDate": "2026-06-18", "latestValue": 256.1000061035156, "latestDisplay": "256.1", "unit": "us_cents_per_lb", "ageDays": 3.0, "freshness": "ok", "change3m": -22.91948650007054, "change3mDisplay": "-22.9%", "change12m": -25.21536079003319, "change12mDisplay": "-25.2%", "source": "Yahoo Finance", "series": "KC=F", "url": "https://query1.finance.yahoo.com/v8/finance/chart/KC%3DF", "notes": "", "detailPath": "indicators/coffee_futures.html", "alertCount": 1, "alertSeverity": "watch", "alertType": "indicator_mover", "alertDetail": "3M move crossed 15% threshold."}, {"id": "cocoa_futures", "label": "코코아", "category": "commodities", "categoryLabel": "Commodities", "country": "Global", "latestDate": "2026-06-18", "latestValue": 4362.0, "latestDisplay": "4,362", "unit": "usd_per_tonne", "ageDays": 3.0, "freshness": "ok", "change3m": 4.729891956782706, "change3mDisplay": "+4.7%", "change12m": -55.44888162598305, "change12mDisplay": "-55.4%", "source": "Yahoo Finance", "series": "CC=F", "url": "https://query1.finance.yahoo.com/v8/finance/chart/CC%3DF", "notes": "", "detailPath": "indicators/cocoa_futures.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "gdacs_current_events_count", "label": "GDACS 현재 자연재해 이벤트 수", "category": "climate", "categoryLabel": "Climate", "country": "Global", "latestDate": "2026-06-21", "latestValue": 115.0, "latestDisplay": "115.0", "unit": "events", "ageDays": 0.0, "freshness": "ok", "change3m": null, "change3mDisplay": "NA", "change12m": null, "change12mDisplay": "NA", "source": "GDACS", "series": "gdacs_rss", "url": "derived", "notes": "", "detailPath": "indicators/gdacs_current_events_count.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}, {"id": "gdacs_non_green_events_count", "label": "주요 이상기후 이벤트", "category": "climate", "categoryLabel": "Climate", "country": "Global", "latestDate": "2026-06-21", "latestValue": 0.0, "latestDisplay": "0", "unit": "events", "ageDays": 0.0, "freshness": "ok", "change3m": null, "change3mDisplay": "NA", "change12m": null, "change12mDisplay": "NA", "source": "GDACS", "series": "gdacs_rss", "url": "derived", "notes": "", "detailPath": "indicators/gdacs_non_green_events_count.html", "alertCount": 0, "alertSeverity": "", "alertType": "", "alertDetail": ""}], "categories": [{"id": "market", "label": "Market", "count": 11, "stale": 0}, {"id": "market_derived", "label": "Relative Strength", "count": 4, "stale": 0}, {"id": "market_stress", "label": "Market Stress", "count": 1, "stale": 0}, {"id": "rates_global", "label": "Global Rates", "count": 8, "stale": 0}, {"id": "rates", "label": "Rates", "count": 12, "stale": 0}, {"id": "fx", "label": "FX", "count": 11, "stale": 2}, {"id": "credit", "label": "Credit", "count": 5, "stale": 0}, {"id": "liquidity", "label": "Liquidity", "count": 8, "stale": 1}, {"id": "inflation", "label": "Inflation", "count": 15, "stale": 3}, {"id": "employment", "label": "Employment", "count": 6, "stale": 0}, {"id": "commodities", "label": "Commodities", "count": 13, "stale": 0}, {"id": "climate", "label": "Climate", "count": 2, "stale": 0}], "score_cards": [{"label": "Inflation", "value": 5.6, "display": "5.6", "kind": "core"}, {"label": "Liquidity", "value": 5.2, "display": "5.2", "kind": "core"}, {"label": "Credit", "value": 1.5, "display": "1.5", "kind": "core"}, {"label": "FX", "value": 5.4, "display": "5.4", "kind": "core"}, {"label": "Climate", "value": 3.1, "display": "3.1", "kind": "core"}, {"label": "Growth", "value": 3.5, "display": "3.5", "kind": "core"}, {"label": "Market Stress", "value": 2.0, "display": "2", "kind": "supplemental", "avg": "3.4", "change12m": "-0.6"}, {"label": "Rate Divergence", "value": 4.5, "display": "4.5", "kind": "supplemental"}], "fetch_health": {"total": 84, "counts": {"ok": 84}, "problems": []}, "chart_assets": [{"title": "Global equity indexes", "category": "market", "path": "assets/macro_regime_2026-06-21/global_market_indices.png"}, {"title": "Market confirmation", "category": "market_derived", "path": "assets/macro_regime_2026-06-21/market_confirmation.png"}, {"title": "Global 10Y yields", "category": "rates_global", "path": "assets/macro_regime_2026-06-21/global_10y_yields.png"}, {"title": "Policy rates", "category": "rates", "path": "assets/macro_regime_2026-06-21/policy_rates.png"}, {"title": "FX trend", "category": "fx", "path": "assets/macro_regime_2026-06-21/fx_trend.png"}, {"title": "Credit stress", "category": "credit", "path": "assets/macro_regime_2026-06-21/credit_stress.png"}, {"title": "Liquidity trend", "category": "liquidity", "path": "assets/macro_regime_2026-06-21/liquidity_trend.png"}, {"title": "Inflation YoY", "category": "inflation", "path": "assets/macro_regime_2026-06-21/inflation_yoy.png"}, {"title": "Commodity shock", "category": "commodities", "path": "assets/macro_regime_2026-06-21/commodity_trend.png"}, {"title": "Risk scores", "category": "all", "path": "assets/macro_regime_2026-06-21/risk_scores.png"}, {"title": "Monthly supplemental scores", "category": "all", "path": "assets/monthly_dashboard/supplemental_scores_over_time.png"}], "alert_summary": {"total": 24, "severityCounts": {"major": 20, "watch": 4}, "typeCounts": {"regime_change": 1, "risk_score_change": 3, "indicator_mover": 20}, "top": [{"type": "regime_change", "severity": "major", "label": "Current regime", "detail": "Regime changed from previous report.", "delta": "", "change3m": ""}, {"type": "risk_score_change", "severity": "major", "label": "Climate Supply Shock Risk", "detail": "Risk score changed versus previous report.", "delta": "-2.9", "change3m": ""}, {"type": "risk_score_change", "severity": "major", "label": "FX Risk", "detail": "Risk score changed versus previous report.", "delta": "-1.0999999999999996", "change3m": ""}, {"type": "risk_score_change", "severity": "major", "label": "Liquidity Bubble Risk", "detail": "Risk score changed versus previous report.", "delta": "-1.0", "change3m": ""}, {"type": "indicator_mover", "severity": "major", "label": "외국인 주식 자금흐름", "detail": "3M move crossed 15% threshold.", "delta": "", "change3m": "-665.0136487716105"}, {"type": "indicator_mover", "severity": "major", "label": "무역수지", "detail": "3M move crossed 15% threshold.", "delta": "", "change3m": "172.33644688382222"}]}}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('dashboard-data').textContent);
+let activeCategory = 'all';
+
+const categoryNav = document.getElementById('categoryNav');
+const searchInput = document.getElementById('searchInput');
+const sortSelect = document.getElementById('sortSelect');
+
+function numberOrZero(value) {
+  return typeof value === 'number' && Number.isFinite(value) ? value : 0;
+}
+
+function deltaClass(value) {
+  if (typeof value !== 'number' || !Number.isFinite(value)) return '';
+  if (value > 0) return 'positive';
+  if (value < 0) return 'negative';
+  return '';
+}
+
+function statusClass(status) {
+  if (!status || status === 'ok') return 'status';
+  if (status === 'stale') return 'status warn';
+  return 'status bad';
+}
+
+function severityWeight(severity) {
+  if (severity === 'major') return 3;
+  if (severity === 'watch') return 2;
+  if (severity === 'info') return 1;
+  return 0;
+}
+
+function severityBadgeClass(severity) {
+  if (severity === 'major') return 'badge bad';
+  if (severity === 'watch') return 'badge warn';
+  return 'badge';
+}
+
+function renderAlertSummary() {
+  const summary = DATA.alert_summary || { total: 0, severityCounts: {}, top: [] };
+  const major = summary.severityCounts.major || 0;
+  const watch = summary.severityCounts.watch || 0;
+  document.getElementById('alertSummary').textContent = `${summary.total || 0} total, ${major} major, ${watch} watch`;
+  const top = document.getElementById('topAlerts');
+  if (!summary.top || !summary.top.length) {
+    top.innerHTML = '<div class="subtle">No active change alerts.</div>';
+    return;
+  }
+  top.innerHTML = summary.top.map(alert => `
+    <div class="mini-alert">
+      <span>${alert.label}</span>
+      <span class="${severityBadgeClass(alert.severity)}">${alert.severity || 'info'}</span>
+    </div>
+  `).join('');
+}
+
+function indicatorMatches(item, query) {
+  if (!query) return true;
+  const haystack = [item.label, item.id, item.country, item.source, item.series, item.categoryLabel, item.alertSeverity, item.alertType].join(' ').toLowerCase();
+  return haystack.includes(query.toLowerCase());
+}
+
+function filteredIndicators() {
+  const query = searchInput.value.trim();
+  const sort = sortSelect.value;
+  let rows = DATA.indicators.filter(item => activeCategory === 'all' || item.category === activeCategory);
+  rows = rows.filter(item => indicatorMatches(item, query));
+  rows.sort((a, b) => {
+    if (sort === 'change3m') return numberOrZero(b.change3m) - numberOrZero(a.change3m);
+    if (sort === 'change12m') return numberOrZero(b.change12m) - numberOrZero(a.change12m);
+    if (sort === 'alert') return severityWeight(b.alertSeverity) - severityWeight(a.alertSeverity) || numberOrZero(b.change3m) - numberOrZero(a.change3m);
+    if (sort === 'freshness') return String(a.freshness).localeCompare(String(b.freshness));
+    return String(a.label).localeCompare(String(b.label));
+  });
+  return rows;
+}
+
+function renderNav() {
+  const total = DATA.indicators.length;
+  const allButton = document.createElement('button');
+  allButton.className = activeCategory === 'all' ? 'active' : '';
+  allButton.innerHTML = `<span>All sectors</span><span class="count">${total}</span>`;
+  allButton.addEventListener('click', () => { activeCategory = 'all'; render(); });
+  categoryNav.appendChild(allButton);
+
+  DATA.categories.forEach(category => {
+    const button = document.createElement('button');
+    button.className = activeCategory === category.id ? 'active' : '';
+    button.innerHTML = `<span>${category.label}</span><span class="count">${category.count}</span>`;
+    button.addEventListener('click', () => { activeCategory = category.id; render(); });
+    categoryNav.appendChild(button);
+  });
+}
+
+function renderScoreCards() {
+  const wrap = document.getElementById('scoreCards');
+  wrap.innerHTML = '';
+  DATA.score_cards.forEach(card => {
+    const el = document.createElement('div');
+    el.className = `card ${card.kind === 'supplemental' ? 'supplemental' : ''}`;
+    el.innerHTML = `<div class="label">${card.label}</div><div class="value">${card.display}</div>`;
+    wrap.appendChild(el);
+  });
+}
+
+function renderTable(rows) {
+  const wrap = document.getElementById('tableWrap');
+  if (!rows.length) {
+    wrap.innerHTML = '<div class="empty">No indicators match the current filter.</div>';
+    return;
+  }
+  const html = rows.map(item => `
+    <tr>
+      <td><strong title="${item.label}"><a class="detail-link" href="${item.detailPath}">${item.label}</a></strong><span class="subtle">${item.id}</span></td>
+      <td>${item.latestDisplay} <span class="subtle">${item.unit}</span></td>
+      <td>${item.latestDate}</td>
+      <td class="delta ${deltaClass(item.change3m)}">${item.change3mDisplay}</td>
+      <td class="delta ${deltaClass(item.change12m)}">${item.change12mDisplay}</td>
+      <td>${item.alertSeverity ? `<span class="${severityBadgeClass(item.alertSeverity)}">${item.alertSeverity}</span>` : ''}</td>
+      <td><span class="${statusClass(item.freshness)}">${item.freshness || 'ok'}</span></td>
+      <td><span title="${item.source}">${item.source}</span></td>
+    </tr>
+  `).join('');
+  wrap.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 26%">Indicator</th>
+          <th style="width: 13%">Latest</th>
+          <th style="width: 12%">Date</th>
+          <th style="width: 9%">3M</th>
+          <th style="width: 9%">12M</th>
+          <th style="width: 9%">Alert</th>
+          <th style="width: 9%">Fresh</th>
+          <th style="width: 13%">Source</th>
+        </tr>
+      </thead>
+      <tbody>${html}</tbody>
+    </table>
+  `;
+}
+
+function drawBarChart(rows) {
+  const canvas = document.getElementById('sectorCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const chartRows = rows.filter(item => typeof item.change3m === 'number').slice(0, 12);
+  if (!chartRows.length) {
+    ctx.fillStyle = '#64707d';
+    ctx.font = '16px system-ui';
+    ctx.fillText('No 3M change data for this sector.', 24, 56);
+    return;
+  }
+  const pad = { left: 54, right: 24, top: 20, bottom: 88 };
+  const width = canvas.width - pad.left - pad.right;
+  const height = canvas.height - pad.top - pad.bottom;
+  const values = chartRows.map(item => item.change3m);
+  const maxAbs = Math.max(5, ...values.map(value => Math.abs(value)));
+  const zeroY = pad.top + height / 2;
+  ctx.strokeStyle = '#d9dee5';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad.left, zeroY);
+  ctx.lineTo(canvas.width - pad.right, zeroY);
+  ctx.stroke();
+  const barW = width / chartRows.length * 0.62;
+  chartRows.forEach((item, index) => {
+    const x = pad.left + index * (width / chartRows.length) + (width / chartRows.length - barW) / 2;
+    const barH = Math.abs(item.change3m) / maxAbs * (height / 2);
+    const y = item.change3m >= 0 ? zeroY - barH : zeroY;
+    ctx.fillStyle = item.change3m >= 0 ? '#198754' : '#c2413a';
+    ctx.fillRect(x, y, barW, Math.max(2, barH));
+    ctx.save();
+    ctx.translate(x + barW / 2, canvas.height - 12);
+    ctx.rotate(-Math.PI / 5);
+    ctx.fillStyle = '#64707d';
+    ctx.font = '12px system-ui';
+    ctx.textAlign = 'right';
+    ctx.fillText(item.label.slice(0, 18), 0, 0);
+    ctx.restore();
+  });
+  ctx.fillStyle = '#64707d';
+  ctx.font = '12px system-ui';
+  ctx.fillText(`3M change, max scale +/-${maxAbs.toFixed(1)}%`, pad.left, 14);
+}
+
+function renderGallery() {
+  const gallery = document.getElementById('chartGallery');
+  const assets = DATA.chart_assets.filter(asset => asset.category === 'all' || activeCategory === 'all' || asset.category === activeCategory);
+  if (!assets.length) {
+    gallery.innerHTML = '<div class="empty">No chart asset for this sector.</div>';
+    return;
+  }
+  gallery.innerHTML = assets.map(asset => `
+    <figure>
+      <img src="${asset.path}" alt="${asset.title}">
+      <figcaption>${asset.title}</figcaption>
+    </figure>
+  `).join('');
+}
+
+function renderMeta(rows) {
+  const category = activeCategory === 'all'
+    ? { label: 'All Sectors', count: DATA.indicators.length, stale: DATA.indicators.filter(item => item.freshness && item.freshness !== 'ok').length }
+    : DATA.categories.find(item => item.id === activeCategory);
+  document.getElementById('pageTitle').textContent = category ? category.label : 'Sector';
+  document.getElementById('pageMeta').textContent = `${rows.length} visible indicators`;
+  document.getElementById('tableTitle').textContent = `${category ? category.label : 'Sector'} indicators`;
+  document.getElementById('tableMeta').textContent = `${rows.length} rows, sorted by ${sortSelect.options[sortSelect.selectedIndex].text}`;
+  const health = DATA.fetch_health;
+  const ok = health.counts.ok || 0;
+  document.getElementById('healthMeta').textContent = `${ok}/${health.total} sources ok`;
+}
+
+function render() {
+  categoryNav.innerHTML = '';
+  renderNav();
+  renderScoreCards();
+  renderAlertSummary();
+  const rows = filteredIndicators();
+  renderMeta(rows);
+  renderTable(rows);
+  drawBarChart(rows);
+  renderGallery();
+}
+
+searchInput.addEventListener('input', render);
+sortSelect.addEventListener('change', render);
+render();
+</script>
+</body>
+</html>

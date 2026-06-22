@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DXY Detail</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --ink: #1f2933;
+      --muted: #64707d;
+      --line: #d9dee5;
+      --accent: #1f6feb;
+      --good: #198754;
+      --warn: #b7791f;
+      --bad: #c2413a;
+      --shadow: 0 8px 22px rgba(28, 39, 49, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      letter-spacing: 0;
+    }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 22px 20px 36px; }
+    a { color: var(--accent); text-decoration: none; }
+    .back { display: inline-flex; margin-bottom: 16px; font-size: 13px; }
+    .head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+    h1 { margin: 0; font-size: 28px; line-height: 1.1; }
+    .meta { color: var(--muted); font-size: 13px; margin-top: 7px; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(130px, 1fr)); gap: 10px; margin-bottom: 16px; }
+    .card, .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .card { padding: 13px 14px; }
+    .label { color: var(--muted); font-size: 12px; }
+    .value { font-weight: 760; font-size: 22px; margin-top: 4px; line-height: 1.2; }
+    .main { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.8fr); gap: 16px; align-items: start; }
+    .panel h2 { margin: 0; padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 16px; }
+    .panel-body { padding: 14px 16px; }
+    canvas { display: block; width: 100%; height: 280px; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid var(--line); text-align: left; font-size: 13px; vertical-align: middle; }
+    th { color: var(--muted); background: #fbfcfe; }
+    .pill {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #eef3fb;
+      color: #475569;
+    }
+    .pill.bad { background: #ffefef; color: var(--bad); }
+    .pill.warn { background: #fff7e6; color: var(--warn); }
+    .empty { color: var(--muted); padding: 18px 0; }
+    .notes { color: var(--muted); line-height: 1.55; }
+    @media (max-width: 840px) {
+      .head, .main { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 560px) {
+      .wrap { padding: 18px 12px 28px; }
+      .grid { grid-template-columns: 1fr; }
+      h1 { font-size: 23px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../sector_dashboard.html">Back to sector dashboard</a>
+  <div class="head">
+    <div>
+      <h1>DXY</h1>
+      <div class="meta">dxy / FX / United States</div>
+    </div>
+    <div class="meta">Generated 2026-06-22T09:22:36</div>
+  </div>
+  <section class="grid">
+    <div class="card"><div class="label">Latest</div><div class="value">100.8 index</div></div>
+    <div class="card"><div class="label">Latest date</div><div class="value">2026-06-19</div></div>
+    <div class="card"><div class="label">3M change</div><div class="value">+0.8%</div></div>
+    <div class="card"><div class="label">12M change</div><div class="value">+4.0%</div></div>
+  </section>
+  <section class="main">
+    <div class="panel">
+      <h2>Recent Trend</h2>
+      <div class="panel-body"><canvas id="trendCanvas" width="920" height="320"></canvas></div>
+    </div>
+    <div class="panel">
+      <h2>Alerts</h2>
+      <div class="panel-body"><div class="empty">No active alert for this indicator.</div></div>
+    </div>
+    <div class="panel">
+      <h2>Recent Observations</h2>
+      <div class="panel-body"><table>
+<thead><tr><th>Date</th><th>Value</th></tr></thead>
+<tbody>
+<tr><td>2026-06-19</td><td>100.8</td></tr>
+<tr><td>2026-04-01</td><td>100.8</td></tr>
+<tr><td>2026-01-01</td><td>99.96</td></tr>
+<tr><td>2025-10-01</td><td>98.28</td></tr>
+<tr><td>2025-07-01</td><td>97.77</td></tr>
+<tr><td>2025-04-01</td><td>96.88</td></tr>
+<tr><td>2025-01-01</td><td>104.2</td></tr>
+<tr><td>2024-10-01</td><td>108.5</td></tr>
+<tr><td>2024-07-01</td><td>100.8</td></tr>
+<tr><td>2024-04-01</td><td>105.9</td></tr>
+<tr><td>2024-01-01</td><td>104.6</td></tr>
+<tr><td>2023-10-01</td><td>101.3</td></tr>
+<tr><td>2023-07-01</td><td>106.2</td></tr>
+<tr><td>2023-04-01</td><td>102.9</td></tr>
+<tr><td>2023-01-01</td><td>102.5</td></tr>
+<tr><td>2022-10-01</td><td>103.5</td></tr>
+<tr><td>2022-07-01</td><td>112.1</td></tr>
+<tr><td>2022-04-01</td><td>104.7</td></tr>
+<tr><td>2022-01-01</td><td>98.31</td></tr>
+<tr><td>2021-10-01</td><td>95.67</td></tr>
+<tr><td>2021-07-01</td><td>94.25</td></tr>
+<tr><td>2021-04-01</td><td>92.44</td></tr>
+<tr><td>2021-01-01</td><td>93.23</td></tr>
+<tr><td>2020-10-01</td><td>89.94</td></tr>
+</tbody></table></div>
+    </div>
+    <div class="panel">
+      <h2>Source</h2>
+      <div class="panel-body notes">
+        <div>Freshness: ok</div>
+        <div>Source: <a href="https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB">Yahoo Finance</a></div>
+        <div>Series: DX-Y.NYB</div>
+        <div>Notes: None</div>
+      </div>
+    </div>
+  </section>
+</div>
+<script id="detail-data" type="application/json">{"series": [{"date": "2011-10-01", "value": 80.16999816894531, "display": "80.17"}, {"date": "2012-01-01", "value": 78.93000030517578, "display": "78.93"}, {"date": "2012-04-01", "value": 81.6500015258789, "display": "81.65"}, {"date": "2012-07-01", "value": 79.94000244140625, "display": "79.94"}, {"date": "2012-10-01", "value": 79.7699966430664, "display": "79.77"}, {"date": "2013-01-01", "value": 82.98999786376953, "display": "82.99"}, {"date": "2013-04-01", "value": 83.16999816894531, "display": "83.17"}, {"date": "2013-07-01", "value": 80.22000122070312, "display": "80.22"}, {"date": "2013-10-01", "value": 80.04000091552734, "display": "80.04"}, {"date": "2014-01-01", "value": 80.0999984741211, "display": "80.1"}, {"date": "2014-04-01", "value": 79.77999877929688, "display": "79.78"}, {"date": "2014-07-01", "value": 85.94000244140625, "display": "85.94"}, {"date": "2014-10-01", "value": 90.2699966430664, "display": "90.27"}, {"date": "2015-01-01", "value": 98.36000061035156, "display": "98.36"}, {"date": "2015-04-01", "value": 95.48999786376953, "display": "95.49"}, {"date": "2015-07-01", "value": 96.3499984741211, "display": "96.35"}, {"date": "2015-10-01", "value": 98.62999725341797, "display": "98.63"}, {"date": "2016-01-01", "value": 94.58999633789062, "display": "94.59"}, {"date": "2016-04-01", "value": 96.13999938964844, "display": "96.14"}, {"date": "2016-07-01", "value": 95.45999908447266, "display": "95.46"}, {"date": "2016-10-01", "value": 102.38999938964844, "display": "102.4"}, {"date": "2017-01-01", "value": 100.3499984741211, "display": "100.3"}, {"date": "2017-04-01", "value": 95.66000366210938, "display": "95.66"}, {"date": "2017-07-01", "value": 93.08000183105469, "display": "93.08"}, {"date": "2017-10-01", "value": 92.12000274658203, "display": "92.12"}, {"date": "2018-01-01", "value": 89.97000122070312, "display": "89.97"}, {"date": "2018-04-01", "value": 94.62999725341797, "display": "94.63"}, {"date": "2018-07-01", "value": 95.19000244140625, "display": "95.19"}, {"date": "2018-10-01", "value": 96.16999816894531, "display": "96.17"}, {"date": "2019-01-01", "value": 97.27999877929688, "display": "97.28"}, {"date": "2019-04-01", "value": 96.12999725341797, "display": "96.13"}, {"date": "2019-07-01", "value": 99.37999725341797, "display": "99.38"}, {"date": "2019-10-01", "value": 96.38999938964844, "display": "96.39"}, {"date": "2020-01-01", "value": 99.05000305175781, "display": "99.05"}, {"date": "2020-04-01", "value": 97.38999938964844, "display": "97.39"}, {"date": "2020-07-01", "value": 93.88999938964844, "display": "93.89"}, {"date": "2020-10-01", "value": 89.94000244140625, "display": "89.94"}, {"date": "2021-01-01", "value": 93.2300033569336, "display": "93.23"}, {"date": "2021-04-01", "value": 92.44000244140625, "display": "92.44"}, {"date": "2021-07-01", "value": 94.25, "display": "94.25"}, {"date": "2021-10-01", "value": 95.66999816894531, "display": "95.67"}, {"date": "2022-01-01", "value": 98.30999755859375, "display": "98.31"}, {"date": "2022-04-01", "value": 104.69000244140625, "display": "104.7"}, {"date": "2022-07-01", "value": 112.12000274658203, "display": "112.1"}, {"date": "2022-10-01", "value": 103.5199966430664, "display": "103.5"}, {"date": "2023-01-01", "value": 102.51000213623047, "display": "102.5"}, {"date": "2023-04-01", "value": 102.91000366210938, "display": "102.9"}, {"date": "2023-07-01", "value": 106.16999816894531, "display": "106.2"}, {"date": "2023-10-01", "value": 101.33000183105469, "display": "101.3"}, {"date": "2024-01-01", "value": 104.55000305175781, "display": "104.6"}, {"date": "2024-04-01", "value": 105.87000274658203, "display": "105.9"}, {"date": "2024-07-01", "value": 100.77999877929688, "display": "100.8"}, {"date": "2024-10-01", "value": 108.48999786376953, "display": "108.5"}, {"date": "2025-01-01", "value": 104.20999908447266, "display": "104.2"}, {"date": "2025-04-01", "value": 96.87999725341797, "display": "96.88"}, {"date": "2025-07-01", "value": 97.7699966430664, "display": "97.77"}, {"date": "2025-10-01", "value": 98.27999877929688, "display": "98.28"}, {"date": "2026-01-01", "value": 99.95999908447266, "display": "99.96"}, {"date": "2026-04-01", "value": 100.8499984741211, "display": "100.8"}, {"date": "2026-06-19", "value": 100.76000213623047, "display": "100.8"}]}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('detail-data').textContent);
+const canvas = document.getElementById('trendCanvas');
+const ctx = canvas.getContext('2d');
+const rows = DATA.series || [];
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (!rows.length) {
+    ctx.fillStyle = '#64707d';
+    ctx.font = '16px system-ui';
+    ctx.fillText('No observation history available.', 24, 54);
+    return;
+  }
+  const pad = { left: 64, right: 22, top: 24, bottom: 56 };
+  const values = rows.map(row => row.value).filter(value => typeof value === 'number');
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const span = max === min ? 1 : max - min;
+  const w = canvas.width - pad.left - pad.right;
+  const h = canvas.height - pad.top - pad.bottom;
+  ctx.strokeStyle = '#d9dee5';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad.left, pad.top);
+  ctx.lineTo(pad.left, pad.top + h);
+  ctx.lineTo(canvas.width - pad.right, pad.top + h);
+  ctx.stroke();
+  ctx.strokeStyle = '#1f6feb';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  rows.forEach((row, index) => {
+    const x = pad.left + (rows.length === 1 ? 0 : index / (rows.length - 1) * w);
+    const y = pad.top + h - ((row.value - min) / span * h);
+    if (index === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  const last = rows[rows.length - 1];
+  ctx.fillStyle = '#1f2933';
+  ctx.font = '12px system-ui';
+  ctx.fillText(`${last.date} / ${last.display}`, pad.left, 18);
+  ctx.fillStyle = '#64707d';
+  ctx.fillText(String(rows[0].date), pad.left, canvas.height - 18);
+  ctx.textAlign = 'right';
+  ctx.fillText(String(last.date), canvas.width - pad.right, canvas.height - 18);
+}
+draw();
+</script>
+</body>
+</html>

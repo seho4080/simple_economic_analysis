@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NASDAQ Composite Detail</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --ink: #1f2933;
+      --muted: #64707d;
+      --line: #d9dee5;
+      --accent: #1f6feb;
+      --good: #198754;
+      --warn: #b7791f;
+      --bad: #c2413a;
+      --shadow: 0 8px 22px rgba(28, 39, 49, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      letter-spacing: 0;
+    }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 22px 20px 36px; }
+    a { color: var(--accent); text-decoration: none; }
+    .back { display: inline-flex; margin-bottom: 16px; font-size: 13px; }
+    .head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+    h1 { margin: 0; font-size: 28px; line-height: 1.1; }
+    .meta { color: var(--muted); font-size: 13px; margin-top: 7px; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(130px, 1fr)); gap: 10px; margin-bottom: 16px; }
+    .card, .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .card { padding: 13px 14px; }
+    .label { color: var(--muted); font-size: 12px; }
+    .value { font-weight: 760; font-size: 22px; margin-top: 4px; line-height: 1.2; }
+    .main { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.8fr); gap: 16px; align-items: start; }
+    .panel h2 { margin: 0; padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 16px; }
+    .panel-body { padding: 14px 16px; }
+    canvas { display: block; width: 100%; height: 280px; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid var(--line); text-align: left; font-size: 13px; vertical-align: middle; }
+    th { color: var(--muted); background: #fbfcfe; }
+    .pill {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #eef3fb;
+      color: #475569;
+    }
+    .pill.bad { background: #ffefef; color: var(--bad); }
+    .pill.warn { background: #fff7e6; color: var(--warn); }
+    .empty { color: var(--muted); padding: 18px 0; }
+    .notes { color: var(--muted); line-height: 1.55; }
+    @media (max-width: 840px) {
+      .head, .main { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 560px) {
+      .wrap { padding: 18px 12px 28px; }
+      .grid { grid-template-columns: 1fr; }
+      h1 { font-size: 23px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../sector_dashboard.html">Back to sector dashboard</a>
+  <div class="head">
+    <div>
+      <h1>NASDAQ Composite</h1>
+      <div class="meta">nasdaq_composite / Market / United States</div>
+    </div>
+    <div class="meta">Generated 2026-06-22T09:22:36</div>
+  </div>
+  <section class="grid">
+    <div class="card"><div class="label">Latest</div><div class="value">26,518 index</div></div>
+    <div class="card"><div class="label">Latest date</div><div class="value">2026-06-18</div></div>
+    <div class="card"><div class="label">3M change</div><div class="value">+6.5%</div></div>
+    <div class="card"><div class="label">12M change</div><div class="value">+25.5%</div></div>
+  </section>
+  <section class="main">
+    <div class="panel">
+      <h2>Recent Trend</h2>
+      <div class="panel-body"><canvas id="trendCanvas" width="920" height="320"></canvas></div>
+    </div>
+    <div class="panel">
+      <h2>Alerts</h2>
+      <div class="panel-body"><div class="empty">No active alert for this indicator.</div></div>
+    </div>
+    <div class="panel">
+      <h2>Recent Observations</h2>
+      <div class="panel-body"><table>
+<thead><tr><th>Date</th><th>Value</th></tr></thead>
+<tbody>
+<tr><td>2026-06-18</td><td>26,518</td></tr>
+<tr><td>2026-05-01</td><td>26,518</td></tr>
+<tr><td>2026-02-01</td><td>24,892</td></tr>
+<tr><td>2025-11-01</td><td>23,462</td></tr>
+<tr><td>2025-08-01</td><td>23,725</td></tr>
+<tr><td>2025-05-01</td><td>21,122</td></tr>
+<tr><td>2025-02-01</td><td>17,446</td></tr>
+<tr><td>2024-11-01</td><td>19,627</td></tr>
+<tr><td>2024-08-01</td><td>18,095</td></tr>
+<tr><td>2024-05-01</td><td>17,599</td></tr>
+<tr><td>2024-02-01</td><td>15,658</td></tr>
+<tr><td>2023-11-01</td><td>15,164</td></tr>
+<tr><td>2023-08-01</td><td>12,851</td></tr>
+<tr><td>2023-05-01</td><td>14,346</td></tr>
+<tr><td>2023-02-01</td><td>12,227</td></tr>
+<tr><td>2022-11-01</td><td>11,585</td></tr>
+<tr><td>2022-08-01</td><td>10,988</td></tr>
+<tr><td>2022-05-01</td><td>12,391</td></tr>
+<tr><td>2022-02-01</td><td>12,335</td></tr>
+<tr><td>2021-11-01</td><td>14,240</td></tr>
+<tr><td>2021-08-01</td><td>15,498</td></tr>
+<tr><td>2021-05-01</td><td>14,673</td></tr>
+<tr><td>2021-02-01</td><td>13,963</td></tr>
+<tr><td>2020-11-01</td><td>13,071</td></tr>
+</tbody></table></div>
+    </div>
+    <div class="panel">
+      <h2>Source</h2>
+      <div class="panel-body notes">
+        <div>Freshness: ok</div>
+        <div>Source: <a href="https://query1.finance.yahoo.com/v8/finance/chart/%5EIXIC">Yahoo Finance</a></div>
+        <div>Series: ^IXIC</div>
+        <div>Notes: None</div>
+      </div>
+    </div>
+  </section>
+</div>
+<script id="detail-data" type="application/json">{"series": [{"date": "2011-11-01", "value": 2813.840087890625, "display": "2,814"}, {"date": "2012-02-01", "value": 3046.360107421875, "display": "3,046"}, {"date": "2012-05-01", "value": 2939.52001953125, "display": "2,940"}, {"date": "2012-08-01", "value": 2977.22998046875, "display": "2,977"}, {"date": "2012-11-01", "value": 3142.1298828125, "display": "3,142"}, {"date": "2013-02-01", "value": 3328.7900390625, "display": "3,329"}, {"date": "2013-05-01", "value": 3626.3701171875, "display": "3,626"}, {"date": "2013-08-01", "value": 3919.7099609375, "display": "3,920"}, {"date": "2013-11-01", "value": 4103.8798828125, "display": "4,104"}, {"date": "2014-02-01", "value": 4114.56005859375, "display": "4,115"}, {"date": "2014-05-01", "value": 4369.77001953125, "display": "4,370"}, {"date": "2014-08-01", "value": 4630.740234375, "display": "4,631"}, {"date": "2014-11-01", "value": 4635.240234375, "display": "4,635"}, {"date": "2015-02-01", "value": 4941.419921875, "display": "4,941"}, {"date": "2015-05-01", "value": 5128.27978515625, "display": "5,128"}, {"date": "2015-08-01", "value": 5053.75, "display": "5,054"}, {"date": "2015-11-01", "value": 4613.9501953125, "display": "4,614"}, {"date": "2016-02-01", "value": 4775.35986328125, "display": "4,775"}, {"date": "2016-05-01", "value": 5162.1298828125, "display": "5,162"}, {"date": "2016-08-01", "value": 5189.14013671875, "display": "5,189"}, {"date": "2016-11-01", "value": 5614.7900390625, "display": "5,615"}, {"date": "2017-02-01", "value": 6047.60986328125, "display": "6,048"}, {"date": "2017-05-01", "value": 6348.1201171875, "display": "6,348"}, {"date": "2017-08-01", "value": 6727.669921875, "display": "6,728"}, {"date": "2017-11-01", "value": 7411.47998046875, "display": "7,411"}, {"date": "2018-02-01", "value": 7066.27001953125, "display": "7,066"}, {"date": "2018-05-01", "value": 7671.7900390625, "display": "7,672"}, {"date": "2018-08-01", "value": 7305.89990234375, "display": "7,306"}, {"date": "2018-11-01", "value": 7281.740234375, "display": "7,282"}, {"date": "2019-02-01", "value": 8095.39013671875, "display": "8,095"}, {"date": "2019-05-01", "value": 8175.419921875, "display": "8,175"}, {"date": "2019-08-01", "value": 8292.3603515625, "display": "8,292"}, {"date": "2019-11-01", "value": 9150.9404296875, "display": "9,151"}, {"date": "2020-02-01", "value": 8889.5498046875, "display": "8,890"}, {"date": "2020-05-01", "value": 10745.26953125, "display": "10,745"}, {"date": "2020-08-01", "value": 10911.58984375, "display": "10,912"}, {"date": "2020-11-01", "value": 13070.6904296875, "display": "13,071"}, {"date": "2021-02-01", "value": 13962.6796875, "display": "13,963"}, {"date": "2021-05-01", "value": 14672.6796875, "display": "14,673"}, {"date": "2021-08-01", "value": 15498.3896484375, "display": "15,498"}, {"date": "2021-11-01", "value": 14239.8798828125, "display": "14,240"}, {"date": "2022-02-01", "value": 12334.6396484375, "display": "12,335"}, {"date": "2022-05-01", "value": 12390.6904296875, "display": "12,391"}, {"date": "2022-08-01", "value": 10988.150390625, "display": "10,988"}, {"date": "2022-11-01", "value": 11584.5498046875, "display": "11,585"}, {"date": "2023-02-01", "value": 12226.580078125, "display": "12,227"}, {"date": "2023-05-01", "value": 14346.01953125, "display": "14,346"}, {"date": "2023-08-01", "value": 12851.240234375, "display": "12,851"}, {"date": "2023-11-01", "value": 15164.009765625, "display": "15,164"}, {"date": "2024-02-01", "value": 15657.8203125, "display": "15,658"}, {"date": "2024-05-01", "value": 17599.400390625, "display": "17,599"}, {"date": "2024-08-01", "value": 18095.150390625, "display": "18,095"}, {"date": "2024-11-01", "value": 19627.439453125, "display": "19,627"}, {"date": "2025-02-01", "value": 17446.33984375, "display": "17,446"}, {"date": "2025-05-01", "value": 21122.44921875, "display": "21,122"}, {"date": "2025-08-01", "value": 23724.9609375, "display": "23,725"}, {"date": "2025-11-01", "value": 23461.8203125, "display": "23,462"}, {"date": "2026-02-01", "value": 24892.310546875, "display": "24,892"}, {"date": "2026-05-01", "value": 26517.9296875, "display": "26,518"}, {"date": "2026-06-18", "value": 26517.931640625, "display": "26,518"}]}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('detail-data').textContent);
+const canvas = document.getElementById('trendCanvas');
+const ctx = canvas.getContext('2d');
+const rows = DATA.series || [];
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (!rows.length) {
+    ctx.fillStyle = '#64707d';
+    ctx.font = '16px system-ui';
+    ctx.fillText('No observation history available.', 24, 54);
+    return;
+  }
+  const pad = { left: 64, right: 22, top: 24, bottom: 56 };
+  const values = rows.map(row => row.value).filter(value => typeof value === 'number');
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const span = max === min ? 1 : max - min;
+  const w = canvas.width - pad.left - pad.right;
+  const h = canvas.height - pad.top - pad.bottom;
+  ctx.strokeStyle = '#d9dee5';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad.left, pad.top);
+  ctx.lineTo(pad.left, pad.top + h);
+  ctx.lineTo(canvas.width - pad.right, pad.top + h);
+  ctx.stroke();
+  ctx.strokeStyle = '#1f6feb';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  rows.forEach((row, index) => {
+    const x = pad.left + (rows.length === 1 ? 0 : index / (rows.length - 1) * w);
+    const y = pad.top + h - ((row.value - min) / span * h);
+    if (index === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  const last = rows[rows.length - 1];
+  ctx.fillStyle = '#1f2933';
+  ctx.font = '12px system-ui';
+  ctx.fillText(`${last.date} / ${last.display}`, pad.left, 18);
+  ctx.fillStyle = '#64707d';
+  ctx.fillText(String(rows[0].date), pad.left, canvas.height - 18);
+  ctx.textAlign = 'right';
+  ctx.fillText(String(last.date), canvas.width - pad.right, canvas.height - 18);
+}
+draw();
+</script>
+</body>
+</html>

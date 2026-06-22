@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Russell 2000 Detail</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --ink: #1f2933;
+      --muted: #64707d;
+      --line: #d9dee5;
+      --accent: #1f6feb;
+      --good: #198754;
+      --warn: #b7791f;
+      --bad: #c2413a;
+      --shadow: 0 8px 22px rgba(28, 39, 49, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      letter-spacing: 0;
+    }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 22px 20px 36px; }
+    a { color: var(--accent); text-decoration: none; }
+    .back { display: inline-flex; margin-bottom: 16px; font-size: 13px; }
+    .head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+    h1 { margin: 0; font-size: 28px; line-height: 1.1; }
+    .meta { color: var(--muted); font-size: 13px; margin-top: 7px; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(130px, 1fr)); gap: 10px; margin-bottom: 16px; }
+    .card, .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .card { padding: 13px 14px; }
+    .label { color: var(--muted); font-size: 12px; }
+    .value { font-weight: 760; font-size: 22px; margin-top: 4px; line-height: 1.2; }
+    .main { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.8fr); gap: 16px; align-items: start; }
+    .panel h2 { margin: 0; padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 16px; }
+    .panel-body { padding: 14px 16px; }
+    canvas { display: block; width: 100%; height: 280px; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid var(--line); text-align: left; font-size: 13px; vertical-align: middle; }
+    th { color: var(--muted); background: #fbfcfe; }
+    .pill {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #eef3fb;
+      color: #475569;
+    }
+    .pill.bad { background: #ffefef; color: var(--bad); }
+    .pill.warn { background: #fff7e6; color: var(--warn); }
+    .empty { color: var(--muted); padding: 18px 0; }
+    .notes { color: var(--muted); line-height: 1.55; }
+    @media (max-width: 840px) {
+      .head, .main { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 560px) {
+      .wrap { padding: 18px 12px 28px; }
+      .grid { grid-template-columns: 1fr; }
+      h1 { font-size: 23px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../sector_dashboard.html">Back to sector dashboard</a>
+  <div class="head">
+    <div>
+      <h1>Russell 2000</h1>
+      <div class="meta">russell_2000 / Market / United States</div>
+    </div>
+    <div class="meta">Generated 2026-06-22T09:22:36</div>
+  </div>
+  <section class="grid">
+    <div class="card"><div class="label">Latest</div><div class="value">2,980 index</div></div>
+    <div class="card"><div class="label">Latest date</div><div class="value">2026-06-18</div></div>
+    <div class="card"><div class="label">3M change</div><div class="value">+2.1%</div></div>
+    <div class="card"><div class="label">12M change</div><div class="value">+25.9%</div></div>
+  </section>
+  <section class="main">
+    <div class="panel">
+      <h2>Recent Trend</h2>
+      <div class="panel-body"><canvas id="trendCanvas" width="920" height="320"></canvas></div>
+    </div>
+    <div class="panel">
+      <h2>Alerts</h2>
+      <div class="panel-body"><div class="empty">No active alert for this indicator.</div></div>
+    </div>
+    <div class="panel">
+      <h2>Recent Observations</h2>
+      <div class="panel-body"><table>
+<thead><tr><th>Date</th><th>Value</th></tr></thead>
+<tbody>
+<tr><td>2026-06-18</td><td>2,980</td></tr>
+<tr><td>2026-06-01</td><td>2,980</td></tr>
+<tr><td>2026-03-01</td><td>2,919</td></tr>
+<tr><td>2025-12-01</td><td>2,632</td></tr>
+<tr><td>2025-09-01</td><td>2,500</td></tr>
+<tr><td>2025-06-01</td><td>2,366</td></tr>
+<tr><td>2025-03-01</td><td>2,066</td></tr>
+<tr><td>2024-12-01</td><td>2,163</td></tr>
+<tr><td>2024-09-01</td><td>2,435</td></tr>
+<tr><td>2024-06-01</td><td>2,218</td></tr>
+<tr><td>2024-03-01</td><td>2,070</td></tr>
+<tr><td>2023-12-01</td><td>2,055</td></tr>
+<tr><td>2023-09-01</td><td>1,809</td></tr>
+<tr><td>2023-06-01</td><td>1,900</td></tr>
+<tr><td>2023-03-01</td><td>1,750</td></tr>
+<tr><td>2022-12-01</td><td>1,897</td></tr>
+<tr><td>2022-09-01</td><td>1,887</td></tr>
+<tr><td>2022-06-01</td><td>1,844</td></tr>
+<tr><td>2022-03-01</td><td>1,864</td></tr>
+<tr><td>2021-12-01</td><td>2,048</td></tr>
+<tr><td>2021-09-01</td><td>2,199</td></tr>
+<tr><td>2021-06-01</td><td>2,274</td></tr>
+<tr><td>2021-03-01</td><td>2,269</td></tr>
+<tr><td>2020-12-01</td><td>2,201</td></tr>
+</tbody></table></div>
+    </div>
+    <div class="panel">
+      <h2>Source</h2>
+      <div class="panel-body notes">
+        <div>Freshness: ok</div>
+        <div>Source: <a href="https://query1.finance.yahoo.com/v8/finance/chart/%5ERUT">Yahoo Finance</a></div>
+        <div>Series: ^RUT</div>
+        <div>Notes: None</div>
+      </div>
+    </div>
+  </section>
+</div>
+<script id="detail-data" type="application/json">{"series": [{"date": "2011-12-01", "value": 810.9400024414062, "display": "810.9"}, {"date": "2012-03-01", "value": 761.8200073242188, "display": "761.8"}, {"date": "2012-06-01", "value": 812.0900268554688, "display": "812.1"}, {"date": "2012-09-01", "value": 821.9199829101562, "display": "821.9"}, {"date": "2012-12-01", "value": 911.1099853515625, "display": "911.1"}, {"date": "2013-03-01", "value": 984.1500244140625, "display": "984.2"}, {"date": "2013-06-01", "value": 1010.9000244140625, "display": "1,011"}, {"date": "2013-09-01", "value": 1142.8900146484375, "display": "1,143"}, {"date": "2013-12-01", "value": 1183.030029296875, "display": "1,183"}, {"date": "2014-03-01", "value": 1134.5, "display": "1,134"}, {"date": "2014-06-01", "value": 1174.3499755859375, "display": "1,174"}, {"date": "2014-09-01", "value": 1173.22998046875, "display": "1,173"}, {"date": "2014-12-01", "value": 1233.3699951171875, "display": "1,233"}, {"date": "2015-03-01", "value": 1246.530029296875, "display": "1,247"}, {"date": "2015-06-01", "value": 1159.449951171875, "display": "1,159"}, {"date": "2015-09-01", "value": 1198.1099853515625, "display": "1,198"}, {"date": "2015-12-01", "value": 1033.9000244140625, "display": "1,034"}, {"date": "2016-03-01", "value": 1154.7900390625, "display": "1,155"}, {"date": "2016-06-01", "value": 1239.9100341796875, "display": "1,240"}, {"date": "2016-09-01", "value": 1322.3399658203125, "display": "1,322"}, {"date": "2016-12-01", "value": 1386.6800537109375, "display": "1,387"}, {"date": "2017-03-01", "value": 1370.2099609375, "display": "1,370"}, {"date": "2017-06-01", "value": 1405.280029296875, "display": "1,405"}, {"date": "2017-09-01", "value": 1544.1400146484375, "display": "1,544"}, {"date": "2017-12-01", "value": 1512.449951171875, "display": "1,512"}, {"date": "2018-03-01", "value": 1633.6099853515625, "display": "1,634"}, {"date": "2018-06-01", "value": 1740.75, "display": "1,741"}, {"date": "2018-09-01", "value": 1533.27001953125, "display": "1,533"}, {"date": "2018-12-01", "value": 1575.550048828125, "display": "1,576"}, {"date": "2019-03-01", "value": 1465.489990234375, "display": "1,465"}, {"date": "2019-06-01", "value": 1494.8399658203125, "display": "1,495"}, {"date": "2019-09-01", "value": 1624.5, "display": "1,624"}, {"date": "2019-12-01", "value": 1476.4300537109375, "display": "1,476"}, {"date": "2020-03-01", "value": 1394.0400390625, "display": "1,394"}, {"date": "2020-06-01", "value": 1561.8800048828125, "display": "1,562"}, {"date": "2020-09-01", "value": 1819.8199462890625, "display": "1,820"}, {"date": "2020-12-01", "value": 2201.050048828125, "display": "2,201"}, {"date": "2021-03-01", "value": 2268.969970703125, "display": "2,269"}, {"date": "2021-06-01", "value": 2273.77001953125, "display": "2,274"}, {"date": "2021-09-01", "value": 2198.909912109375, "display": "2,199"}, {"date": "2021-12-01", "value": 2048.090087890625, "display": "2,048"}, {"date": "2022-03-01", "value": 1864.0400390625, "display": "1,864"}, {"date": "2022-06-01", "value": 1844.1199951171875, "display": "1,844"}, {"date": "2022-09-01", "value": 1886.5799560546875, "display": "1,887"}, {"date": "2022-12-01", "value": 1896.989990234375, "display": "1,897"}, {"date": "2023-03-01", "value": 1749.6500244140625, "display": "1,750"}, {"date": "2023-06-01", "value": 1899.6800537109375, "display": "1,900"}, {"date": "2023-09-01", "value": 1809.02001953125, "display": "1,809"}, {"date": "2023-12-01", "value": 2054.840087890625, "display": "2,055"}, {"date": "2024-03-01", "value": 2070.1298828125, "display": "2,070"}, {"date": "2024-06-01", "value": 2217.6298828125, "display": "2,218"}, {"date": "2024-09-01", "value": 2434.72998046875, "display": "2,435"}, {"date": "2024-12-01", "value": 2163.070068359375, "display": "2,163"}, {"date": "2025-03-01", "value": 2066.2900390625, "display": "2,066"}, {"date": "2025-06-01", "value": 2366.419921875, "display": "2,366"}, {"date": "2025-09-01", "value": 2500.429931640625, "display": "2,500"}, {"date": "2025-12-01", "value": 2632.360107421875, "display": "2,632"}, {"date": "2026-03-01", "value": 2919.340087890625, "display": "2,919"}, {"date": "2026-06-01", "value": 2979.77001953125, "display": "2,980"}, {"date": "2026-06-18", "value": 2979.765380859375, "display": "2,980"}]}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('detail-data').textContent);
+const canvas = document.getElementById('trendCanvas');
+const ctx = canvas.getContext('2d');
+const rows = DATA.series || [];
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (!rows.length) {
+    ctx.fillStyle = '#64707d';
+    ctx.font = '16px system-ui';
+    ctx.fillText('No observation history available.', 24, 54);
+    return;
+  }
+  const pad = { left: 64, right: 22, top: 24, bottom: 56 };
+  const values = rows.map(row => row.value).filter(value => typeof value === 'number');
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const span = max === min ? 1 : max - min;
+  const w = canvas.width - pad.left - pad.right;
+  const h = canvas.height - pad.top - pad.bottom;
+  ctx.strokeStyle = '#d9dee5';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad.left, pad.top);
+  ctx.lineTo(pad.left, pad.top + h);
+  ctx.lineTo(canvas.width - pad.right, pad.top + h);
+  ctx.stroke();
+  ctx.strokeStyle = '#1f6feb';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  rows.forEach((row, index) => {
+    const x = pad.left + (rows.length === 1 ? 0 : index / (rows.length - 1) * w);
+    const y = pad.top + h - ((row.value - min) / span * h);
+    if (index === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  const last = rows[rows.length - 1];
+  ctx.fillStyle = '#1f2933';
+  ctx.font = '12px system-ui';
+  ctx.fillText(`${last.date} / ${last.display}`, pad.left, 18);
+  ctx.fillStyle = '#64707d';
+  ctx.fillText(String(rows[0].date), pad.left, canvas.height - 18);
+  ctx.textAlign = 'right';
+  ctx.fillText(String(last.date), canvas.width - pad.right, canvas.height - 18);
+}
+draw();
+</script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>미국 10년물 Detail</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --ink: #1f2933;
+      --muted: #64707d;
+      --line: #d9dee5;
+      --accent: #1f6feb;
+      --good: #198754;
+      --warn: #b7791f;
+      --bad: #c2413a;
+      --shadow: 0 8px 22px rgba(28, 39, 49, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      letter-spacing: 0;
+    }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 22px 20px 36px; }
+    a { color: var(--accent); text-decoration: none; }
+    .back { display: inline-flex; margin-bottom: 16px; font-size: 13px; }
+    .head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+    h1 { margin: 0; font-size: 28px; line-height: 1.1; }
+    .meta { color: var(--muted); font-size: 13px; margin-top: 7px; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(130px, 1fr)); gap: 10px; margin-bottom: 16px; }
+    .card, .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .card { padding: 13px 14px; }
+    .label { color: var(--muted); font-size: 12px; }
+    .value { font-weight: 760; font-size: 22px; margin-top: 4px; line-height: 1.2; }
+    .main { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.8fr); gap: 16px; align-items: start; }
+    .panel h2 { margin: 0; padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 16px; }
+    .panel-body { padding: 14px 16px; }
+    canvas { display: block; width: 100%; height: 280px; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid var(--line); text-align: left; font-size: 13px; vertical-align: middle; }
+    th { color: var(--muted); background: #fbfcfe; }
+    .pill {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #eef3fb;
+      color: #475569;
+    }
+    .pill.bad { background: #ffefef; color: var(--bad); }
+    .pill.warn { background: #fff7e6; color: var(--warn); }
+    .empty { color: var(--muted); padding: 18px 0; }
+    .notes { color: var(--muted); line-height: 1.55; }
+    @media (max-width: 840px) {
+      .head, .main { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 560px) {
+      .wrap { padding: 18px 12px 28px; }
+      .grid { grid-template-columns: 1fr; }
+      h1 { font-size: 23px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../sector_dashboard.html">Back to sector dashboard</a>
+  <div class="head">
+    <div>
+      <h1>미국 10년물</h1>
+      <div class="meta">us_treasury_10y / Rates / United States</div>
+    </div>
+    <div class="meta">Generated 2026-06-22T09:22:36</div>
+  </div>
+  <section class="grid">
+    <div class="card"><div class="label">Latest</div><div class="value">4.49 percent</div></div>
+    <div class="card"><div class="label">Latest date</div><div class="value">2026-06-17</div></div>
+    <div class="card"><div class="label">3M change</div><div class="value">+6.9%</div></div>
+    <div class="card"><div class="label">12M change</div><div class="value">+2.3%</div></div>
+  </section>
+  <section class="main">
+    <div class="panel">
+      <h2>Recent Trend</h2>
+      <div class="panel-body"><canvas id="trendCanvas" width="920" height="320"></canvas></div>
+    </div>
+    <div class="panel">
+      <h2>Alerts</h2>
+      <div class="panel-body"><div class="empty">No active alert for this indicator.</div></div>
+    </div>
+    <div class="panel">
+      <h2>Recent Observations</h2>
+      <div class="panel-body"><table>
+<thead><tr><th>Date</th><th>Value</th></tr></thead>
+<tbody>
+<tr><td>2026-06-17</td><td>4.49</td></tr>
+<tr><td>2026-06-16</td><td>4.43</td></tr>
+<tr><td>2026-06-15</td><td>4.47</td></tr>
+<tr><td>2026-06-12</td><td>4.48</td></tr>
+<tr><td>2026-06-11</td><td>4.45</td></tr>
+<tr><td>2026-06-10</td><td>4.55</td></tr>
+<tr><td>2026-06-09</td><td>4.53</td></tr>
+<tr><td>2026-06-08</td><td>4.56</td></tr>
+<tr><td>2026-06-05</td><td>4.55</td></tr>
+<tr><td>2026-06-04</td><td>4.47</td></tr>
+<tr><td>2026-06-03</td><td>4.49</td></tr>
+<tr><td>2026-06-02</td><td>4.46</td></tr>
+<tr><td>2026-06-01</td><td>4.47</td></tr>
+<tr><td>2026-05-29</td><td>4.45</td></tr>
+<tr><td>2026-05-28</td><td>4.45</td></tr>
+<tr><td>2026-05-27</td><td>4.48</td></tr>
+<tr><td>2026-05-26</td><td>4.5</td></tr>
+<tr><td>2026-05-22</td><td>4.56</td></tr>
+<tr><td>2026-05-21</td><td>4.57</td></tr>
+<tr><td>2026-05-20</td><td>4.57</td></tr>
+<tr><td>2026-05-19</td><td>4.67</td></tr>
+<tr><td>2026-05-18</td><td>4.61</td></tr>
+<tr><td>2026-05-15</td><td>4.59</td></tr>
+<tr><td>2026-05-14</td><td>4.47</td></tr>
+</tbody></table></div>
+    </div>
+    <div class="panel">
+      <h2>Source</h2>
+      <div class="panel-body notes">
+        <div>Freshness: ok</div>
+        <div>Source: <a href="https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10">FRED</a></div>
+        <div>Series: DGS10</div>
+        <div>Notes: None</div>
+      </div>
+    </div>
+  </section>
+</div>
+<script id="detail-data" type="application/json">{"series": [{"date": "2026-03-25", "value": 4.33, "display": "4.33"}, {"date": "2026-03-26", "value": 4.42, "display": "4.42"}, {"date": "2026-03-27", "value": 4.44, "display": "4.44"}, {"date": "2026-03-30", "value": 4.35, "display": "4.35"}, {"date": "2026-03-31", "value": 4.3, "display": "4.3"}, {"date": "2026-04-01", "value": 4.33, "display": "4.33"}, {"date": "2026-04-02", "value": 4.31, "display": "4.31"}, {"date": "2026-04-03", "value": 4.35, "display": "4.35"}, {"date": "2026-04-06", "value": 4.34, "display": "4.34"}, {"date": "2026-04-07", "value": 4.33, "display": "4.33"}, {"date": "2026-04-08", "value": 4.29, "display": "4.29"}, {"date": "2026-04-09", "value": 4.29, "display": "4.29"}, {"date": "2026-04-10", "value": 4.31, "display": "4.31"}, {"date": "2026-04-13", "value": 4.3, "display": "4.3"}, {"date": "2026-04-14", "value": 4.26, "display": "4.26"}, {"date": "2026-04-15", "value": 4.29, "display": "4.29"}, {"date": "2026-04-16", "value": 4.32, "display": "4.32"}, {"date": "2026-04-17", "value": 4.26, "display": "4.26"}, {"date": "2026-04-20", "value": 4.26, "display": "4.26"}, {"date": "2026-04-21", "value": 4.3, "display": "4.3"}, {"date": "2026-04-22", "value": 4.3, "display": "4.3"}, {"date": "2026-04-23", "value": 4.34, "display": "4.34"}, {"date": "2026-04-24", "value": 4.31, "display": "4.31"}, {"date": "2026-04-27", "value": 4.35, "display": "4.35"}, {"date": "2026-04-28", "value": 4.36, "display": "4.36"}, {"date": "2026-04-29", "value": 4.42, "display": "4.42"}, {"date": "2026-04-30", "value": 4.4, "display": "4.4"}, {"date": "2026-05-01", "value": 4.39, "display": "4.39"}, {"date": "2026-05-04", "value": 4.45, "display": "4.45"}, {"date": "2026-05-05", "value": 4.43, "display": "4.43"}, {"date": "2026-05-06", "value": 4.36, "display": "4.36"}, {"date": "2026-05-07", "value": 4.41, "display": "4.41"}, {"date": "2026-05-08", "value": 4.38, "display": "4.38"}, {"date": "2026-05-11", "value": 4.42, "display": "4.42"}, {"date": "2026-05-12", "value": 4.46, "display": "4.46"}, {"date": "2026-05-13", "value": 4.46, "display": "4.46"}, {"date": "2026-05-14", "value": 4.47, "display": "4.47"}, {"date": "2026-05-15", "value": 4.59, "display": "4.59"}, {"date": "2026-05-18", "value": 4.61, "display": "4.61"}, {"date": "2026-05-19", "value": 4.67, "display": "4.67"}, {"date": "2026-05-20", "value": 4.57, "display": "4.57"}, {"date": "2026-05-21", "value": 4.57, "display": "4.57"}, {"date": "2026-05-22", "value": 4.56, "display": "4.56"}, {"date": "2026-05-26", "value": 4.5, "display": "4.5"}, {"date": "2026-05-27", "value": 4.48, "display": "4.48"}, {"date": "2026-05-28", "value": 4.45, "display": "4.45"}, {"date": "2026-05-29", "value": 4.45, "display": "4.45"}, {"date": "2026-06-01", "value": 4.47, "display": "4.47"}, {"date": "2026-06-02", "value": 4.46, "display": "4.46"}, {"date": "2026-06-03", "value": 4.49, "display": "4.49"}, {"date": "2026-06-04", "value": 4.47, "display": "4.47"}, {"date": "2026-06-05", "value": 4.55, "display": "4.55"}, {"date": "2026-06-08", "value": 4.56, "display": "4.56"}, {"date": "2026-06-09", "value": 4.53, "display": "4.53"}, {"date": "2026-06-10", "value": 4.55, "display": "4.55"}, {"date": "2026-06-11", "value": 4.45, "display": "4.45"}, {"date": "2026-06-12", "value": 4.48, "display": "4.48"}, {"date": "2026-06-15", "value": 4.47, "display": "4.47"}, {"date": "2026-06-16", "value": 4.43, "display": "4.43"}, {"date": "2026-06-17", "value": 4.49, "display": "4.49"}]}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('detail-data').textContent);
+const canvas = document.getElementById('trendCanvas');
+const ctx = canvas.getContext('2d');
+const rows = DATA.series || [];
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (!rows.length) {
+    ctx.fillStyle = '#64707d';
+    ctx.font = '16px system-ui';
+    ctx.fillText('No observation history available.', 24, 54);
+    return;
+  }
+  const pad = { left: 64, right: 22, top: 24, bottom: 56 };
+  const values = rows.map(row => row.value).filter(value => typeof value === 'number');
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const span = max === min ? 1 : max - min;
+  const w = canvas.width - pad.left - pad.right;
+  const h = canvas.height - pad.top - pad.bottom;
+  ctx.strokeStyle = '#d9dee5';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad.left, pad.top);
+  ctx.lineTo(pad.left, pad.top + h);
+  ctx.lineTo(canvas.width - pad.right, pad.top + h);
+  ctx.stroke();
+  ctx.strokeStyle = '#1f6feb';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  rows.forEach((row, index) => {
+    const x = pad.left + (rows.length === 1 ? 0 : index / (rows.length - 1) * w);
+    const y = pad.top + h - ((row.value - min) / span * h);
+    if (index === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  const last = rows[rows.length - 1];
+  ctx.fillStyle = '#1f2933';
+  ctx.font = '12px system-ui';
+  ctx.fillText(`${last.date} / ${last.display}`, pad.left, 18);
+  ctx.fillStyle = '#64707d';
+  ctx.fillText(String(rows[0].date), pad.left, canvas.height - 18);
+  ctx.textAlign = 'right';
+  ctx.fillText(String(last.date), canvas.width - pad.right, canvas.height - 18);
+}
+draw();
+</script>
+</body>
+</html>

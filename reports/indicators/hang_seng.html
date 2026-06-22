@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hang Seng Detail</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --ink: #1f2933;
+      --muted: #64707d;
+      --line: #d9dee5;
+      --accent: #1f6feb;
+      --good: #198754;
+      --warn: #b7791f;
+      --bad: #c2413a;
+      --shadow: 0 8px 22px rgba(28, 39, 49, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      letter-spacing: 0;
+    }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 22px 20px 36px; }
+    a { color: var(--accent); text-decoration: none; }
+    .back { display: inline-flex; margin-bottom: 16px; font-size: 13px; }
+    .head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+    h1 { margin: 0; font-size: 28px; line-height: 1.1; }
+    .meta { color: var(--muted); font-size: 13px; margin-top: 7px; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(130px, 1fr)); gap: 10px; margin-bottom: 16px; }
+    .card, .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .card { padding: 13px 14px; }
+    .label { color: var(--muted); font-size: 12px; }
+    .value { font-weight: 760; font-size: 22px; margin-top: 4px; line-height: 1.2; }
+    .main { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.8fr); gap: 16px; align-items: start; }
+    .panel h2 { margin: 0; padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 16px; }
+    .panel-body { padding: 14px 16px; }
+    canvas { display: block; width: 100%; height: 280px; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid var(--line); text-align: left; font-size: 13px; vertical-align: middle; }
+    th { color: var(--muted); background: #fbfcfe; }
+    .pill {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #eef3fb;
+      color: #475569;
+    }
+    .pill.bad { background: #ffefef; color: var(--bad); }
+    .pill.warn { background: #fff7e6; color: var(--warn); }
+    .empty { color: var(--muted); padding: 18px 0; }
+    .notes { color: var(--muted); line-height: 1.55; }
+    @media (max-width: 840px) {
+      .head, .main { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 560px) {
+      .wrap { padding: 18px 12px 28px; }
+      .grid { grid-template-columns: 1fr; }
+      h1 { font-size: 23px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../sector_dashboard.html">Back to sector dashboard</a>
+  <div class="head">
+    <div>
+      <h1>Hang Seng</h1>
+      <div class="meta">hang_seng / Market / Hong Kong</div>
+    </div>
+    <div class="meta">Generated 2026-06-22T09:22:36</div>
+  </div>
+  <section class="grid">
+    <div class="card"><div class="label">Latest</div><div class="value">23,925 index</div></div>
+    <div class="card"><div class="label">Latest date</div><div class="value">2026-06-18</div></div>
+    <div class="card"><div class="label">3M change</div><div class="value">-5.0%</div></div>
+    <div class="card"><div class="label">12M change</div><div class="value">-4.6%</div></div>
+  </section>
+  <section class="main">
+    <div class="panel">
+      <h2>Recent Trend</h2>
+      <div class="panel-body"><canvas id="trendCanvas" width="920" height="320"></canvas></div>
+    </div>
+    <div class="panel">
+      <h2>Alerts</h2>
+      <div class="panel-body"><div class="empty">No active alert for this indicator.</div></div>
+    </div>
+    <div class="panel">
+      <h2>Recent Observations</h2>
+      <div class="panel-body"><table>
+<thead><tr><th>Date</th><th>Value</th></tr></thead>
+<tbody>
+<tr><td>2026-06-18</td><td>23,925</td></tr>
+<tr><td>2026-05-31</td><td>23,925</td></tr>
+<tr><td>2026-02-28</td><td>25,182</td></tr>
+<tr><td>2025-11-30</td><td>26,631</td></tr>
+<tr><td>2025-08-31</td><td>25,859</td></tr>
+<tr><td>2025-05-31</td><td>25,078</td></tr>
+<tr><td>2025-02-28</td><td>23,290</td></tr>
+<tr><td>2024-11-30</td><td>22,941</td></tr>
+<tr><td>2024-08-31</td><td>19,424</td></tr>
+<tr><td>2024-05-31</td><td>17,989</td></tr>
+<tr><td>2024-02-29</td><td>18,080</td></tr>
+<tr><td>2023-11-30</td><td>16,511</td></tr>
+<tr><td>2023-08-31</td><td>17,043</td></tr>
+<tr><td>2023-05-31</td><td>18,382</td></tr>
+<tr><td>2023-02-28</td><td>18,234</td></tr>
+<tr><td>2022-11-30</td><td>19,786</td></tr>
+<tr><td>2022-08-31</td><td>18,597</td></tr>
+<tr><td>2022-05-31</td><td>19,954</td></tr>
+<tr><td>2022-02-28</td><td>21,415</td></tr>
+<tr><td>2021-11-30</td><td>22,713</td></tr>
+<tr><td>2021-08-31</td><td>23,475</td></tr>
+<tr><td>2021-05-31</td><td>25,879</td></tr>
+<tr><td>2021-02-28</td><td>29,152</td></tr>
+<tr><td>2020-11-30</td><td>28,980</td></tr>
+</tbody></table></div>
+    </div>
+    <div class="panel">
+      <h2>Source</h2>
+      <div class="panel-body notes">
+        <div>Freshness: ok</div>
+        <div>Source: <a href="https://query1.finance.yahoo.com/v8/finance/chart/%5EHSI">Yahoo Finance</a></div>
+        <div>Series: ^HSI</div>
+        <div>Notes: None</div>
+      </div>
+    </div>
+  </section>
+</div>
+<script id="detail-data" type="application/json">{"series": [{"date": "2011-11-30", "value": 21680.080078125, "display": "21,680"}, {"date": "2012-02-29", "value": 18629.51953125, "display": "18,630"}, {"date": "2012-05-31", "value": 19482.5703125, "display": "19,483"}, {"date": "2012-08-31", "value": 22030.390625, "display": "22,030"}, {"date": "2012-11-30", "value": 23020.26953125, "display": "23,020"}, {"date": "2013-02-28", "value": 22392.16015625, "display": "22,392"}, {"date": "2013-05-31", "value": 21731.369140625, "display": "21,731"}, {"date": "2013-08-31", "value": 23881.2890625, "display": "23,881"}, {"date": "2013-11-30", "value": 22836.9609375, "display": "22,837"}, {"date": "2014-02-28", "value": 23081.650390625, "display": "23,082"}, {"date": "2014-05-31", "value": 24742.060546875, "display": "24,742"}, {"date": "2014-08-31", "value": 23987.44921875, "display": "23,987"}, {"date": "2014-11-30", "value": 24823.2890625, "display": "24,823"}, {"date": "2015-02-28", "value": 27424.189453125, "display": "27,424"}, {"date": "2015-05-31", "value": 21670.580078125, "display": "21,671"}, {"date": "2015-08-31", "value": 21996.419921875, "display": "21,996"}, {"date": "2015-11-30", "value": 19111.9296875, "display": "19,112"}, {"date": "2016-02-29", "value": 20815.08984375, "display": "20,815"}, {"date": "2016-05-31", "value": 22976.880859375, "display": "22,977"}, {"date": "2016-08-31", "value": 22789.76953125, "display": "22,790"}, {"date": "2016-11-30", "value": 23740.73046875, "display": "23,741"}, {"date": "2017-02-28", "value": 25660.650390625, "display": "25,661"}, {"date": "2017-05-31", "value": 27970.30078125, "display": "27,970"}, {"date": "2017-08-31", "value": 29177.349609375, "display": "29,177"}, {"date": "2017-11-30", "value": 30844.720703125, "display": "30,845"}, {"date": "2018-02-28", "value": 30468.560546875, "display": "30,469"}, {"date": "2018-05-31", "value": 27888.55078125, "display": "27,889"}, {"date": "2018-08-31", "value": 26506.75, "display": "26,507"}, {"date": "2018-11-30", "value": 28633.1796875, "display": "28,633"}, {"date": "2019-02-28", "value": 26901.08984375, "display": "26,901"}, {"date": "2019-05-31", "value": 25724.73046875, "display": "25,725"}, {"date": "2019-08-31", "value": 26346.490234375, "display": "26,346"}, {"date": "2019-11-30", "value": 26129.9296875, "display": "26,130"}, {"date": "2020-02-29", "value": 22961.470703125, "display": "22,961"}, {"date": "2020-05-31", "value": 25177.05078125, "display": "25,177"}, {"date": "2020-08-31", "value": 26341.490234375, "display": "26,341"}, {"date": "2020-11-30", "value": 28980.2109375, "display": "28,980"}, {"date": "2021-02-28", "value": 29151.80078125, "display": "29,152"}, {"date": "2021-05-31", "value": 25878.990234375, "display": "25,879"}, {"date": "2021-08-31", "value": 23475.259765625, "display": "23,475"}, {"date": "2021-11-30", "value": 22713.01953125, "display": "22,713"}, {"date": "2022-02-28", "value": 21415.19921875, "display": "21,415"}, {"date": "2022-05-31", "value": 19954.390625, "display": "19,954"}, {"date": "2022-08-31", "value": 18597.23046875, "display": "18,597"}, {"date": "2022-11-30", "value": 19785.939453125, "display": "19,786"}, {"date": "2023-02-28", "value": 18234.26953125, "display": "18,234"}, {"date": "2023-05-31", "value": 18382.060546875, "display": "18,382"}, {"date": "2023-08-31", "value": 17042.880859375, "display": "17,043"}, {"date": "2023-11-30", "value": 16511.439453125, "display": "16,511"}, {"date": "2024-02-29", "value": 18079.609375, "display": "18,080"}, {"date": "2024-05-31", "value": 17989.0703125, "display": "17,989"}, {"date": "2024-08-31", "value": 19423.609375, "display": "19,424"}, {"date": "2024-11-30", "value": 22941.3203125, "display": "22,941"}, {"date": "2025-02-28", "value": 23289.76953125, "display": "23,290"}, {"date": "2025-05-31", "value": 25077.619140625, "display": "25,078"}, {"date": "2025-08-31", "value": 25858.890625, "display": "25,859"}, {"date": "2025-11-30", "value": 26630.5390625, "display": "26,631"}, {"date": "2026-02-28", "value": 25182.390625, "display": "25,182"}, {"date": "2026-05-31", "value": 23924.810546875, "display": "23,925"}, {"date": "2026-06-18", "value": 23924.810546875, "display": "23,925"}]}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('detail-data').textContent);
+const canvas = document.getElementById('trendCanvas');
+const ctx = canvas.getContext('2d');
+const rows = DATA.series || [];
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (!rows.length) {
+    ctx.fillStyle = '#64707d';
+    ctx.font = '16px system-ui';
+    ctx.fillText('No observation history available.', 24, 54);
+    return;
+  }
+  const pad = { left: 64, right: 22, top: 24, bottom: 56 };
+  const values = rows.map(row => row.value).filter(value => typeof value === 'number');
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const span = max === min ? 1 : max - min;
+  const w = canvas.width - pad.left - pad.right;
+  const h = canvas.height - pad.top - pad.bottom;
+  ctx.strokeStyle = '#d9dee5';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad.left, pad.top);
+  ctx.lineTo(pad.left, pad.top + h);
+  ctx.lineTo(canvas.width - pad.right, pad.top + h);
+  ctx.stroke();
+  ctx.strokeStyle = '#1f6feb';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  rows.forEach((row, index) => {
+    const x = pad.left + (rows.length === 1 ? 0 : index / (rows.length - 1) * w);
+    const y = pad.top + h - ((row.value - min) / span * h);
+    if (index === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  const last = rows[rows.length - 1];
+  ctx.fillStyle = '#1f2933';
+  ctx.font = '12px system-ui';
+  ctx.fillText(`${last.date} / ${last.display}`, pad.left, 18);
+  ctx.fillStyle = '#64707d';
+  ctx.fillText(String(rows[0].date), pad.left, canvas.height - 18);
+  ctx.textAlign = 'right';
+  ctx.fillText(String(last.date), canvas.width - pad.right, canvas.height - 18);
+}
+draw();
+</script>
+</body>
+</html>
