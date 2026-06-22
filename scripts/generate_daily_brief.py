@@ -191,6 +191,8 @@ def build_report(
         "## Dashboard Links",
         "- [Sector dashboard](sector_dashboard.html)",
         "- [Decision engine](decision_engine.html)",
+        "- [ETF universe](etf_universe.html)",
+        "- [Stock watchlist](stock_watchlist.html)",
         "- [Rebalance orders](rebalance_orders.html)",
         "- [Scenario simulator](scenario_simulator.html)",
         "- [Scenario matrix](scenario_matrix.html)",

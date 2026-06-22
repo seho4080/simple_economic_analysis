@@ -1108,7 +1108,7 @@ def render_html(data: DashboardData) -> str:
       <div class="alert-panel">
         <strong>Change Alerts</strong>
         <div class="subtle" id="alertSummary"></div>
-        <div class="subtle"><a href="daily_brief_latest.md">Daily brief</a> / <a href="decision_engine.html">Decision engine</a> / <a href="rebalance_orders.html">Rebalance orders</a> / <a href="scenario_simulator.html">Scenario simulator</a> / <a href="scenario_matrix.html">Scenario matrix</a> / <a href="scenario_etf_backtests.html">Scenario ETF backtests</a> / <a href="alerts_latest.md">Alerts report</a> / <a href="risk_attribution_latest.md">Risk attribution</a> / <a href="data_quality_latest.md">Data quality</a></div>
+        <div class="subtle"><a href="daily_brief_latest.md">Daily brief</a> / <a href="decision_engine.html">Decision engine</a> / <a href="etf_universe.html">ETF universe</a> / <a href="stock_watchlist.html">Stock watchlist</a> / <a href="rebalance_orders.html">Rebalance orders</a> / <a href="scenario_simulator.html">Scenario simulator</a> / <a href="scenario_matrix.html">Scenario matrix</a> / <a href="scenario_etf_backtests.html">Scenario ETF backtests</a> / <a href="alerts_latest.md">Alerts report</a> / <a href="risk_attribution_latest.md">Risk attribution</a> / <a href="data_quality_latest.md">Data quality</a></div>
       </div>
       <div class="alert-panel">
         <strong>Top Alerts</strong>

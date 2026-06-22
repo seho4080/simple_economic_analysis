@@ -250,6 +250,35 @@ python scripts/generate_decision_engine.py
 - `data/processed/macro/decision_engine_latest.csv`
 - `data/processed/macro/decision_actions_latest.csv`
 
+## ETF universe
+
+`config/etf_universe.csv`에 국내 상장 ETF 후보군을 소매별로 관리하고, 최신 decision engine 상태와 리스크 점수에 맞춰 우선 검토 후보를 점수화합니다. 후보군을 늘릴 때는 이 CSV에 행을 추가하면 됩니다.
+
+```bash
+python scripts/generate_etf_universe.py
+```
+
+결과:
+
+- `reports/etf_universe.html`
+- `data/processed/portfolio/etf_universe_ranked.csv`
+
+## Stock watchlist
+
+`config/stock_watchlist.csv`에 관심 개별종목을 관리하고, 최신 decision engine 상태와 리스크 점수에 맞춰 우선 검토 순서를 점수화합니다. ETF 후보군과 분리해서 개별종목 특유의 고베타/방어주/배당/플랫폼/반도체 리스크를 따로 봅니다. 실행 시 Yahoo Finance chart 데이터로 약 10년치 일별 가격을 받고, 최신 거래일 가격, 전일 대비 등락률, 1Y/3Y/5Y/10Y 수익률, 최대낙폭을 함께 갱신합니다.
+
+```bash
+python scripts/generate_stock_watchlist.py
+```
+
+결과:
+
+- `reports/stock_watchlist.html`
+- `data/processed/portfolio/stock_watchlist_ranked.csv`
+- `data/processed/portfolio/stock_prices_latest.csv`
+- `data/processed/portfolio/stock_price_history.csv`
+- `data/raw/yahoo_stock_watchlist/*.json`
+
 ## Rebalance order ticket
 
 `config/portfolio_holdings.csv`에 현재 보유 ETF 수량, 가격, 평가금액을 입력하면 decision engine의 기준 배분과 추천 ETF variant를 사용해 이번 달 매수 주문표를 생성합니다. 가격을 입력하면 예상 매수 수량까지 계산하고, 가격이 없으면 원화 주문 예산을 표시합니다.
@@ -309,7 +338,7 @@ For Windows Task Scheduler, point the action at the repository directory and run
 python scripts/refresh_data.py
 ```
 
-The default config refreshes macro data, change alerts, risk attribution, data quality, the daily decision brief, the scenario simulator, the scenario matrix, scenario ETF backtests, the decision engine, rebalance orders, monthly score history, the monthly dashboard, and the sector HTML dashboard every 24 hours. Edit `config/data_refresh.json` to change cadence, disable tasks, or add new commands.
+The default config refreshes macro data, change alerts, risk attribution, data quality, the daily decision brief, the scenario simulator, the scenario matrix, scenario ETF backtests, the decision engine, ETF universe ranking, stock watchlist ranking, rebalance orders, monthly score history, the monthly dashboard, and the sector HTML dashboard every 24 hours. Edit `config/data_refresh.json` to change cadence, disable tasks, or add new commands.
 
 ## ISA ETF 백테스트
 
@@ -434,6 +463,8 @@ reports/
   sector_dashboard.html 섹터별 HTML 대시보드
   decision_engine.html 의사결정 엔진
   decision_engine_latest.md 의사결정 액션 브리프
+  etf_universe.html ETF 후보군 랭킹
+  stock_watchlist.html 개별종목 관심목록 랭킹
   rebalance_orders.html 리밸런싱 주문표
   rebalance_orders_latest.md 리밸런싱 주문 브리프
   scenario_simulator.html 시나리오 시뮬레이터
@@ -457,6 +488,8 @@ scripts/
   generate_data_quality_report.py  데이터 품질 점수 생성
   generate_daily_brief.py          일일 의사결정 브리프 생성
   generate_decision_engine.py      의사결정 엔진 생성
+  generate_etf_universe.py         ETF 후보군 랭킹 생성
+  generate_stock_watchlist.py      개별종목 관심목록 랭킹 생성
   portfolio_input_server.py        보유 포트폴리오 로컬 웹 입력
   update_portfolio_holdings.py     보유 포트폴리오 대화형 입력
   generate_rebalance_orders.py     리밸런싱 주문표 생성

@@ -78,6 +78,22 @@
       "command": ["{python}", "scripts/generate_decision_engine.py"]
     },
     {
+      "name": "etf_universe",
+      "description": "Rank domestic-listed ETF candidates by the latest macro decision context.",
+      "enabled": true,
+      "cadence_hours": 24,
+      "timeout_seconds": 300,
+      "command": ["{python}", "scripts/generate_etf_universe.py"]
+    },
+    {
+      "name": "stock_watchlist",
+      "description": "Fetch individual stock prices and rank watchlist candidates by the latest macro decision context.",
+      "enabled": true,
+      "cadence_hours": 24,
+      "timeout_seconds": 300,
+      "command": ["{python}", "scripts/generate_stock_watchlist.py"]
+    },
+    {
       "name": "rebalance_orders",
       "description": "Generate buy-only portfolio rebalance order guidance from current holdings.",
       "enabled": true,

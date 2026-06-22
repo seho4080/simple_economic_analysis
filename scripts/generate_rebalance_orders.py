@@ -32,12 +32,25 @@ ASSETS = [
 
 SYMBOL_LABELS = {
     "153130.KS": "KODEX 단기채권",
+    "273130.KS": "KODEX 종합채권(AA-이상)액티브",
+    "305080.KS": "TIGER 미국채10년선물",
+    "453850.KS": "ACE 미국30년국채액티브(H)",
+    "304660.KS": "KODEX 미국30년국채울트라선물(H)",
     "132030.KS": "KODEX 골드선물(H)",
     "411060.KS": "ACE KRX금현물",
     "144600.KS": "KODEX 은선물(H)",
+    "138910.KS": "KODEX 구리선물(H)",
     "219480.KS": "KODEX 미국S&P500선물(H)",
     "360750.KS": "TIGER 미국S&P500",
+    "379800.KS": "KODEX 미국S&P500",
     "133690.KS": "TIGER 미국나스닥100",
+    "379810.KS": "KODEX 미국나스닥100",
+    "069500.KS": "KODEX 200",
+    "241180.KS": "TIGER 일본니케이225",
+    "458730.KS": "TIGER 미국배당다우존스",
+    "381170.KS": "TIGER 미국테크TOP10 INDXX",
+    "472160.KS": "TIGER 미국테크TOP10INDXX(H)",
+    "381180.KS": "TIGER 미국필라델피아반도체나스닥",
 }
 
 
@@ -409,7 +422,7 @@ def render_html(summary: dict[str, Any], orders: list[dict[str, Any]], targets: 
       <h1>Rebalance Orders</h1>
       <div class="subtle">Generated {escape(str(summary['generated_at']))} / Report {escape(str(summary['report_date']))}</div>
     </div>
-    <div class="subtle"><a href="http://127.0.0.1:8765">Edit holdings</a> / <a href="rebalance_orders_latest.md">Markdown</a> / <a href="sector_dashboard.html">Sector dashboard</a></div>
+    <div class="subtle"><a href="http://127.0.0.1:8765">Edit holdings</a> / <a href="rebalance_orders_latest.md">Markdown</a> / <a href="etf_universe.html">ETF universe</a> / <a href="sector_dashboard.html">Sector dashboard</a></div>
   </div>
   <section class="cards">{card_html}</section>
   <div class="note">Run <code>python scripts/portfolio_input_server.py</code> to edit holdings in a browser. If prices are filled, estimated units are calculated; otherwise the table shows KRW order budgets.</div>

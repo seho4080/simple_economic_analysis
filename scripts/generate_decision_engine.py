@@ -452,7 +452,7 @@ def render_html(
       <h1>Decision Engine</h1>
       <div class="subtle">Generated {escape(str(summary['generated_at']))} / Report {escape(str(summary['report_date']))}</div>
     </div>
-    <div class="subtle"><a href="decision_engine_latest.md">Markdown</a> / <a href="rebalance_orders.html">Rebalance orders</a> / <a href="scenario_etf_backtests.html">Scenario ETF backtests</a> / <a href="scenario_matrix.html">Scenario matrix</a> / <a href="daily_brief_latest.md">Daily brief</a></div>
+    <div class="subtle"><a href="decision_engine_latest.md">Markdown</a> / <a href="etf_universe.html">ETF universe</a> / <a href="stock_watchlist.html">Stock watchlist</a> / <a href="rebalance_orders.html">Rebalance orders</a> / <a href="scenario_etf_backtests.html">Scenario ETF backtests</a> / <a href="scenario_matrix.html">Scenario matrix</a> / <a href="daily_brief_latest.md">Daily brief</a></div>
   </div>
   <section class="cards">{card_html}</section>
   <div class="note">Baseline allocation: {escape(allocation)}. Downside stress: {escape(str(summary.get('downside_stress_scenario', 'NA')))} with 3M worst analog return {fmt_pct(summary.get('downside_stress_3m_worst'))}.</div>
