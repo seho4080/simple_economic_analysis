@@ -1,0 +1,5 @@
+asset,asset_label,symbol,label,action,order_budget_krw,estimated_units,estimated_order_value_krw,target_share,current_value_krw,target_value_after_contribution_krw,gap_krw
+cash,Cash/short bonds,153130.KS,KODEX 단기채권,HOLD,250000,0,0,0.16666667,0,250000,250000
+gold,Gold,411060.KS,ACE KRX금현물,BUY,400000,1,300000,0.26666667,0,400000,400000
+silver,Silver/commodities,144600.KS,KODEX 은선물(H),BUY,200000,6,180000,0.13333333,0,200000,200000
+equity,Equity/ETF,133690.KS,TIGER 미국나스닥100,HOLD,650000,0,0,0.43333333,0,650000,650000

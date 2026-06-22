@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rebalance Orders</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --surface: #ffffff;
+      --ink: #1f2933;
+      --muted: #66717f;
+      --line: #d9dee5;
+      --accent: #2563eb;
+      --shadow: 0 8px 22px rgba(28, 39, 49, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 22px 20px 36px; }
+    a { color: var(--accent); text-decoration: none; }
+    .topbar {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    h1 { margin: 0; font-size: 28px; line-height: 1.12; }
+    h2 { margin: 0; padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 16px; }
+    .cards { display: grid; grid-template-columns: repeat(4, minmax(150px, 1fr)); gap: 10px; margin-bottom: 16px; }
+    .card, .panel, .note { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); }
+    .card { padding: 13px 14px; }
+    .label, .subtle { color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .value { font-weight: 760; font-size: 20px; line-height: 1.2; margin-top: 4px; }
+    .panel { margin-bottom: 16px; overflow: hidden; }
+    .panel-body { padding: 0; overflow-x: auto; }
+    .note { padding: 12px 14px; color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+    table { width: 100%; border-collapse: collapse; min-width: 780px; }
+    th, td { padding: 11px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; font-size: 13px; }
+    th { color: var(--muted); background: #fbfcfe; font-weight: 700; }
+    .pill { display: inline-block; border: 1px solid var(--line); border-radius: 999px; padding: 3px 8px; font-weight: 700; color: var(--accent); }
+    @media (max-width: 760px) {
+      .wrap { padding: 18px 12px 28px; }
+      .topbar { display: block; }
+      .cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <a href="decision_engine.html">Back to decision engine</a>
+      <h1>Rebalance Orders</h1>
+      <div class="subtle">Generated 2026-06-22T09:59:32 / Report 2026-06-21</div>
+    </div>
+    <div class="subtle"><a href="http://127.0.0.1:8765">Edit holdings</a> / <a href="rebalance_orders_latest.md">Markdown</a> / <a href="sector_dashboard.html">Sector dashboard</a></div>
+  </div>
+  <section class="cards"><div class="card"><div class="label">Action</div><div class="value">Confirm before adding risk</div></div><div class="card"><div class="label">ETF Variant</div><div class="value">ISA 금+나스닥100 환노출</div></div><div class="card"><div class="label">Contribution</div><div class="value">1,500,000원</div></div><div class="card"><div class="label">Unallocated</div><div class="value">1,020,000원</div></div></section>
+  <div class="note">Run <code>python scripts/portfolio_input_server.py</code> to edit holdings in a browser. If prices are filled, estimated units are calculated; otherwise the table shows KRW order budgets.</div>
+  <section class="panel">
+    <h2>Order Ticket</h2>
+    <div class="panel-body"><table><thead><tr><th>Action</th><th>Asset</th><th>Symbol</th><th>Budget</th><th>Est. units</th><th>Est. value</th><th>Target</th></tr></thead><tbody><tr><td><span class="pill">HOLD</span></td><td><strong>Cash/short bonds</strong><div class="subtle">KODEX 단기채권</div></td><td>153130.KS</td><td>250,000원</td><td>0</td><td>0원</td><td>16.7%</td></tr><tr><td><span class="pill">BUY</span></td><td><strong>Gold</strong><div class="subtle">ACE KRX금현물</div></td><td>411060.KS</td><td>400,000원</td><td>1</td><td>300,000원</td><td>26.7%</td></tr><tr><td><span class="pill">BUY</span></td><td><strong>Silver/commodities</strong><div class="subtle">KODEX 은선물(H)</div></td><td>144600.KS</td><td>200,000원</td><td>6</td><td>180,000원</td><td>13.3%</td></tr><tr><td><span class="pill">HOLD</span></td><td><strong>Equity/ETF</strong><div class="subtle">TIGER 미국나스닥100</div></td><td>133690.KS</td><td>650,000원</td><td>0</td><td>0원</td><td>43.3%</td></tr></tbody></table></div>
+  </section>
+  <section class="panel">
+    <h2>Target State</h2>
+    <div class="panel-body"><table><thead><tr><th>Asset</th><th>Current</th><th>Current share</th><th>Target after contribution</th><th>Gap</th><th>Target share</th></tr></thead><tbody><tr><td>Cash/short bonds</td><td>0원</td><td>0.0%</td><td>250,000원</td><td>250,000원</td><td>16.7%</td></tr><tr><td>Gold</td><td>0원</td><td>0.0%</td><td>400,000원</td><td>400,000원</td><td>26.7%</td></tr><tr><td>Silver/commodities</td><td>0원</td><td>0.0%</td><td>200,000원</td><td>200,000원</td><td>13.3%</td></tr><tr><td>Equity/ETF</td><td>0원</td><td>0.0%</td><td>650,000원</td><td>650,000원</td><td>43.3%</td></tr></tbody></table></div>
+  </section>
+</div>
+</body>
+</html>

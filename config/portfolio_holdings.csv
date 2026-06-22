@@ -1,0 +1,5 @@
+account,asset,symbol,label,shares,price_krw,market_value_krw,notes
+isa,cash,153130.KS,KODEX 단기채권,0,300000,0,Current holding template. Fill shares/price or market_value.
+isa,gold,411060.KS,ACE KRX금현물,0,300000,0,Current holding template. Fill shares/price or market_value.
+isa,silver,144600.KS,KODEX 은선물(H),0,30000,0,Current holding template. Fill shares/price or market_value.
+isa,equity,133690.KS,TIGER 미국나스닥100,0,4500000,0,Current holding template. Fill shares/price or market_value.

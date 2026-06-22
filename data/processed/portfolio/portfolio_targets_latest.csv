@@ -1,0 +1,5 @@
+asset,asset_label,symbol,label,current_value_krw,target_share,target_value_after_contribution_krw,gap_krw,current_share_before_contribution,target_allocation_manwon,shares,price_krw
+cash,Cash/short bonds,153130.KS,KODEX 단기채권,0,0.16666667,250000,250000,0.0,25,0.0,300000.0
+gold,Gold,411060.KS,ACE KRX금현물,0,0.26666667,400000,400000,0.0,40,0.0,300000.0
+silver,Silver/commodities,144600.KS,KODEX 은선물(H),0,0.13333333,200000,200000,0.0,20,0.0,30000.0
+equity,Equity/ETF,133690.KS,TIGER 미국나스닥100,0,0.43333333,650000,650000,0.0,65,0.0,4500000.0
