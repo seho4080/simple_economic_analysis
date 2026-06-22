@@ -125,6 +125,192 @@ python scripts/visualize_monthly_history.py
 - `reports/assets/monthly_dashboard/*.png`
 - `data/processed/macro/monthly_dashboard/*.csv`
 
+## 섹터별 HTML 대시보드
+
+최신 매크로 스냅샷과 차트 자산을 묶어서 섹터별로 탐색할 수 있는 정적 HTML을 생성합니다.
+
+```bash
+python scripts/generate_sector_dashboard.py
+```
+
+결과:
+
+- `reports/sector_dashboard.html`
+- `reports/indicators/*.html`
+
+생성된 HTML은 별도 서버 없이 브라우저에서 바로 열 수 있습니다. 지표가 추가되면 `latest_snapshot.csv`의 `category` 기준으로 탭이 자동 확장되고, 최신 `reports/assets/macro_regime_YYYY-MM-DD/*.png` 차트를 연결합니다. 각 지표명은 상세 페이지로 연결되며 최근 관측치, 3개월/12개월 변화, 알림 여부, 출처를 확인할 수 있습니다.
+
+## 변화 감지 알림
+
+최신 리스크 점수와 직전 리포트의 차이, 3개월 변화율이 큰 지표, stale 데이터 품질 이슈를 자동 요약합니다.
+
+```bash
+python scripts/generate_change_alerts.py
+```
+
+결과:
+
+- `reports/alerts_YYYY-MM-DD.md`
+- `reports/alerts_latest.md`
+- `data/processed/macro/change_alerts_latest.csv`
+
+## Risk attribution
+
+Risk Score 변화가 어떤 지표 변화에서 왔는지 위험 상승 압력과 위험 완화 압력으로 나누어 설명합니다.
+
+```bash
+python scripts/generate_risk_attribution.py
+```
+
+결과:
+
+- `reports/risk_attribution_YYYY-MM-DD.md`
+- `reports/risk_attribution_latest.md`
+- `data/processed/macro/risk_attribution_latest.csv`
+
+## Data quality confidence
+
+지표 최신성, 수집 성공률, 리스크별 드라이버 커버리지를 합산해 리포트 신뢰도 점수를 계산합니다.
+
+```bash
+python scripts/generate_data_quality_report.py
+```
+
+결과:
+
+- `reports/data_quality_YYYY-MM-DD.md`
+- `reports/data_quality_latest.md`
+- `data/processed/macro/data_quality_latest.csv`
+
+## Daily decision brief
+
+최신 레짐, 배분, 주요 알림, attribution, 데이터 품질을 한 문서로 묶은 최종 의사결정 브리프입니다.
+
+```bash
+python scripts/generate_daily_brief.py
+```
+
+결과:
+
+- `reports/daily_brief_YYYY-MM-DD.md`
+- `reports/daily_brief_latest.md`
+
+## Scenario simulator
+
+최신 리스크 점수를 기준점으로 두고 인플레, 환율, 신용, 성장 둔화 같은 위험 점수를 슬라이더로 바꿔 레짐과 신규 150만원 배분이 어떻게 달라지는지 확인하는 정적 HTML입니다.
+
+```bash
+python scripts/generate_scenario_simulator.py
+```
+
+결과:
+
+- `reports/scenario_simulator.html`
+
+## Scenario matrix
+
+`config/scenario_library.csv`에 저장한 가정별 리스크 점수를 읽어 레짐, 배분, 기준 대비 변화, 과거 유사 국면, 유사 국면 이후 1/3/6/12개월 프록시 수익률을 비교합니다. 프록시 수익률은 S&P 500, 금, 은, USD/KRW, 한국 단기금리 관측치를 사용합니다.
+
+```bash
+python scripts/generate_scenario_matrix.py
+```
+
+결과:
+
+- `reports/scenario_matrix.html`
+- `data/processed/macro/scenario_matrix_latest.csv`
+- `data/processed/macro/scenario_analogs_latest.csv`
+
+## Scenario ISA ETF backtests
+
+저장된 시나리오의 고정 배분을 기존 ISA ETF 최장 구간 백테스트의 월별 실제 ETF 수익률 경로에 얹어 비교합니다. 네트워크로 가격을 다시 받지 않고 `data/processed/backtests/isa_etf_max/*/actual_etf_trades.csv`를 재사용하므로 빠르게 갱신됩니다.
+
+```bash
+python scripts/generate_scenario_etf_backtests.py
+```
+
+결과:
+
+- `reports/scenario_etf_backtests.html`
+- `data/processed/backtests/scenario_etf_backtests/scenario_etf_summary.csv`
+- `data/processed/backtests/scenario_etf_backtests/scenario_etf_lots.csv`
+
+## Decision engine
+
+최신 레짐, 알림, 데이터 품질, 저장 시나리오, 시나리오별 ISA ETF 백테스트를 묶어 오늘의 액션 레벨, 기준 배분, ETF 실행 후보, 스트레스 체크를 자동으로 정리합니다.
+
+```bash
+python scripts/generate_decision_engine.py
+```
+
+결과:
+
+- `reports/decision_engine.html`
+- `reports/decision_engine_latest.md`
+- `data/processed/macro/decision_engine_latest.csv`
+- `data/processed/macro/decision_actions_latest.csv`
+
+## Rebalance order ticket
+
+`config/portfolio_holdings.csv`에 현재 보유 ETF 수량, 가격, 평가금액을 입력하면 decision engine의 기준 배분과 추천 ETF variant를 사용해 이번 달 매수 주문표를 생성합니다. 가격을 입력하면 예상 매수 수량까지 계산하고, 가격이 없으면 원화 주문 예산을 표시합니다.
+
+보유 현황을 터미널에서 직접 입력하려면:
+
+```bash
+python scripts/update_portfolio_holdings.py
+```
+
+각 항목에서 Enter를 누르면 기존 값을 유지합니다. 입력이 끝나면 `config/portfolio_holdings.csv`가 저장되고 주문표가 자동 재생성됩니다.
+
+브라우저 입력 폼을 쓰려면:
+
+```bash
+python scripts/portfolio_input_server.py
+```
+
+실행 후 열리는 `http://127.0.0.1:8765`에서 보유 수량, 가격, 평가금액을 입력하고 저장하면 CSV와 주문표가 함께 갱신됩니다.
+
+```bash
+python scripts/generate_rebalance_orders.py
+```
+
+결과:
+
+- `reports/rebalance_orders.html`
+- `reports/rebalance_orders_latest.md`
+- `data/processed/portfolio/rebalance_orders_latest.csv`
+- `data/processed/portfolio/portfolio_targets_latest.csv`
+
+## Continuous data refresh
+
+The refresh runner gives the project one operational entry point for scheduled updates. It reads `config/data_refresh.json`, runs only tasks that are due, keeps local state/log files, and writes a health summary.
+
+```bash
+python scripts/refresh_data.py --list-tasks
+python scripts/refresh_data.py --dry-run
+python scripts/refresh_data.py
+```
+
+Generated operational files:
+
+- `data/processed/refresh_state.json`
+- `data/processed/refresh_runs.jsonl`
+- `reports/data_refresh_status.md`
+
+To run a heavier task on demand:
+
+```bash
+python scripts/refresh_data.py --task isa_backtests
+```
+
+For Windows Task Scheduler, point the action at the repository directory and run:
+
+```powershell
+python scripts/refresh_data.py
+```
+
+The default config refreshes macro data, change alerts, risk attribution, data quality, the daily decision brief, the scenario simulator, the scenario matrix, scenario ETF backtests, the decision engine, rebalance orders, monthly score history, the monthly dashboard, and the sector HTML dashboard every 24 hours. Edit `config/data_refresh.json` to change cadence, disable tasks, or add new commands.
+
 ## ISA ETF 백테스트
 
 월간 레짐 기반 배분을 ISA에서 매수 가능한 국내 상장 ETF로 대체해 백테스트합니다.
@@ -155,6 +341,44 @@ python scripts/run_isa_etf_max_backtests.py
 - `scripts/backtest_monthly_allocation.py`
 - `scripts/backtest_actual_etfs.py`
 - `scripts/run_actual_etf_variants.py`
+
+### Extending ETF variants
+
+ETF variant runners can load combinations from CSV, so new experiments do not require code edits.
+
+```bash
+python scripts/run_actual_etf_variants.py --variants-csv config/actual_etf_variants.example.csv
+python scripts/run_isa_etf_max_backtests.py --variants-csv config/isa_etf_max_variants.example.csv
+```
+
+CSV columns:
+
+```text
+slug,title,start,end,cash_symbol,cash_label,gold_symbol,gold_label,silver_symbol,silver_label,equity_symbol,equity_label,note
+```
+
+Use `end` as `latest`, `default`, or blank to follow the script's latest monthly report date. `slug` becomes the output folder/file stem, so use only letters, numbers, underscores, or hyphens.
+
+## Added market and global-rate layer
+
+The macro pipeline also tracks market-confirmation indicators that help validate or challenge the rule-based macro scores.
+
+New market series:
+
+- KOSPI, KOSDAQ, Nikkei 225, S&P 500, NASDAQ Composite, Dow Jones, Russell 2000
+- VIX, SOX, Hang Seng, Shanghai Composite, Taiwan Weighted
+- Copper futures
+
+New major-rate series:
+
+- Japan, Germany, United Kingdom, Canada, and Australia 10-year government bond yields
+
+New derived indicators:
+
+- US-Japan, US-Germany, and US-Korea 10-year yield gaps
+- KOSPI/S&P 500, NASDAQ/S&P 500, SOX/S&P 500, and copper/gold relative strength ratios
+
+These appear in `data/processed/macro/requested_indicators_latest.csv`, `data/processed/macro/observations_long.csv`, and the visual dashboard charts generated by `scripts/visualize_macro_trends.py`.
 
 ## 데이터 소스
 
@@ -207,6 +431,19 @@ reports/
   archive/             월별 리포트 아카이브
   monthly/             과거 월간 리포트
   monthly_dashboard.md 장기 월간 대시보드
+  sector_dashboard.html 섹터별 HTML 대시보드
+  decision_engine.html 의사결정 엔진
+  decision_engine_latest.md 의사결정 액션 브리프
+  rebalance_orders.html 리밸런싱 주문표
+  rebalance_orders_latest.md 리밸런싱 주문 브리프
+  scenario_simulator.html 시나리오 시뮬레이터
+  scenario_matrix.html 시나리오 비교 매트릭스
+  scenario_etf_backtests.html 시나리오 ISA ETF 백테스트
+  indicators/          지표별 상세 HTML 페이지
+  alerts_*.md          변화 감지 알림 리포트
+  risk_attribution_*.md 리스크 원인분해 리포트
+  data_quality_*.md    데이터 품질/신뢰도 리포트
+  daily_brief_*.md     일일 의사결정 브리프
   assets/              리포트 PNG 차트
   backtests/           백테스트 리포트
 scripts/
@@ -215,8 +452,20 @@ scripts/
   fetch_interest_rates.py          BOK/Fed 금리 수집
   analyze_macro_regime.py          레짐 판정 및 리포트 생성
   visualize_macro_trends.py        최신 리포트 차트 생성
+  generate_change_alerts.py        변화 감지 알림 생성
+  generate_risk_attribution.py     리스크 원인분해 생성
+  generate_data_quality_report.py  데이터 품질 점수 생성
+  generate_daily_brief.py          일일 의사결정 브리프 생성
+  generate_decision_engine.py      의사결정 엔진 생성
+  portfolio_input_server.py        보유 포트폴리오 로컬 웹 입력
+  update_portfolio_holdings.py     보유 포트폴리오 대화형 입력
+  generate_rebalance_orders.py     리밸런싱 주문표 생성
+  generate_scenario_simulator.py   시나리오 시뮬레이터 생성
+  generate_scenario_matrix.py      저장 시나리오 비교 생성
+  generate_scenario_etf_backtests.py 시나리오 ISA ETF 백테스트 연결
   generate_monthly_reports.py      월간 과거 리포트 생성
   visualize_monthly_history.py     월간 대시보드 생성
+  generate_sector_dashboard.py     섹터별 HTML 대시보드 생성
   run_isa_etf_max_backtests.py     ISA ETF 장기 백테스트
 ```
 
