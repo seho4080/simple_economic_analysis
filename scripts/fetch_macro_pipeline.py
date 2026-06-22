@@ -106,6 +106,11 @@ BOK_KEYSTAT_MAP: dict[str, SeriesSpec] = {
 
 
 FRED_SERIES: list[SeriesSpec] = [
+    SeriesSpec("japan_gov_bond_10y", "Japan 10Y government bond yield", "rates_global", "Japan", "fred", "IRLTLT01JPM156N", "percent", "monthly", "FRED"),
+    SeriesSpec("germany_gov_bond_10y", "Germany 10Y government bond yield", "rates_global", "Germany", "fred", "IRLTLT01DEM156N", "percent", "monthly", "FRED"),
+    SeriesSpec("uk_gov_bond_10y", "UK 10Y government bond yield", "rates_global", "United Kingdom", "fred", "IRLTLT01GBM156N", "percent", "monthly", "FRED"),
+    SeriesSpec("canada_gov_bond_10y", "Canada 10Y government bond yield", "rates_global", "Canada", "fred", "IRLTLT01CAM156N", "percent", "monthly", "FRED"),
+    SeriesSpec("australia_gov_bond_10y", "Australia 10Y government bond yield", "rates_global", "Australia", "fred", "IRLTLT01AUM156N", "percent", "monthly", "FRED"),
     SeriesSpec("us_cpi_all_items", "미국 CPI", "inflation", "United States", "fred", "CPIAUCSL", "index", "monthly", "FRED"),
     SeriesSpec("us_core_cpi", "미국 Core CPI", "inflation", "United States", "fred", "CPILFESL", "index", "monthly", "FRED"),
     SeriesSpec("us_cpi_food", "미국 식품 CPI", "inflation", "United States", "fred", "CPIUFDSL", "index", "monthly", "FRED"),
@@ -154,6 +159,19 @@ FRED_SERIES: list[SeriesSpec] = [
 
 
 YAHOO_SERIES: list[SeriesSpec] = [
+    SeriesSpec("kospi", "KOSPI", "market", "Korea", "yahoo", "^KS11", "index", "daily", "Yahoo Finance"),
+    SeriesSpec("kosdaq", "KOSDAQ", "market", "Korea", "yahoo", "^KQ11", "index", "daily", "Yahoo Finance"),
+    SeriesSpec("nikkei_225", "Nikkei 225", "market", "Japan", "yahoo", "^N225", "index", "daily", "Yahoo Finance"),
+    SeriesSpec("sp500", "S&P 500", "market", "United States", "yahoo", "^GSPC", "index", "daily", "Yahoo Finance"),
+    SeriesSpec("nasdaq_composite", "NASDAQ Composite", "market", "United States", "yahoo", "^IXIC", "index", "daily", "Yahoo Finance"),
+    SeriesSpec("dow_jones", "Dow Jones Industrial Average", "market", "United States", "yahoo", "^DJI", "index", "daily", "Yahoo Finance"),
+    SeriesSpec("russell_2000", "Russell 2000", "market", "United States", "yahoo", "^RUT", "index", "daily", "Yahoo Finance"),
+    SeriesSpec("vix", "CBOE Volatility Index", "market_stress", "United States", "yahoo", "^VIX", "index", "daily", "Yahoo Finance"),
+    SeriesSpec("sox", "PHLX Semiconductor Index", "market", "United States", "yahoo", "^SOX", "index", "daily", "Yahoo Finance"),
+    SeriesSpec("hang_seng", "Hang Seng Index", "market", "Hong Kong", "yahoo", "^HSI", "index", "daily", "Yahoo Finance"),
+    SeriesSpec("shanghai_composite", "Shanghai Composite", "market", "China", "yahoo", "000001.SS", "index", "daily", "Yahoo Finance"),
+    SeriesSpec("taiwan_weighted", "Taiwan Weighted Index", "market", "Taiwan", "yahoo", "^TWII", "index", "daily", "Yahoo Finance"),
+    SeriesSpec("copper_futures", "Copper futures", "commodities", "Global", "yahoo", "HG=F", "usd_per_lb", "daily", "Yahoo Finance"),
     SeriesSpec("dxy", "DXY", "fx", "United States", "yahoo", "DX-Y.NYB", "index", "daily", "Yahoo Finance"),
     SeriesSpec("gold_futures", "금 선물", "commodities", "Global", "yahoo", "GC=F", "usd_per_oz", "daily", "Yahoo Finance"),
     SeriesSpec("silver_futures", "은 선물", "commodities", "Global", "yahoo", "SI=F", "usd_per_oz", "daily", "Yahoo Finance"),
@@ -168,6 +186,13 @@ YAHOO_SERIES: list[SeriesSpec] = [
 
 
 DERIVED_SERIES: list[SeriesSpec] = [
+    SeriesSpec("us_japan_10y_gap", "US-Japan 10Y yield gap", "rates_global", "United States/Japan", "derived", "us_treasury_10y-japan_gov_bond_10y", "percentage_point", "monthly", "Derived"),
+    SeriesSpec("us_germany_10y_gap", "US-Germany 10Y yield gap", "rates_global", "United States/Germany", "derived", "us_treasury_10y-germany_gov_bond_10y", "percentage_point", "monthly", "Derived"),
+    SeriesSpec("us_korea_10y_gap", "US-Korea 10Y yield gap", "rates_global", "United States/Korea", "derived", "us_treasury_10y-korea_gov_bond_10y", "percentage_point", "monthly", "Derived"),
+    SeriesSpec("kospi_vs_sp500", "KOSPI / S&P 500 relative strength", "market_derived", "Korea/United States", "derived", "kospi/sp500", "ratio", "daily", "Derived"),
+    SeriesSpec("nasdaq_vs_sp500", "NASDAQ / S&P 500 relative strength", "market_derived", "United States", "derived", "nasdaq_composite/sp500", "ratio", "daily", "Derived"),
+    SeriesSpec("sox_vs_sp500", "SOX / S&P 500 relative strength", "market_derived", "United States", "derived", "sox/sp500", "ratio", "daily", "Derived"),
+    SeriesSpec("copper_gold_ratio", "Copper / gold ratio", "market_derived", "Global", "derived", "copper_futures/gold_futures", "ratio", "daily", "Derived"),
     SeriesSpec("fed_policy_rate_mid", "Fed 기준금리 중간값", "rates", "United States", "derived", "fed_funds_target_daily.csv", "percent", "daily", "Federal Reserve Open Market Operations"),
     SeriesSpec("fed_funds_effective", "Fed 유효연방기금금리", "rates", "United States", "derived", "fed_funds_effective_daily.csv", "percent", "daily", "Federal Reserve H.15"),
     SeriesSpec("bok_base_rate", "한국은행 기준금리", "rates", "Korea", "derived", "bok_base_rate_daily.csv", "percent", "daily", "Bank of Korea"),
@@ -188,6 +213,30 @@ MANUAL_SERIES: list[SeriesSpec] = [
 
 
 DASHBOARD_FIELDS: list[DashboardField] = [
+    DashboardField("KOSPI", "market", "kospi", "latest_value", "Latest", "index"),
+    DashboardField("KOSDAQ", "market", "kosdaq", "latest_value", "Latest", "index"),
+    DashboardField("Nikkei 225", "market", "nikkei_225", "latest_value", "Latest", "index"),
+    DashboardField("S&P 500", "market", "sp500", "latest_value", "Latest", "index"),
+    DashboardField("NASDAQ Composite", "market", "nasdaq_composite", "latest_value", "Latest", "index"),
+    DashboardField("Dow Jones", "market", "dow_jones", "latest_value", "Latest", "index"),
+    DashboardField("Russell 2000", "market", "russell_2000", "latest_value", "Latest", "index"),
+    DashboardField("VIX", "market_stress", "vix", "latest_value", "Latest", "index"),
+    DashboardField("SOX", "market", "sox", "latest_value", "Latest", "index"),
+    DashboardField("Hang Seng", "market", "hang_seng", "latest_value", "Latest", "index"),
+    DashboardField("Shanghai Composite", "market", "shanghai_composite", "latest_value", "Latest", "index"),
+    DashboardField("Taiwan Weighted", "market", "taiwan_weighted", "latest_value", "Latest", "index"),
+    DashboardField("Japan 10Y", "rates_global", "japan_gov_bond_10y", "latest_value", "Latest", "percent"),
+    DashboardField("Germany 10Y", "rates_global", "germany_gov_bond_10y", "latest_value", "Latest", "percent"),
+    DashboardField("UK 10Y", "rates_global", "uk_gov_bond_10y", "latest_value", "Latest", "percent"),
+    DashboardField("Canada 10Y", "rates_global", "canada_gov_bond_10y", "latest_value", "Latest", "percent"),
+    DashboardField("Australia 10Y", "rates_global", "australia_gov_bond_10y", "latest_value", "Latest", "percent"),
+    DashboardField("US-Japan 10Y gap", "rates_global", "us_japan_10y_gap", "latest_value", "Latest", "percentage_point"),
+    DashboardField("US-Germany 10Y gap", "rates_global", "us_germany_10y_gap", "latest_value", "Latest", "percentage_point"),
+    DashboardField("US-Korea 10Y gap", "rates_global", "us_korea_10y_gap", "latest_value", "Latest", "percentage_point"),
+    DashboardField("KOSPI / S&P 500", "market_derived", "kospi_vs_sp500", "latest_value", "Latest", "ratio"),
+    DashboardField("NASDAQ / S&P 500", "market_derived", "nasdaq_vs_sp500", "latest_value", "Latest", "ratio"),
+    DashboardField("SOX / S&P 500", "market_derived", "sox_vs_sp500", "latest_value", "Latest", "ratio"),
+    DashboardField("Copper / gold", "market_derived", "copper_gold_ratio", "latest_value", "Latest", "ratio"),
     DashboardField("미국 CPI YoY", "inflation", "us_cpi_all_items", "pct_change_12m", "YoY", "percent"),
     DashboardField("미국 Core CPI YoY", "inflation", "us_core_cpi", "pct_change_12m", "YoY", "percent"),
     DashboardField("미국 PCE YoY", "inflation", "us_pce_price_index", "pct_change_12m", "YoY", "percent"),
@@ -691,6 +740,39 @@ def build_spread(
     return output
 
 
+def series_points(rows: list[dict], indicator_id: str) -> list[tuple[date, float]]:
+    points: list[tuple[date, float]] = []
+    for row in rows:
+        if row.get("indicator_id") != indicator_id:
+            continue
+        value = parse_float(row.get("value"))
+        if value is None:
+            continue
+        try:
+            obs_date = date.fromisoformat(row["date"])
+        except ValueError:
+            continue
+        points.append((obs_date, value))
+    return sorted(points)
+
+
+def build_spread_aligned_to_right(
+    rows: list[dict],
+    left_indicator_id: str,
+    right_indicator_id: str,
+    output_spec: SeriesSpec,
+) -> list[dict]:
+    left = series_points(rows, left_indicator_id)
+    right = series_points(rows, right_indicator_id)
+    output: list[dict] = []
+    for obs_date, right_value in right:
+        left_point = find_on_or_before(left, obs_date)
+        if left_point is None:
+            continue
+        output.append(observation(output_spec, obs_date.isoformat(), left_point[1] - right_value))
+    return output
+
+
 def build_scaled_difference(
     rows: list[dict],
     left_indicator_id: str,
@@ -711,6 +793,45 @@ def build_scaled_difference(
     output: list[dict] = []
     for obs_date in sorted(set(left) & set(right)):
         output.append(observation(output_spec, obs_date, (left[obs_date] - right[obs_date]) * scale))
+    return output
+
+
+def build_ratio(
+    rows: list[dict],
+    numerator_indicator_id: str,
+    denominator_indicator_id: str,
+    output_spec: SeriesSpec,
+) -> list[dict]:
+    numerator = {
+        row["date"]: parse_float(row.get("value"))
+        for row in rows
+        if row.get("indicator_id") == numerator_indicator_id and parse_float(row.get("value")) is not None
+    }
+    denominator = {
+        row["date"]: parse_float(row.get("value"))
+        for row in rows
+        if row.get("indicator_id") == denominator_indicator_id and parse_float(row.get("value")) not in {None, 0.0}
+    }
+    output: list[dict] = []
+    for obs_date in sorted(set(numerator) & set(denominator)):
+        output.append(observation(output_spec, obs_date, numerator[obs_date] / denominator[obs_date]))
+    return output
+
+
+def build_ratio_aligned_to_numerator(
+    rows: list[dict],
+    numerator_indicator_id: str,
+    denominator_indicator_id: str,
+    output_spec: SeriesSpec,
+) -> list[dict]:
+    numerator = series_points(rows, numerator_indicator_id)
+    denominator = series_points(rows, denominator_indicator_id)
+    output: list[dict] = []
+    for obs_date, numerator_value in numerator:
+        denominator_point = find_on_or_before(denominator, obs_date)
+        if denominator_point is None or denominator_point[1] == 0:
+            continue
+        output.append(observation(output_spec, obs_date.isoformat(), numerator_value / denominator_point[1]))
     return output
 
 
@@ -1142,6 +1263,33 @@ def run(args: argparse.Namespace) -> dict:
             derived_specs["korea_10y_3m_spread"],
         )
     )
+    for left_id, right_id, output_id in [
+        ("us_treasury_10y", "japan_gov_bond_10y", "us_japan_10y_gap"),
+        ("us_treasury_10y", "germany_gov_bond_10y", "us_germany_10y_gap"),
+        ("us_treasury_10y", "korea_gov_bond_10y", "us_korea_10y_gap"),
+    ]:
+        observations.extend(
+            build_spread_aligned_to_right(
+                observations,
+                left_id,
+                right_id,
+                derived_specs[output_id],
+            )
+        )
+    for numerator_id, denominator_id, output_id in [
+        ("kospi", "sp500", "kospi_vs_sp500"),
+        ("nasdaq_composite", "sp500", "nasdaq_vs_sp500"),
+        ("sox", "sp500", "sox_vs_sp500"),
+        ("copper_futures", "gold_futures", "copper_gold_ratio"),
+    ]:
+        observations.extend(
+            build_ratio_aligned_to_numerator(
+                observations,
+                numerator_id,
+                denominator_id,
+                derived_specs[output_id],
+            )
+        )
     observations.extend(
         build_scaled_difference(
             observations,

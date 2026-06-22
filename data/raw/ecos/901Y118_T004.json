@@ -2,26 +2,10 @@
   "stat_code": "901Y118",
   "item_code": "T004",
   "cycle": "M",
-  "start_period": "202405",
-  "end_period": "202605",
+  "start_period": "202406",
+  "end_period": "202606",
   "row_count": 23,
   "raw_rows": [
-    {
-      "STAT_CODE": "901Y118",
-      "STAT_NAME": "3.2.1. 수출입 총괄",
-      "ITEM_CODE1": "T004",
-      "ITEM_NAME1": "수입금액",
-      "ITEM_CODE2": null,
-      "ITEM_NAME2": null,
-      "ITEM_CODE3": null,
-      "ITEM_NAME3": null,
-      "ITEM_CODE4": null,
-      "ITEM_NAME4": null,
-      "UNIT_NAME": "천불",
-      "WGT": null,
-      "TIME": "202405",
-      "DATA_VALUE": "53132937"
-    },
     {
       "STAT_CODE": "901Y118",
       "STAT_NAME": "3.2.1. 수출입 총괄",
@@ -340,7 +324,7 @@
       "UNIT_NAME": "천불",
       "WGT": null,
       "TIME": "202601",
-      "DATA_VALUE": "57108945"
+      "DATA_VALUE": "57119785"
     },
     {
       "STAT_CODE": "901Y118",
@@ -356,7 +340,7 @@
       "UNIT_NAME": "천불",
       "WGT": null,
       "TIME": "202602",
-      "DATA_VALUE": "51946901"
+      "DATA_VALUE": "51864828"
     },
     {
       "STAT_CODE": "901Y118",
@@ -372,7 +356,23 @@
       "UNIT_NAME": "천불",
       "WGT": null,
       "TIME": "202603",
-      "DATA_VALUE": "60388145"
+      "DATA_VALUE": "60422878"
+    },
+    {
+      "STAT_CODE": "901Y118",
+      "STAT_NAME": "3.2.1. 수출입 총괄",
+      "ITEM_CODE1": "T004",
+      "ITEM_NAME1": "수입금액",
+      "ITEM_CODE2": null,
+      "ITEM_NAME2": null,
+      "ITEM_CODE3": null,
+      "ITEM_NAME3": null,
+      "ITEM_CODE4": null,
+      "ITEM_NAME4": null,
+      "UNIT_NAME": "천불",
+      "WGT": null,
+      "TIME": "202604",
+      "DATA_VALUE": "62112591"
     }
   ]
 }

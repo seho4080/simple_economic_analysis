@@ -2,26 +2,10 @@
   "stat_code": "901Y009",
   "item_code": "A01",
   "cycle": "M",
-  "start_period": "202405",
-  "end_period": "202605",
+  "start_period": "202406",
+  "end_period": "202606",
   "row_count": 24,
   "raw_rows": [
-    {
-      "STAT_CODE": "901Y009",
-      "STAT_NAME": "4.2.1. 소비자물가지수",
-      "ITEM_CODE1": "A01",
-      "ITEM_NAME1": "식료품",
-      "ITEM_CODE2": null,
-      "ITEM_NAME2": null,
-      "ITEM_CODE3": null,
-      "ITEM_NAME3": null,
-      "ITEM_CODE4": null,
-      "ITEM_NAME4": null,
-      "UNIT_NAME": "2020=100",
-      "WGT": "132.3",
-      "TIME": "202405",
-      "DATA_VALUE": "122.1"
-    },
     {
       "STAT_CODE": "901Y009",
       "STAT_NAME": "4.2.1. 소비자물가지수",
@@ -388,6 +372,22 @@
       "UNIT_NAME": "2020=100",
       "WGT": "132.3",
       "TIME": "202604",
+      "DATA_VALUE": "126.55"
+    },
+    {
+      "STAT_CODE": "901Y009",
+      "STAT_NAME": "4.2.1. 소비자물가지수",
+      "ITEM_CODE1": "A01",
+      "ITEM_NAME1": "식료품",
+      "ITEM_CODE2": null,
+      "ITEM_NAME2": null,
+      "ITEM_CODE3": null,
+      "ITEM_NAME3": null,
+      "ITEM_CODE4": null,
+      "ITEM_NAME4": null,
+      "UNIT_NAME": "2020=100",
+      "WGT": "132.3",
+      "TIME": "202605",
       "DATA_VALUE": "126.55"
     }
   ]

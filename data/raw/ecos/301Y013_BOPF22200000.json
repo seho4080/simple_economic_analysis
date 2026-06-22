@@ -2,26 +2,10 @@
   "stat_code": "301Y013",
   "item_code": "BOPF22200000",
   "cycle": "M",
-  "start_period": "202405",
-  "end_period": "202605",
+  "start_period": "202406",
+  "end_period": "202606",
   "row_count": 23,
   "raw_rows": [
-    {
-      "STAT_CODE": "301Y013",
-      "STAT_NAME": "2.5.1.1. 국제수지",
-      "ITEM_CODE1": "BOPF22200000",
-      "ITEM_NAME1": "부채성증권(부채)",
-      "ITEM_CODE2": null,
-      "ITEM_NAME2": null,
-      "ITEM_CODE3": null,
-      "ITEM_NAME3": null,
-      "ITEM_CODE4": null,
-      "ITEM_NAME4": null,
-      "UNIT_NAME": "백만달러",
-      "WGT": null,
-      "TIME": "202405",
-      "DATA_VALUE": "1226.4"
-    },
     {
       "STAT_CODE": "301Y013",
       "STAT_NAME": "2.5.1.1. 국제수지",
@@ -373,6 +357,22 @@
       "WGT": null,
       "TIME": "202603",
       "DATA_VALUE": "-4715.9"
+    },
+    {
+      "STAT_CODE": "301Y013",
+      "STAT_NAME": "2.5.1.1. 국제수지",
+      "ITEM_CODE1": "BOPF22200000",
+      "ITEM_NAME1": "부채성증권(부채)",
+      "ITEM_CODE2": null,
+      "ITEM_NAME2": null,
+      "ITEM_CODE3": null,
+      "ITEM_NAME3": null,
+      "ITEM_CODE4": null,
+      "ITEM_NAME4": null,
+      "UNIT_NAME": "백만달러",
+      "WGT": null,
+      "TIME": "202604",
+      "DATA_VALUE": "4754"
     }
   ]
 }

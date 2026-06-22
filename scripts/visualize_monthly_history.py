@@ -28,6 +28,11 @@ RISK_COLUMNS = [
     ("growth_slowdown_risk", "Growth"),
 ]
 
+SUPPLEMENTAL_COLUMNS = [
+    ("market_stress_risk", "Market Stress"),
+    ("global_rate_divergence_risk", "Global Rate Divergence"),
+]
+
 ALLOCATION_COLUMNS = [
     ("cash_amount", "Cash/short bonds"),
     ("gold_amount", "Gold"),
@@ -42,6 +47,11 @@ RISK_COLORS = {
     "FX": "#6d597a",
     "Climate": "#edae49",
     "Growth": "#2a9d8f",
+}
+
+SUPPLEMENTAL_COLORS = {
+    "Market Stress": "#e76f51",
+    "Global Rate Divergence": "#264653",
 }
 
 ALLOCATION_COLORS = ["#457b9d", "#d4a017", "#7f8c8d", "#2a9d8f"]
@@ -80,7 +90,7 @@ def read_history(path: Path) -> list[MonthlyRow]:
             except ValueError:
                 continue
 
-            scores = {key: parse_float(row.get(key)) for key, _ in RISK_COLUMNS}
+            scores = {key: parse_float(row.get(key)) for key, _ in [*RISK_COLUMNS, *SUPPLEMENTAL_COLUMNS]}
             allocation = {key: parse_float(row.get(key)) for key, _ in ALLOCATION_COLUMNS}
             rows.append(
                 MonthlyRow(
@@ -141,6 +151,23 @@ def plot_risk_lines(rows: list[MonthlyRow], path: Path) -> None:
     plt.ylim(0, 10)
     plt.grid(True, axis="y", alpha=0.22)
     plt.legend(ncol=3, frameon=False)
+    plt.gca().xaxis.set_major_locator(mdates.YearLocator(1))
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
+    plt.xticks(rotation=45, ha="right")
+    finish_plot(path)
+
+
+def plot_supplemental_lines(rows: list[MonthlyRow], path: Path) -> None:
+    dates = [row.report_date for row in rows]
+    plt.figure(figsize=(13, 5.8))
+    for key, label in SUPPLEMENTAL_COLUMNS:
+        values = [row.scores[key] for row in rows]
+        plt.plot(dates, values, label=label, linewidth=2.0, color=SUPPLEMENTAL_COLORS[label])
+    plt.title("Monthly Supplemental Confirmation Scores", fontsize=15, fontweight="bold")
+    plt.ylabel("score out of 10")
+    plt.ylim(0, 10)
+    plt.grid(True, axis="y", alpha=0.22)
+    plt.legend(ncol=2, frameon=False)
     plt.gca().xaxis.set_major_locator(mdates.YearLocator(1))
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
     plt.xticks(rotation=45, ha="right")
@@ -250,17 +277,21 @@ def plot_latest_vs_average(rows: list[MonthlyRow], path: Path) -> None:
     finish_plot(path)
 
 
-def build_risk_summary(rows: list[MonthlyRow]) -> list[dict[str, str]]:
+def build_score_summary(
+    rows: list[MonthlyRow],
+    columns: list[tuple[str, str]],
+    label_field: str,
+) -> list[dict[str, str]]:
     latest = rows[-1]
     prior_12m = rows[-13] if len(rows) >= 13 else None
     summary: list[dict[str, str]] = []
-    for key, label in RISK_COLUMNS:
+    for key, label in columns:
         values = finite([row.scores[key] for row in rows])
         latest_value = latest.scores[key]
         delta_12m = latest_value - prior_12m.scores[key] if prior_12m else math.nan
         summary.append(
             {
-                "risk_bucket": label,
+                label_field: label,
                 "latest": fmt_number(latest_value),
                 "long_run_avg": fmt_number(mean(values)),
                 "min": fmt_number(min(values) if values else math.nan),
@@ -269,6 +300,14 @@ def build_risk_summary(rows: list[MonthlyRow]) -> list[dict[str, str]]:
             }
         )
     return summary
+
+
+def build_risk_summary(rows: list[MonthlyRow]) -> list[dict[str, str]]:
+    return build_score_summary(rows, RISK_COLUMNS, "risk_bucket")
+
+
+def build_supplemental_summary(rows: list[MonthlyRow]) -> list[dict[str, str]]:
+    return build_score_summary(rows, SUPPLEMENTAL_COLUMNS, "confirmation_signal")
 
 
 def build_regime_counts(rows: list[MonthlyRow]) -> list[dict[str, str]]:
@@ -298,6 +337,8 @@ def build_monthly_detail(rows: list[MonthlyRow]) -> list[dict[str, str]]:
                 "fx": fmt_number(row.scores["fx_risk"]),
                 "climate": fmt_number(row.scores["climate_supply_shock_risk"]),
                 "growth": fmt_number(row.scores["growth_slowdown_risk"]),
+                "market_stress": fmt_number(row.scores["market_stress_risk"]),
+                "global_rate_divergence": fmt_number(row.scores["global_rate_divergence_risk"]),
                 "cash": fmt_number(row.allocation["cash_amount"], 0),
                 "gold": fmt_number(row.allocation["gold_amount"], 0),
                 "silver": fmt_number(row.allocation["silver_amount"], 0),
@@ -363,6 +404,7 @@ def write_report(
     history_path: Path,
     chart_paths: dict[str, Path],
     risk_summary: list[dict[str, str]],
+    supplemental_summary: list[dict[str, str]],
     regime_counts: list[dict[str, str]],
     monthly_detail: list[dict[str, str]],
     rows: list[MonthlyRow],
@@ -388,6 +430,10 @@ def write_report(
         "",
         *markdown_table(risk_summary),
         "",
+        "## Supplemental confirmation score summary",
+        "",
+        *markdown_table(supplemental_summary),
+        "",
         "## 최근 월 배분",
         "",
         f"최근 기준일: {latest.report_date.isoformat()}",
@@ -404,6 +450,7 @@ def write_report(
     lines[5:5] = build_dashboard_notes()
 
     chart_sections = [
+        ("Supplemental Confirmation Trend", "Market stress and global rate divergence are confirmation signals; they do not directly override the allocation formula.", "supplemental_lines"),
         ("Risk Score Trend", "월별 6개 Risk Score의 장기 흐름입니다.", "risk_lines"),
         ("Risk Score Heatmap", "어느 구간에서 어떤 리스크가 강했는지 한눈에 보는 표입니다.", "risk_heatmap"),
         ("Allocation Trend", "월별 150만원 신규 투자금의 제안 배분 비중 변화입니다.", "allocation_stack"),
@@ -448,6 +495,7 @@ def generate_dashboard(
 
     chart_paths = {
         "risk_lines": chart_dir / "risk_scores_over_time.png",
+        "supplemental_lines": chart_dir / "supplemental_scores_over_time.png",
         "risk_heatmap": chart_dir / "risk_score_heatmap.png",
         "allocation_stack": chart_dir / "allocation_over_time.png",
         "regime_counts": chart_dir / "regime_counts.png",
@@ -455,16 +503,19 @@ def generate_dashboard(
     }
 
     plot_risk_lines(rows, chart_paths["risk_lines"])
+    plot_supplemental_lines(rows, chart_paths["supplemental_lines"])
     plot_risk_heatmap(rows, chart_paths["risk_heatmap"])
     plot_allocation_stack(rows, chart_paths["allocation_stack"])
     plot_regime_counts(rows, chart_paths["regime_counts"])
     plot_latest_vs_average(rows, chart_paths["latest_vs_average"])
 
     risk_summary = build_risk_summary(rows)
+    supplemental_summary = build_supplemental_summary(rows)
     regime_counts = build_regime_counts(rows)
     monthly_detail = build_monthly_detail(rows)
 
     write_csv(tables_dir / "risk_score_summary.csv", risk_summary)
+    write_csv(tables_dir / "supplemental_score_summary.csv", supplemental_summary)
     write_csv(tables_dir / "regime_counts.csv", regime_counts)
     write_csv(tables_dir / "monthly_detail.csv", monthly_detail)
     stale_yearly_csv = tables_dir / "yearly_risk_scores.csv"
@@ -475,6 +526,7 @@ def generate_dashboard(
         history_path,
         chart_paths,
         risk_summary,
+        supplemental_summary,
         regime_counts,
         monthly_detail,
         rows,

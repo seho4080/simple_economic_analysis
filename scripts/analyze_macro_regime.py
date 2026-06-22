@@ -18,6 +18,7 @@ from macro_rules import (
     ROUNDING_INCREMENT_MILLION_KRW,
     SLEEVE_BOUNDS,
     SLEEVE_LABELS,
+    SUPPLEMENTAL_SCORE_FORMULAS,
     TOTAL_INVESTMENT_MILLION_KRW,
 )
 
@@ -367,6 +368,47 @@ def calc_growth_slowdown_risk(metrics: dict[str, Metric]) -> float:
     )
 
 
+def calc_market_stress_risk(metrics: dict[str, Metric]) -> float:
+    vix_bands = [(0, 1), (14, 2.5), (18, 4.5), (25, 6.5), (35, 8.5), (50, 9.5)]
+    underperformance_bands = [(-20, 9), (-12, 7.5), (-6, 6), (0, 4.5), (6, 2.5), (99, 1.5)]
+    cyclicality_bands = [(-20, 8.5), (-10, 7), (-5, 5.5), (0, 4), (8, 2.5), (99, 1.5)]
+    copper_gold_bands = [(-20, 8.5), (-10, 7), (-4, 5.5), (0, 4), (8, 2.5), (99, 1.5)]
+    return round(
+        weighted_avg(
+            [
+                (threshold_score(value(metrics, "vix"), vix_bands), 2.0),
+                (inverse_threshold_score(pct3(metrics, "kospi_vs_sp500"), underperformance_bands), 1.4),
+                (inverse_threshold_score(pct3(metrics, "sox_vs_sp500"), cyclicality_bands), 1.0),
+                (inverse_threshold_score(pct3(metrics, "russell_2000"), cyclicality_bands), 0.8),
+                (inverse_threshold_score(pct3(metrics, "copper_gold_ratio"), copper_gold_bands), 0.8),
+            ]
+        ),
+        1,
+    )
+
+
+def calc_global_rate_divergence_risk(metrics: dict[str, Metric]) -> float:
+    us_japan_gap_bands = [(-5, 1), (1.0, 3.5), (2.0, 5.5), (3.0, 7.5), (3.75, 9)]
+    us_germany_gap_bands = [(-5, 1), (0.5, 3.5), (1.5, 5.5), (2.5, 7.5), (3.25, 9)]
+    us_korea_gap_bands = [(-5, 1), (0.0, 3), (0.5, 5), (1.0, 6.5), (1.75, 8.5)]
+    developed_10y_bands = [(0, 1), (2.0, 3.5), (3.0, 5), (4.0, 6.5), (5.0, 8.5)]
+    return round(
+        weighted_avg(
+            [
+                (threshold_score(value(metrics, "us_japan_10y_gap"), us_japan_gap_bands), 1.5),
+                (threshold_score(value(metrics, "us_germany_10y_gap"), us_germany_gap_bands), 1.2),
+                (threshold_score(value(metrics, "us_korea_10y_gap"), us_korea_gap_bands), 1.0),
+                (threshold_score(value(metrics, "us_treasury_10y"), developed_10y_bands), 0.8),
+                (threshold_score(value(metrics, "germany_gov_bond_10y"), developed_10y_bands), 0.6),
+                (threshold_score(value(metrics, "uk_gov_bond_10y"), developed_10y_bands), 0.6),
+                (threshold_score(value(metrics, "canada_gov_bond_10y"), developed_10y_bands), 0.4),
+                (threshold_score(value(metrics, "australia_gov_bond_10y"), developed_10y_bands), 0.4),
+            ]
+        ),
+        1,
+    )
+
+
 def calc_scores(metrics: dict[str, Metric]) -> dict[str, float]:
     return {
         "Inflation Risk": calc_inflation_risk(metrics),
@@ -375,6 +417,8 @@ def calc_scores(metrics: dict[str, Metric]) -> dict[str, float]:
         "FX Risk": calc_fx_risk(metrics),
         "Climate Supply Shock Risk": calc_climate_supply_risk(metrics),
         "Growth Slowdown Risk": calc_growth_slowdown_risk(metrics),
+        "Market Stress Risk": calc_market_stress_risk(metrics),
+        "Global Rate Divergence Risk": calc_global_rate_divergence_risk(metrics),
     }
 
 
@@ -659,6 +703,33 @@ def score_method_lines(scores: dict[str, float], previous_scores: dict[str, floa
     return lines
 
 
+def supplemental_score_interpretation(name: str, score: float) -> str:
+    label = score_label(score)
+    if name == "Market Stress Risk":
+        return f"{label}: VIX, relative strength, and cyclical ratios show whether markets confirm macro risk."
+    if name == "Global Rate Divergence Risk":
+        return f"{label}: global 10Y yields and cross-country gaps show FX and capital-flow pressure."
+    return label
+
+
+def supplemental_score_lines(scores: dict[str, float], previous_scores: dict[str, float] | None) -> list[str]:
+    lines = [
+        "",
+        "## 4-1. Supplemental confirmation scores",
+        "| Item | Score | Previous delta | Method | Interpretation |",
+        "|---|---:|---:|---|---|",
+    ]
+    for name, formula in SUPPLEMENTAL_SCORE_FORMULAS.items():
+        delta_text = "No prior record"
+        if previous_scores and name in previous_scores:
+            delta = scores[name] - previous_scores[name]
+            delta_text = f"{delta:+.1f}"
+        lines.append(
+            f"| {name} | {scores[name]}/10 | {delta_text} | {formula} | {supplemental_score_interpretation(name, scores[name])} |"
+        )
+    return lines
+
+
 def score_field_name(score_name: str) -> str:
     return score_name.lower().replace(" ", "_")
 
@@ -676,7 +747,7 @@ def load_previous_scores(history_path: Path, report_date: str) -> dict[str, floa
         return None
     previous = max(previous_rows, key=lambda row: row.get("report_date", ""))
     scores: dict[str, float] = {}
-    for name in RISK_SCORE_FORMULAS:
+    for name in [*RISK_SCORE_FORMULAS, *SUPPLEMENTAL_SCORE_FORMULAS]:
         value = parse_float(previous.get(score_field_name(name)))
         if value is not None:
             scores[name] = value
@@ -700,6 +771,8 @@ def upsert_report_history(
         "fx_risk": scores["FX Risk"],
         "climate_supply_shock_risk": scores["Climate Supply Shock Risk"],
         "growth_slowdown_risk": scores["Growth Slowdown Risk"],
+        "market_stress_risk": scores["Market Stress Risk"],
+        "global_rate_divergence_risk": scores["Global Rate Divergence Risk"],
         "cash_amount": allocation["cash"],
         "gold_amount": allocation["gold"],
         "silver_amount": allocation["silver"],
@@ -794,6 +867,29 @@ def risk_interpretation(name: str, score: float) -> str:
     return f"{label}: 고용은 버티지만 둔화 신호를 계속 확인해야 하는 구간"
 
 
+def market_confirmation_lines(metrics: dict[str, Metric]) -> list[str]:
+    return [
+        "",
+        "### Global market confirmation",
+        f"Equity momentum: KOSPI 3M {fmt_pct(pct3(metrics, 'kospi'))}, S&P 500 3M {fmt_pct(pct3(metrics, 'sp500'))}, NASDAQ 3M {fmt_pct(pct3(metrics, 'nasdaq_composite'))}, Nikkei 225 3M {fmt_pct(pct3(metrics, 'nikkei_225'))}.",
+        f"Relative strength: KOSPI/S&P 500 3M {fmt_pct(pct3(metrics, 'kospi_vs_sp500'))}, NASDAQ/S&P 500 3M {fmt_pct(pct3(metrics, 'nasdaq_vs_sp500'))}, SOX/S&P 500 3M {fmt_pct(pct3(metrics, 'sox_vs_sp500'))}, copper/gold 3M {fmt_pct(pct3(metrics, 'copper_gold_ratio'))}.",
+        f"Stress and rate divergence: VIX {latest(metrics, 'vix')}, Japan 10Y {latest(metrics, 'japan_gov_bond_10y')}, Germany 10Y {latest(metrics, 'germany_gov_bond_10y')}, US-Japan 10Y gap {latest(metrics, 'us_japan_10y_gap')}, US-Germany 10Y gap {latest(metrics, 'us_germany_10y_gap')}.",
+        freshness_line(
+            metrics,
+            [
+                "kospi",
+                "sp500",
+                "nasdaq_composite",
+                "vix",
+                "japan_gov_bond_10y",
+                "germany_gov_bond_10y",
+                "us_japan_10y_gap",
+                "us_germany_10y_gap",
+            ],
+        ),
+    ]
+
+
 def stale_items(metrics: dict[str, Metric]) -> list[str]:
     return [
         indicator_id
@@ -885,7 +981,9 @@ def build_report(
         "자산 영향: 에너지·식품 충격 가능성이 남아 있으면 금/은과 일부 원자재 헤지의 방어 논리가 유지됩니다.",
         freshness_line(metrics, ["wti_spot", "henry_hub_natural_gas", "wheat_futures", "fertilizer_ppi", "gdacs_non_green_events_count"]),
         "",
+        *market_confirmation_lines(metrics),
         *score_method_lines(scores, previous_scores),
+        *supplemental_score_lines(scores, previous_scores),
     ]
 
     lines.extend(

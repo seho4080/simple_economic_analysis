@@ -240,6 +240,50 @@ def plot_allocation(scores: dict[str, float], output_path: Path) -> bool:
 def build_chart_specs() -> list[tuple[str, str, str, str, str, list[tuple[str, str]]]]:
     return [
         (
+            "global_market_indices.png",
+            "Global Equity Index Trend",
+            "index, first visible point = 100",
+            "normalized",
+            "Major equity indexes are normalized to show relative risk appetite across regions.",
+            [
+                ("kospi", "KOSPI"),
+                ("nikkei_225", "Nikkei 225"),
+                ("sp500", "S&P 500"),
+                ("nasdaq_composite", "NASDAQ"),
+                ("dow_jones", "Dow Jones"),
+                ("hang_seng", "Hang Seng"),
+            ],
+        ),
+        (
+            "market_confirmation.png",
+            "Market Confirmation Trend",
+            "index, first visible point = 100",
+            "normalized",
+            "Relative strength and volatility confirm whether macro signals are being accepted by markets.",
+            [
+                ("kospi_vs_sp500", "KOSPI / S&P 500"),
+                ("nasdaq_vs_sp500", "NASDAQ / S&P 500"),
+                ("sox_vs_sp500", "SOX / S&P 500"),
+                ("copper_gold_ratio", "Copper / gold"),
+                ("vix", "VIX"),
+            ],
+        ),
+        (
+            "global_10y_yields.png",
+            "Global 10Y Yield Trend",
+            "percent / percentage points",
+            "raw",
+            "Major sovereign yields and yield gaps help interpret FX pressure and capital-flow incentives.",
+            [
+                ("us_treasury_10y", "US 10Y"),
+                ("korea_gov_bond_10y", "Korea 10Y"),
+                ("japan_gov_bond_10y", "Japan 10Y"),
+                ("germany_gov_bond_10y", "Germany 10Y"),
+                ("us_japan_10y_gap", "US-Japan gap"),
+                ("us_germany_10y_gap", "US-Germany gap"),
+            ],
+        ),
+        (
             "inflation_yoy.png",
             "Inflation Trend",
             "YoY change (%)",
